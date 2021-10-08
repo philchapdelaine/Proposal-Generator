@@ -14,7 +14,7 @@ function Login() {
       <br />
       Login
       <LoginBox />
-      <Button color="primary" variant="outlined">
+      <Button color="primary" variant="outlined" className="Login_Buttons">
         Sign-Up
       </Button>
     </div>
@@ -37,7 +37,7 @@ function LoginBox() {
       </label>
       <br />
       {/* <input type="submit" value="Submit" />{" "} */}
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" className="Login_Buttons">
         Submit
       </Button>
     </form>
