@@ -1,11 +1,12 @@
 import React from 'react';
 
-function ReadingPane(){
+function Resume(){
     return (
         <div>
-            ReadingPane
+            Resume
         </div>
     )
 }
 
-export default ReadingPane;
+export default Resume
+;

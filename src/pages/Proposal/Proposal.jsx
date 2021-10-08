@@ -1,11 +1,11 @@
 import React from 'react';
 
-function ReadingPane(){
+function Proposal(){
     return (
         <div>
-            ReadingPane
+            Proposal
         </div>
     )
 }
 
-export default ReadingPane;
+export default Proposal;

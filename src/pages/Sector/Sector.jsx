@@ -1,11 +1,11 @@
 import React from 'react';
 
-function ReadingPane(){
+function Sector(){
     return (
         <div>
-            ReadingPane
+            Sector
         </div>
     )
 }
 
-export default ReadingPane;
+export default Sector;

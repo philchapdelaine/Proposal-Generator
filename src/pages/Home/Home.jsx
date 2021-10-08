@@ -1,11 +1,11 @@
 import React from 'react';
 
-function ReadingPane(){
+function Home(){
     return (
         <div>
-            ReadingPane
+            Home
         </div>
     )
 }
 
-export default ReadingPane;
+export default Home;
