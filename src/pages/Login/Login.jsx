@@ -5,9 +5,13 @@ import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Button from "@material-ui/core/Button";
 
+import Logo from "../../components/logo/logo";
+
 function Login() {
   return (
     <div className="Login">
+      <Logo />
+      <br />
       Login
       <LoginBox />
       <Button color="primary" variant="outlined">

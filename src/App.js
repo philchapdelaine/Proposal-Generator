@@ -1,20 +1,20 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import logo from "./assets/ae-300x132.jpg";
 // import "./App.css";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
+import Logo from "./components/logo/logo";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="logo" />
+        <Logo />
       </header>
       <div className="mainstage">
         <p>Resume Generator</p>
       </div>
-      <Login></Login>
-      <Home></Home>
+      <Login />
+      <Home />
     </div>
   );
 }
