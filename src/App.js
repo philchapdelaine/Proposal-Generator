@@ -1,27 +1,20 @@
 // import logo from "./logo.svg";
 import logo from "./assets/ae-300x132.jpg";
-import "./App.css";
+// import "./App.css";
+// import "./home.css";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <img src={logo} />
+        <img src={logo} className="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        </p> Resume Generator
       </header>
     </div>
   );
 }
 
 export default App;
+
+// #00569c the blue color
