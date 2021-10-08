@@ -3,7 +3,8 @@
 ## Available Scripts
 
 First time installation:
-
+<br/>
+Please note that sometimes new node packages are added so this process may need to be repeated in future occurrrences.
 ```bash
 npm install
 ```
