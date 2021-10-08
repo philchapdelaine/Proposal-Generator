@@ -3,7 +3,7 @@ import React from 'react';
 function Sector(){
     return (
         <div>
-            Sector
+            Create New Sector
         </div>
     )
 }
