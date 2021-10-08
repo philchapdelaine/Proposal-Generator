@@ -7,9 +7,11 @@ import Sector from "./pages/Sector/Sector";
 import Resume from "./pages/Resume/Resume";
 import Proposal from "./pages/Proposal/Proposal";
 
+import Button from "@material-ui/core/Button";
+
 function App() {
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
         <Logo />
       </header>
@@ -19,17 +21,21 @@ function App() {
       <Router>
       <div>
         <nav>
-          <ul>
-            <li>
+            <Button vairant="contained" color="primary">
               <Link to="/">Home</Link>
-            </li>
-            <li>
+            </Button>
+            <Button color="primary">
               <Link to="/login">Login</Link>
-            </li>
-            <li>
+            </Button>
+            <Button>
               <Link to="/resume">Resume</Link>
-            </li>
-          </ul>
+            </Button>
+            <Button>
+              <Link to="/sector">Sector</Link>
+            </Button>
+            <Button>
+              <Link to="/proposal">Proposal</Link>
+            </Button>
         </nav>
         <Switch>
           <Route path="/login">
@@ -38,14 +44,18 @@ function App() {
           <Route path="/resume">
             <Resume />
           </Route>
+          <Route path="/sector">
+            <Sector />
+          </Route>
+          <Route path="/proposal">
+            <Proposal />
+          </Route>
           <Route path="/">
             <Home />
           </Route>
         </Switch>
       </div>
     </Router>
-      <Sector/>
-      <Proposal />
     </div>
   );
 }
