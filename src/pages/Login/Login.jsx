@@ -71,4 +71,9 @@ function LoginBox() {
   );
 }
 
+function LogOut() {
+  // TODO
+  return <div>LogOut</div>;
+}
+
 export default Login;
