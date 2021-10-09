@@ -1,6 +1,6 @@
 // import "./App.css";
 import Logo from "./components/logo/logo";
-import Button from "@material-ui/core/Button";
+
 import MenuIcon from "@mui/icons-material/Menu";
 
 import Navigator from "./components/navigator/Navigator";

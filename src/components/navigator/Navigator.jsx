@@ -8,27 +8,29 @@ import Sector from "../../pages/Sector/Sector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
 
+import "./Navigator.css";
+
 function Navigator() {
   return (
     <div>
       <Router>
         <div>
           <nav>
-            <Button vairant="contained" color="primary">
-              <Link to="/">Home</Link>
-            </Button>
-            <Button color="primary">
-              <Link to="/login">Login</Link>
-            </Button>
-            <Button>
-              <Link to="/resume">Resume</Link>
-            </Button>
-            <Button>
-              <Link to="/sector">Sector</Link>
-            </Button>
-            <Button>
-              <Link to="/proposal">Proposal</Link>
-            </Button>
+            <Link to="/">
+              <Btn btnName="Home" />
+            </Link>
+            <Link to="/login">
+              <Btn btnName="Login" />
+            </Link>
+            <Link to="/resume">
+              <Btn btnName="Resume" />
+            </Link>
+            <Link to="/sector">
+              <Btn btnName="Sector" />
+            </Link>
+            <Link to="/proposal">
+              <Btn btnName="Proposal" />
+            </Link>
           </nav>
           <Switch>
             <Route path="/login">
@@ -52,5 +54,13 @@ function Navigator() {
     </div>
   );
 }
+
+const Btn = (props) => {
+  return (
+    <Button variant="contained" className="navBtn">
+      {props.btnName}
+    </Button>
+  );
+};
 
 export default Navigator;
