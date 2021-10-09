@@ -21,9 +21,30 @@ function CreateSector() {
   return (
     <div>
       Create New Sector <br />
-      Sector Name <br />
-      Sector Type <br />
-      Description <br />
+      <TextField
+        required
+        label="Sector Name"
+        variant="outlined"
+        value={name}
+        onChange={(event) => setName(event.target.value)}
+      />
+      <br />
+      <TextField
+        required
+        label="Sector Type"
+        variant="outlined"
+        value={type}
+        onChange={(event) => setType(event.target.value)}
+      />
+      <br />
+      <TextField
+        required
+        label="Description"
+        variant="outlined"
+        value={description}
+        onChange={(event) => setDescription(event.target.value)}
+      />
+      <br />
       Other Info 1: <br />
       Other Info 2: <br />
       Save Sector <br />
