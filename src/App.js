@@ -8,6 +8,7 @@ import Resume from "./pages/Resume/Resume";
 import Proposal from "./pages/Proposal/Proposal";
 
 import Button from "@material-ui/core/Button";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function App() {
   return (
@@ -19,8 +20,8 @@ function App() {
         <p>Resume Generator</p>
       </div>
       <Router>
-      <div>
-        <nav>
+        <div>
+          <nav>
             <Button vairant="contained" color="primary">
               <Link to="/">Home</Link>
             </Button>
@@ -36,26 +37,26 @@ function App() {
             <Button>
               <Link to="/proposal">Proposal</Link>
             </Button>
-        </nav>
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/resume">
-            <Resume />
-          </Route>
-          <Route path="/sector">
-            <Sector />
-          </Route>
-          <Route path="/proposal">
-            <Proposal />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          </nav>
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/resume">
+              <Resume />
+            </Route>
+            <Route path="/sector">
+              <Sector />
+            </Route>
+            <Route path="/proposal">
+              <Proposal />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
