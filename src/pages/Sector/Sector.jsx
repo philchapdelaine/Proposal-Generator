@@ -45,9 +45,23 @@ function CreateSector() {
         onChange={(event) => setDescription(event.target.value)}
       />
       <br />
-      Other Info 1: <br />
-      Other Info 2: <br />
-      Save Sector <br />
+      <TextField
+        label="Other Info 1"
+        variant="outlined"
+        // value={description}
+        // onChange={(event) => setDescription(event.target.value)}
+      />
+      <br />
+      <TextField
+        label="Other Info 2"
+        variant="outlined"
+        // value={description}
+        // onChange={(event) => setDescription(event.target.value)}
+      />
+      <br />
+      <Button color="primary" variant="contained">
+        Save Sector
+      </Button>
     </div>
   );
 }
