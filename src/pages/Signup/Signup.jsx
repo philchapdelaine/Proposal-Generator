@@ -4,7 +4,6 @@ import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Logo from "../../components/logo/logo";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 
@@ -64,7 +63,7 @@ function Signup() {
           variant="contained"
           color="primary"
           className="LoginBtn"
-          onClick={() => handleSubmit()}
+          // onClick={() => handleSubmit()}
         >
           Finish Registration
         </Button>
