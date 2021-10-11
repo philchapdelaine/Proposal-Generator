@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 import Login from "../../pages/Login/Login";
@@ -7,8 +13,12 @@ import Home from "../../pages/Home/Home";
 import Sector from "../../pages/Sector/Sector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
+import Signup from "../../pages/Signup/Signup";
 
 import "./Navigator.css";
+
+/* TODO: redirect to login if the user is not logged in.
+ */
 
 function Navigator() {
   return (
@@ -44,6 +54,9 @@ function Navigator() {
             </Route>
             <Route path="/proposal">
               <Proposal />
+            </Route>
+            <Route path="/signup">
+              <Signup />
             </Route>
             <Route path="/">
               <Home />

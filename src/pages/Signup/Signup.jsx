@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Login.css";
 
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -9,43 +8,11 @@ import Logo from "../../components/logo/logo";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
-
-function Login() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  return (
-    <div className="Login">
-      <Logo />
-      <br />
-      <br />
-      {loggedIn ? <Logout /> : <LoginBox />}
-    </div>
-  );
-}
-
-const validate = () => {
-  // TODO
-  return;
-};
-
-const handleSubmit = () => {
-  // TODO
-  // validate first
-  // if not validated, tell user
-  return;
-};
-
-function LoginBox() {
+function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (
-    <div>
+    <div className="Signup">
       <TextField
         required
         label="Username"
@@ -60,9 +27,26 @@ function LoginBox() {
         value={username}
         onChange={(event) => setUsername(event.target.value)}
       />
+      <br />
       <TextField
         required
         label="Password"
+        variant="outlined"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <LockIcon />
+            </InputAdornment>
+          ),
+        }}
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+        type="password"
+      />
+      <br />
+      <TextField
+        required
+        label="Retype password"
         variant="outlined"
         InputProps={{
           startAdornment: (
@@ -82,29 +66,19 @@ function LoginBox() {
           className="LoginBtn"
           onClick={() => handleSubmit()}
         >
-          Sign-in
-        </Button>{" "}
-        {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
-        <Link to="/signup">
-          <Button color="primary" variant="outlined" className="LoginBtn">
-            Sign-Up
-          </Button>
-        </Link>
-        {/* <Logout /> */}
+          Finish Registration
+        </Button>
       </div>
     </div>
   );
 }
 
-function Logout() {
-  // TODO
-  return (
-    <div>
-      <Button variant="contained" color="secondary">
-        LogOut
-      </Button>
-    </div>
-  );
+function doubleCheckPW(password1, password2) {
+  return password1 === password2;
 }
 
-export default Login;
+function usernameTaken(username) {
+  return false; // just placeholding
+}
+
+export default Signup;
