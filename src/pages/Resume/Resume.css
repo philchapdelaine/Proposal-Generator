@@ -1,0 +1,8 @@
+.resume {
+    display: flex;
+    height: 50em;
+}
+.resume-content {
+    float: left;
+    width: 75%;
+}
