@@ -1,14 +1,14 @@
-import React from 'react';
-import SectorPreview from '../../components/sector_preview/SectorPreview'
+import React from "react";
+import ReadingPane from "../../components/reading_pane/ReadingPane";
+import "./Resume.css";
 
-function Resume(){
-    return (
-        <div>
-            Sector Preview Pane:
-            <SectorPreview />
-        </div>
-    )
+function Resume() {
+  return (
+    <div className="resume">
+      <div className="resume-content"> Resume content</div>
+      <ReadingPane></ReadingPane>
+    </div>
+  );
 }
 
-export default Resume
-;
+export default Resume;
