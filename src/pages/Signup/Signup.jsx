@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   return (
     <div className="Signup">
       <TextField
@@ -45,8 +46,10 @@ function Signup() {
       <br />
       <TextField
         required
+        error={password != password2}
         label="Retype password"
         variant="outlined"
+        helperText={password != password2 ? "Passwords must match" : ""}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -54,8 +57,8 @@ function Signup() {
             </InputAdornment>
           ),
         }}
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
+        value={password2}
+        onChange={(event) => setPassword2(event.target.value)}
         type="password"
       />
       <div className="LoginBtnGrp">
@@ -70,6 +73,20 @@ function Signup() {
       </div>
     </div>
   );
+}
+
+const handleSubmit = () => {
+  // if validated() {
+  //   alert("Sign up under construction")
+  // }
+  // else {
+  //   alert("one field is incorrect")
+  // }
+};
+
+function validated() {
+  // doubleCheckPW() && usernameTaken();
+  return;
 }
 
 function doubleCheckPW(password1, password2) {
