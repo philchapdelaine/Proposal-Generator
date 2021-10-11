@@ -29,21 +29,25 @@ function Login() {
   );
 }
 
-const validate = () => {
-  // TODO
-  return;
-};
-
-const handleSubmit = () => {
-  // TODO
-  // validate first
-  // if not validated, tell user
-  return;
-};
-
 function LoginBox() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const validated = () => {
+    // TODO
+    return true;
+  };
+  const handleSubmit = () => {
+    // TODO
+    // if not validated, tell user
+    // for now just give under construction alert
+    if (validated()) {
+      alert("Under construction");
+    } else {
+      alert("Incorrect Username or Password");
+    }
+  };
+
   return (
     <div>
       <TextField
@@ -80,7 +84,7 @@ function LoginBox() {
           variant="contained"
           color="primary"
           className="LoginBtn"
-          // onClick={() => handleSubmit()}
+          onClick={() => handleSubmit()}
         >
           Sign-in
         </Button>{" "}

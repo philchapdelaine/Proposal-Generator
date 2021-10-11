@@ -7,12 +7,32 @@ import TextField from "@material-ui/core/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 
+import confirmModal from "../../components/confirmModal/confirmModal";
+
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+
+  function validated() {
+    return password === password2 && usernameUnique("");
+  }
+
+  function usernameUnique(un) {
+    return true; // just placeholding
+  }
+
+  const handleSubmit = () => {
+    if (validated()) {
+      alert("Sign up under construction");
+    } else {
+      alert("one field is incorrect");
+    }
+  };
+
   return (
     <div className="Signup">
+      REGISTRATION <br />
       <TextField
         required
         label="Username"
@@ -65,36 +85,22 @@ function Signup() {
         <Button
           variant="contained"
           color="primary"
-          className="LoginBtn"
-          // onClick={() => handleSubmit()}
+          className="SignUpBtn"
+          onClick={() => handleSubmit()}
         >
-          Finish Registration
+          Submit
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className="CancelBtn"
+          onClick={() => confirmModal("Check this out")}
+        >
+          Cancel
         </Button>
       </div>
     </div>
   );
-}
-
-const handleSubmit = () => {
-  // if validated() {
-  //   alert("Sign up under construction")
-  // }
-  // else {
-  //   alert("one field is incorrect")
-  // }
-};
-
-function validated() {
-  // doubleCheckPW() && usernameTaken();
-  return;
-}
-
-function doubleCheckPW(password1, password2) {
-  return password1 === password2;
-}
-
-function usernameTaken(username) {
-  return false; // just placeholding
 }
 
 export default Signup;
