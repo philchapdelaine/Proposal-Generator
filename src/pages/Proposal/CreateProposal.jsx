@@ -39,7 +39,7 @@ function CreateProposal(){
                         label="Search resumes"
                     ></TextField>
                 </div>
-                <div> Search results: </div>
+                <div className="search-results"> Search results: </div>
                 <div className="resume-thumbnails"> {resumes} </div>
 
             </div> 
