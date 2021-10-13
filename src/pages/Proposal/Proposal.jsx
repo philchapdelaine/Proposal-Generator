@@ -1,15 +1,36 @@
 import React from 'react';
 import ReadingPane from "../../components/reading_pane/ReadingPane";
+import ResumeThumbnail from '../../components/resume_thumbnail/ResumeThumbnail';
+import NavigatorBar from '../../components/navigator_bar/NavigatorBar';
 import "./Proposal.css";
 import TextField from "@material-ui/core/TextField";
 
+const dummyResumes = [{
+    "name": "first last"
+},
+{
+    "name": "first last"
+},
+{
+    "name": "first last"
+}
+];
+
+const resumes = [];
+
 function Proposal(){
+    for (const resume of dummyResumes) {
+        resumes.push(
+            <ResumeThumbnail name={resume["name"]} addable={true}></ResumeThumbnail>
+        )
+    }
     return (
         <div className="proposal-page">
-            <div className="center-pane"> 
+            <NavigatorBar></NavigatorBar>
+            <div className="proposal-center-pane"> 
 
-            <div className="center-header"> 
-                <div className="title">Your Proposal</div>
+            <div className="proposal-center-header"> 
+                <div className="title"> Proposal Name </div>
                 <TextField 
                     variant="outlined"
                     size="small"
@@ -17,21 +38,7 @@ function Proposal(){
                     label="Search resumes"
                 ></TextField>
             </div>
-            <div className="resume-thumbnails">
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-                <div className="sample-thumbnail"> thumbnails go here </div>
-
-                {/* TODO: A for loop will go here to display all the resumes in the proposal */}
-                {/* TODO: make a new component for resume thumbnails */}
-
-            </div>
+            <div className="resume-thumbnails"> {resumes} </div>
 
             </div> 
             <ReadingPane></ReadingPane>

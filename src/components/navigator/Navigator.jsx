@@ -13,6 +13,7 @@ import Home from "../../pages/Home/Home";
 import Sector from "../../pages/Sector/Sector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
+import CreateProposal from "../../pages/Proposal/CreateProposal";
 import Signup from "../../pages/Signup/Signup";
 
 import "./Navigator.css";
@@ -41,6 +42,9 @@ function Navigator() {
             <Link to="/proposal">
               <Btn btnName="Proposal" />
             </Link>
+            <Link to="/create-proposal">
+              <Btn btnName="Create Proposal" />
+            </Link>
           </nav>
           <Switch>
             <Route path="/login">
@@ -54,6 +58,9 @@ function Navigator() {
             </Route>
             <Route path="/proposal">
               <Proposal />
+            </Route>
+            <Route path="/create-proposal">
+              <CreateProposal />
             </Route>
             <Route path="/signup">
               <Signup />
