@@ -9,6 +9,8 @@ import Logo from "../../components/logo/logo";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,13 +20,14 @@ import {
 } from "react-router-dom";
 
 function Login() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
     <div className="Login">
       <Logo />
       <br />
       <br />
-      {loggedIn ? <Logout /> : <LoginBox />}
+      {loggedin ? <Logout /> : <LoginBox />}
     </div>
   );
 }
@@ -33,16 +36,20 @@ function LoginBox() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // const selector = useSeletor()
+  const dispatch = useDispatch();
+
   const validated = () => {
     // TODO
-    return true;
+    return username === "username" && password === "password";
   };
   const handleSubmit = () => {
     // TODO
     // if not validated, tell user
     // for now just give under construction alert
     if (validated()) {
-      alert("Under construction");
+      dispatch({ type: "SUCCESSFUL_LOGIN" });
+      alert("Under Construction, but welcome," + username);
     } else {
       alert("Incorrect Username or Password");
     }
@@ -94,17 +101,23 @@ function LoginBox() {
             Sign-Up
           </Button>
         </Link>
-        {/* <Logout /> */}
       </div>
     </div>
   );
 }
 
 function Logout() {
+  // const loggedin = useSelector((state) => state.loginReducer.loggedIn);
+  const dispatch = useDispatch();
   // TODO
   return (
     <div>
-      <Button variant="contained" color="secondary">
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => dispatch({ type: "LOG_OUT" })}
+      >
+        {/* need a confirmation modal for the logout dispatch fn */}
         LogOut
       </Button>
     </div>
