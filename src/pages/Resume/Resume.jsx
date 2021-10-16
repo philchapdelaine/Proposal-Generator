@@ -1,4 +1,3 @@
-
 import "./Resume.css";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -7,34 +6,41 @@ import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import SectorEditor from "../../components/sector_editor/SectorEditor";
 
 var samplesectors = [
-  {id: '0', name: 'Sample0', type: 'Type0', content: 'something0'}, 
-  {id: '1', name: 'Sample', type: 'Type1', content: 'something'}, 
-  {id: '2', name: 'New Sector', type: 'Experience', content: 'abdgbsbshd asdkbkdsb'},
-  {id: '3', name: 'New Sector1', type: 'Experience2', content: 'content1'}
+  { id: "0", name: "Sample0", type: "Type0", content: "something0" },
+  { id: "1", name: "Sample", type: "Type1", content: "something" },
+  {
+    id: "2",
+    name: "New Sector",
+    type: "Experience",
+    content: "abdgbsbshd asdkbkdsb",
+  },
+  { id: "3", name: "New Sector1", type: "Experience2", content: "content1" },
 ];
 
 var index = 4;
 
 class Resume extends Component {
-  
   constructor(props) {
     super(props);
-    this.state = {currsector: undefined, sectors: samplesectors}
+    this.state = { currsector: undefined, sectors: samplesectors };
   }
 
   selectSector(sectorid) {
-    this.setState({currsector: samplesectors.find(e => e.id === sectorid)});
+    this.setState({ currsector: samplesectors.find((e) => e.id === sectorid) });
   }
   addSector(sector) {
     sector.id = index;
     index++;
     samplesectors.push(sector);
-    this.setState({sectors: samplesectors});
+    this.setState({ sectors: samplesectors });
     console.log("Added " + sector.name);
   }
   deleteSector(sector) {
-    samplesectors.splice(samplesectors.findIndex(e => e.id === sector.id), 1);
-    this.setState({sectors: samplesectors});
+    samplesectors.splice(
+      samplesectors.findIndex((e) => e.id === sector.id),
+      1
+    );
+    this.setState({ sectors: samplesectors });
     console.log("Deleted " + sector.name);
   }
   saveSector(sectorid, sectorname, sectorcontent) {
@@ -73,8 +79,6 @@ class Resume extends Component {
   }
 }
 
-Resume.propTypes = {
-
-};
+Resume.propTypes = {};
 
 export default Resume;
