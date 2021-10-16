@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Logo from "../../components/logo/logo";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
+import Box from "@mui/material/Box";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -56,53 +57,60 @@ function LoginBox() {
   };
 
   return (
-    <div>
-      <TextField
-        required
-        label="Username"
-        variant="outlined"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AccountCircleIcon />
-            </InputAdornment>
-          ),
-        }}
-        value={username}
-        onChange={(event) => setUsername(event.target.value)}
-      />
-      <TextField
-        required
-        label="Password"
-        variant="outlined"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <LockIcon />
-            </InputAdornment>
-          ),
-        }}
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        type="password"
-      />
-      <div className="LoginBtnGrp">
-        <Button
-          variant="contained"
-          color="primary"
-          className="LoginBtn"
-          onClick={() => handleSubmit()}
-        >
-          Sign-in
-        </Button>{" "}
-        {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
-        <Link to="/signup">
-          <Button color="primary" variant="outlined" className="LoginBtn">
-            Sign-Up
-          </Button>
-        </Link>
+    <Box
+      component="form"
+      sx={{
+        "& .MuiTextField-root": { m: 2, width: "30ch" },
+      }}
+    >
+      <div>
+        <TextField
+          required
+          label="Username"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircleIcon />
+              </InputAdornment>
+            ),
+          }}
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
+        <TextField
+          required
+          label="Password"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon />
+              </InputAdornment>
+            ),
+          }}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          type="password"
+        />
+        <div className="LoginBtnGrp">
+          <Button
+            variant="contained"
+            color="primary"
+            className="LoginBtn"
+            onClick={() => handleSubmit()}
+          >
+            Sign-in
+          </Button>{" "}
+          {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
+          <Link to="/signup" style={{ textDecoration: "none" }}>
+            <Button color="primary" variant="outlined" className="LoginBtn">
+              Sign-Up
+            </Button>
+          </Link>
+        </div>
       </div>
-    </div>
+    </Box>
   );
 }
 

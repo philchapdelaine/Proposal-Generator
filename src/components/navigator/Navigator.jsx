@@ -28,25 +28,25 @@ function Navigator() {
       <Router>
         <div>
           <nav>
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: "none" }}>
               <Btn btnName="Home" />
             </Link>
-            <Link to="/login">
+            <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
             </Link>
-            <Link to="/admin">
+            <Link to="/admin" style={{ textDecoration: "none" }}>
               <Btn btnName="Admin" />
             </Link>
-            <Link to="/resume">
+            <Link to="/resume" style={{ textDecoration: "none" }}>
               <Btn btnName="Resume" />
             </Link>
-            <Link to="/sector">
+            <Link to="/sector" style={{ textDecoration: "none" }}>
               <Btn btnName="Sector" />
             </Link>
-            <Link to="/proposal">
+            <Link to="/proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Proposal" />
             </Link>
-            <Link to="/create-proposal">
+            <Link to="/create-proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Create Proposal" />
             </Link>
           </nav>
