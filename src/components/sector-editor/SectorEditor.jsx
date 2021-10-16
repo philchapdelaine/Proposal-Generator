@@ -8,22 +8,34 @@ class SectorEditor extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {name: this.props.sector.name, content: this.props.sector.content};
+    this.state = {name: this.props.sector.name, content: this.props.sector.content, id: this.props.sector.id};
   }
 
   handleChange = (event) => {
     this.setState({content: event.target.value});
   };
 
+  handleChangeName = (event) => {
+    this.setState({name: event.target.value});
+  };
+
   saveSector() {
     this.props.saveSector();
+  }
+
+  componentDidUpdate() {
+    if (this.state.id != this.props.sector.id) {
+      this.setState({id: this.props.sector.id, content: this.props.sector.content, name: this.props.sector.name})
+    }
   }
 
   render() {
     return (
       <div className = 'editor'>
         <div className="header">
-           <p>{this.props.sector.name}</p>
+            <TextField
+            value={this.state.name}
+            onChange={this.handleChangeName} fullWidth id="fullWidth" />
         </div>
         <div className = 'sector-editor-field'>
             <TextField multiline minRows = {10} maxRows = {40} 

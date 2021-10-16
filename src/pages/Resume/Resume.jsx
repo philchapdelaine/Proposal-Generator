@@ -12,23 +12,27 @@ var samplesectors = [
   {id: '3', name: 'New Sector1', type: 'Experience2', content: 'content1'}
 ];
 
+var index = 4;
+
 class Resume extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {currsector: samplesectors[0], sectors: samplesectors}
+    this.state = {currsector: undefined, sectors: samplesectors}
   }
 
   selectSector(sectorid) {
     this.setState({currsector: samplesectors.find(e => e.id === sectorid)});
   }
   addSector(sector) {
+    sector.id = index;
+    index++;
     samplesectors.push(sector);
     this.setState({sectors: samplesectors});
     console.log("Added " + sector.name);
   }
   deleteSector(sector) {
-    samplesectors.splice(sector.id, 1);
+    samplesectors.splice(samplesectors.findIndex(e => e.id === sector.id), 1);
     this.setState({sectors: samplesectors});
     console.log("Deleted " + sector.name);
   }
@@ -61,7 +65,7 @@ class Resume extends Component {
   }
 }
 
-SectorEditor.propTypes = {
+Resume.propTypes = {
 
 };
 
