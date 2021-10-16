@@ -36,12 +36,13 @@ class Resume extends Component {
     this.setState({sectors: samplesectors});
     console.log("Deleted " + sector.name);
   }
-  saveSector() {
-    console.log("Saved");
-  }
-  
-  setSector(sector) {
-    
+  saveSector(sectorid, sectorname, sectorcontent) {
+    var oldsector = samplesectors[samplesectors.findIndex(e => e.id === sectorid)]
+    oldsector.name = sectorname;
+    oldsector.content = sectorcontent;
+    samplesectors.splice(samplesectors.findIndex(e => e.id === sectorid), 1, oldsector);
+    this.setState({sectors: samplesectors});
+    console.log("Saved" + sectorid);
   }
 
   render() {
@@ -56,8 +57,7 @@ class Resume extends Component {
         <div className = "sector-editor">
           {this.state.currsector &&           
           <SectorEditor sector = {this.state.currsector} 
-          saveSector = {() => {this.saveSector}}
-          setSector = {() => {setSector}}></SectorEditor>
+          saveSector = {(sectorid, sectorname, sectorcontent) => {this.saveSector(sectorid, sectorname, sectorcontent)}}></SectorEditor>
           }
         </div>
       </div>
