@@ -20,7 +20,7 @@ class SectorEditor extends Component {
   };
 
   saveSector() {
-    this.props.saveSector();
+    this.props.saveSector(this.state.id, this.state.name, this.state.content);
   }
 
   componentDidUpdate() {
@@ -53,7 +53,6 @@ class SectorEditor extends Component {
 SectorEditor.propTypes = {
   sector: PropTypes.any,
   saveSector: PropTypes.func,
-  setSector: PropTypes.func
 };
 
 export default SectorEditor;

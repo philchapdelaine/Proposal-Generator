@@ -2,8 +2,8 @@ import "./Resume.css";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ResumeBuilder from "../../components/resume_builder/ResumeBuilder";
-import SectorEditor from "../../components/sector-editor/SectorEditor";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
+import SectorEditor from "../../components/sector_editor/SectorEditor";
 
 var samplesectors = [
   { id: "0", name: "Sample0", type: "Type0", content: "something0" },
@@ -43,42 +43,36 @@ class Resume extends Component {
     this.setState({ sectors: samplesectors });
     console.log("Deleted " + sector.name);
   }
-  saveSector() {
-    console.log("Saved");
+  saveSector(sectorid, sectorname, sectorcontent) {
+    var oldsector = samplesectors[samplesectors.findIndex(e => e.id === sectorid)]
+    oldsector.name = sectorname;
+    oldsector.content = sectorcontent;
+    samplesectors.splice(samplesectors.findIndex(e => e.id === sectorid), 1, oldsector);
+    this.setState({sectors: samplesectors});
+    console.log("Saved" + sectorid);
   }
-
-  setSector(sector) {}
 
   render() {
     return (
-      <div className="resume-page">
-        <NavigatorBar></NavigatorBar>
-        <div className="resume-builder">
-          <ResumeBuilder
-            sectors={this.state.sectors}
-            addSector={(sector) => {
-              this.addSector(sector);
-            }}
-            deleteSector={(sector) => {
-              this.deleteSector(sector);
-            }}
-            selectSector={(sectorid) => {
-              this.selectSector(sectorid);
-            }}
-          ></ResumeBuilder>
+      <div className = "page">
+        <div className = "nav-bar">
+          <NavigatorBar></NavigatorBar>
         </div>
-        <div className="sector-editor">
-          {this.state.currsector && (
-            <SectorEditor
-              sector={this.state.currsector}
-              saveSector={() => {
-                this.saveSector;
-              }}
-              setSector={() => {
-                setSector;
-              }}
-            ></SectorEditor>
-          )}
+        <div className = "resume-page">
+          <div className = "resume-builder">
+            <ResumeBuilder sectors = {this.state.sectors}
+            addSector = {(sector) => {this.addSector(sector)}}
+            deleteSector = {(sector) => {this.deleteSector(sector)}}
+            selectSector = {(sectorid) => {this.selectSector(sectorid)}}></ResumeBuilder>
+          </div>
+          <div className = "sector-editor">
+            <div>
+            {this.state.currsector &&           
+            <SectorEditor sector = {this.state.currsector} 
+            saveSector = {(sectorid, sectorname, sectorcontent) => {this.saveSector(sectorid, sectorname, sectorcontent)}}></SectorEditor>
+            }
+            </div>
+          </div>
         </div>
       </div>
     );

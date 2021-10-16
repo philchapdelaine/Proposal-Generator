@@ -1,10 +1,21 @@
-.resume-page {
+.page {
   display: flex;
-  padding-left: 200px;
+  width: 1200px;
+}
+
+.nav-bar {
+  width: 200px
+}
+
+.resume-page {
+  flex-grow: 1;
+  display: flex;
+  padding-left: 0px;
   width: 1200px;
 }
 
 .resume-builder {
+  padding-left: 20px;
   width: 500px;
 };
 
