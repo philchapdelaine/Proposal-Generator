@@ -1,0 +1,25 @@
+.sector-search-container {
+	position: relative;
+	top: 0px;
+}
+
+.sector-search-container input {
+	background: rgb(223, 223, 223);
+	width: 120px;
+	border-radius: 10px;
+	border: none;
+	padding: 4px 4px 4px 10px;
+	outline: none;
+}
+
+.search {
+	margin-left: 5px;
+	cursor: pointer;
+	cursor: pointer;
+  color: white;
+  font-size: 15px;
+}
+
+.addButton {
+	padding-top: 14px;
+}

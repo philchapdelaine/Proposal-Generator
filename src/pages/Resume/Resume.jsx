@@ -1,14 +1,68 @@
-import React from "react";
-import ReadingPane from "../../components/reading_pane/ReadingPane";
-import "./Resume.css";
 
-function Resume() {
-  return (
-    <div className="resume">
-      <div className="resume-content"> Resume content</div>
-      <ReadingPane></ReadingPane>
-    </div>
-  );
+import "./Resume.css";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ResumeBuilder from "../../components/resume_builder/ResumeBuilder";
+import SectorEditor from "../../components/sector-editor/SectorEditor";
+
+var samplesectors = [
+  {id: '0', name: 'Sample0', type: 'Type0', content: 'something0'}, 
+  {id: '1', name: 'Sample', type: 'Type1', content: 'something'}, 
+  {id: '2', name: 'New Sector', type: 'Experience', content: 'abdgbsbshd asdkbkdsb'},
+  {id: '3', name: 'New Sector1', type: 'Experience2', content: 'content1'}
+];
+
+class Resume extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {currsector: samplesectors[0], sectors: samplesectors}
+  }
+
+  selectSector(sectorid) {
+    this.setState({currsector: samplesectors.find(e => e.id === sectorid)});
+  }
+  addSector(sector) {
+    samplesectors.push(sector);
+    this.setState({sectors: samplesectors});
+    console.log("Added " + sector.name);
+  }
+  deleteSector(sector) {
+    samplesectors.splice(sector.id, 1);
+    this.setState({sectors: samplesectors});
+    console.log("Deleted " + sector.name);
+  }
+  saveSector() {
+    console.log("Saved");
+  }
+  
+  setSector(sector) {
+    
+  }
+
+  render() {
+    return (
+      <div className = "resume-page">
+        <div className = "resume-builder">
+          <ResumeBuilder sectors = {this.state.sectors}
+          addSector = {(sector) => {this.addSector(sector)}}
+          deleteSector = {(sector) => {this.deleteSector(sector)}}
+          selectSector = {(sectorid) => {this.selectSector(sectorid)}}></ResumeBuilder>
+        </div>
+        <div className = "sector-editor">
+          {this.state.currsector &&           
+          <SectorEditor sector = {this.state.currsector} 
+          saveSector = {() => {this.saveSector}}
+          setSector = {() => {setSector}}></SectorEditor>
+          }
+        </div>
+      </div>
+    );
+  }
 }
+
+SectorEditor.propTypes = {
+
+};
 
 export default Resume;
