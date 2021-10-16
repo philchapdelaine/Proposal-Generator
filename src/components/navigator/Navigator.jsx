@@ -14,6 +14,7 @@ import Sector from "../../pages/Sector/Sector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
 import Signup from "../../pages/Signup/Signup";
+import Admin from "../../pages/Admin/Admin";
 
 import "./Navigator.css";
 
@@ -32,6 +33,9 @@ function Navigator() {
             <Link to="/login">
               <Btn btnName="Login" />
             </Link>
+            <Link to="/admin">
+              <Btn btnName="Admin" />
+            </Link>
             <Link to="/resume">
               <Btn btnName="Resume" />
             </Link>
@@ -45,6 +49,9 @@ function Navigator() {
           <Switch>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/admin">
+              <Admin />
             </Route>
             <Route path="/resume">
               <Resume />
