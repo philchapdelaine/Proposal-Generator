@@ -1,0 +1,55 @@
+
+  .user-sector-item {
+    list-style-type: none;
+    border-bottom: 1px solid rgb(194, 194, 194);
+    display: flex;
+    line-height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .user-sector-item:hover {
+    background: rgb(212, 212, 212);
+  }
+  
+  .sector-name p,
+  .sector-employee p,
+  .sector-type p,
+  .sector-length p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+    line-height: 42px;
+  }
+  
+  .sector-type,
+  .sector-type-header {
+      width: 200px;
+  }
+
+  .sector-name,
+  .sector-name-header {
+      width: 200px;
+  }
+  
+  .sector-name-header p,
+  .sector-employee-header p,
+  .sector-type-header p,
+  .sector-length-header p {
+    text-transform: uppercase;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    padding: 0 8px;
+  }
+  
+  .sector-header-container {
+    display: flex;
+    border-bottom: 1px solid rgb(192, 192, 192);
+    padding-bottom: 6px;
+    margin-top: 20px;
+  }
+
+  .delete-button {
+    padding-top: 14px;
+  }
