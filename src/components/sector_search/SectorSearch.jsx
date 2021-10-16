@@ -30,6 +30,9 @@ class SectorSearch extends Component {
           }
           key={i}
         >
+          <div className="sector-name">
+            <p>{sector.name}</p>
+          </div>
 
           <div className="sector-type">
             <p>{sector.type}</p>

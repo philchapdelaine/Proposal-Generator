@@ -23,3 +23,13 @@
 .addButton {
 	padding-top: 14px;
 }
+
+.sector-type,
+.sector-type-header {
+	width: 200px;
+}
+
+.sector-name,
+.sector-name-header {
+	width: 200px;
+}
