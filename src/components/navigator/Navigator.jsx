@@ -13,7 +13,9 @@ import Home from "../../pages/Home/Home";
 import Sector from "../../pages/Sector/Sector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
+import CreateProposal from "../../pages/Proposal/CreateProposal";
 import Signup from "../../pages/Signup/Signup";
+import Admin from "../../pages/Admin/Admin";
 
 import "./Navigator.css";
 
@@ -26,25 +28,34 @@ function Navigator() {
       <Router>
         <div>
           <nav>
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: "none" }}>
               <Btn btnName="Home" />
             </Link>
-            <Link to="/login">
+            <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
             </Link>
-            <Link to="/resume">
+            <Link to="/admin" style={{ textDecoration: "none" }}>
+              <Btn btnName="Admin" />
+            </Link>
+            <Link to="/resume" style={{ textDecoration: "none" }}>
               <Btn btnName="Resume" />
             </Link>
-            <Link to="/sector">
+            <Link to="/sector" style={{ textDecoration: "none" }}>
               <Btn btnName="Sector" />
             </Link>
-            <Link to="/proposal">
+            <Link to="/proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Proposal" />
+            </Link>
+            <Link to="/create-proposal" style={{ textDecoration: "none" }}>
+              <Btn btnName="Create Proposal" />
             </Link>
           </nav>
           <Switch>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/admin">
+              <Admin />
             </Route>
             <Route path="/resume">
               <Resume />
@@ -54,6 +65,9 @@ function Navigator() {
             </Route>
             <Route path="/proposal">
               <Proposal />
+            </Route>
+            <Route path="/create-proposal">
+              <CreateProposal />
             </Route>
             <Route path="/signup">
               <Signup />
