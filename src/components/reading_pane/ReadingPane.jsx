@@ -46,13 +46,13 @@ function ReadingPane(){
         <div className="reading-pane" >
         <div className="reading-pane-header"> Reading Pane </div>
         <div className="preview">
-            <Tabs TabIndicatorProps={{style: {background:'#5F9EA0'}}} value={selectedTab} onChange={handleChange} centered>
+            <Tabs TabIndicatorProps={{style: {background:'#5F9EA0'}}} value={selectedTab} onChange={handleChange} variant="fullWidth">
                 <Tab label="Sector Preview" index={0} />
                 <Tab label="Proposal Draft" index={1} />
             </Tabs>
             <TabPanel value={selectedTab} index={0}>
                 <div>
-                    <h1 className="reading-pane-title">Sector Preview</h1>
+                    <h1 className="reading-pane-title">Experience</h1>
                 </div>
                 <div className="sector-preview">
                     <TextField
