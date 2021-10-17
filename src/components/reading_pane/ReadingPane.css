@@ -48,9 +48,14 @@ button:hover {
     background-color: white;
 }
 
+.reading-pane-title {
+    padding-left: 1rem;
+}
+
 .sector-preview {
     display: flex;
     justify-content: center;
+    padding: 0rem 1rem 1rem;
 }
 
 .button-group {

@@ -52,10 +52,20 @@ function ReadingPane(){
             </Tabs>
             <TabPanel value={selectedTab} index={0}>
                 <div>
-                    <h1>Sector Preview</h1>
+                    <h1 className="reading-pane-title">Sector Preview</h1>
                 </div>
                 <div className="sector-preview">
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    <TextField
+                        id="outlined-basic" 
+                        label="Experience" 
+                        variant="outlined"
+                        placeholder="Some employee's experience"
+                        multiline
+                        rows={10}
+                        rowsMax={10}
+                        margin="normal"
+                        fullWidth
+                    />
                 </div>
                 <div className="button-group">
                     <ButtonGroup variant="contained" size="large">
@@ -66,7 +76,7 @@ function ReadingPane(){
             </TabPanel>
             <TabPanel value={selectedTab} index={1}>
                 <div>
-                    <h1>Proposal Draft</h1>
+                    <h1 className="reading-pane-title">Proposal Draft</h1>
                 </div>
                 <div>
                     <List
