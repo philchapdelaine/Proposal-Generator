@@ -36,6 +36,13 @@ function ReadingPane(){
             <div></div>
         )
     }
+    
+     {/* TODO--Actually add sector*/}
+    function addSector() { 
+        return (
+            <div></div>
+        )
+    }
 
     return (
         <div className="reading-pane" >
@@ -65,7 +72,7 @@ function ReadingPane(){
                 <div className="button-group">
                     <ButtonGroup variant="contained" size="large">
                         <Button onClick={openModal()}>Edit Sector</Button>
-                        <Button>Add Sector</Button>
+                        <Button onClick={addSector()}>Add Sector</Button>
                     </ButtonGroup>
                 </div>
             </TabPanel>

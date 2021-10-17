@@ -14,8 +14,8 @@
 }
 .recently-viewed {
     /* temporary - to be replaced by actual component */
-    height: 200px;
-    background-color: lightgray;
+    height: 400px;
+    background-color: white;
 }
 .search-sector {
     /* temporary - to be replaced by actual component */
