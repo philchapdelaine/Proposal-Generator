@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import Login from "../../pages/Login/Login";
 import Home from "../../pages/Home/Home";
-import Sector from "../../pages/Sector/Sector";
+import CreateSector from "../../pages/Sector/CreateSector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
 import CreateProposal from "../../pages/Proposal/CreateProposal";
@@ -61,7 +61,7 @@ function Navigator() {
               <Resume />
             </Route>
             <Route path="/sector">
-              <Sector />
+              <CreateSector />
             </Route>
             <Route path="/proposal">
               <Proposal />

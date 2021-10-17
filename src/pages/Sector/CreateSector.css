@@ -1,0 +1,26 @@
+.create-sector-page {
+    display: flex;
+}
+.cs-main {
+    width: 75%;
+    margin-left: 20px;
+    margin-top: 25px;
+}
+.cs-input-fields {
+    margin-top: 25px;
+    width: 60%;
+}
+.cs-input {
+    border-radius: 3px;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+.cs-button {
+    background-color: #00569c;
+    color: white;
+    width: 125px;
+    height: 50px;
+    font-size: 18px;
+    margin-top: 25px;
+    border: none;
+}
