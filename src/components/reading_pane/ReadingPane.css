@@ -47,3 +47,14 @@ button:hover {
     align-self: center;
     background-color: white;
 }
+
+.sector-preview {
+    display: flex;
+    justify-content: center;
+}
+
+.button-group {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
