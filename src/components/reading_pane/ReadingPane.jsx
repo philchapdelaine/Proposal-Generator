@@ -12,6 +12,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import "./ReadingPane.css";
 
 function ReadingPane(){
@@ -88,22 +90,52 @@ function ReadingPane(){
                         </ListSubheader>
                         }
                     >
-                        <ListItemButton>
-                        <ListItemText primary="Employee 1" />
-                        </ListItemButton>
-                        <ListItemButton>
-                        <ListItemText primary="Employee 1" />
-                        </ListItemButton>
                         <ListItemButton onClick={handleClick}>
-                        <ListItemText primary="Employee 3" />
-                        {open ? <ExpandLess /> : <ExpandMore />}
+                            <ListItemText primary="John Smith" />
+                            {open ? <ExpandLess /> : <ExpandMore />}
+                            <IconButton edge="end">
+                                <DeleteIcon />
+                            </IconButton>
                         </ListItemButton>
                         <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemText primary="Experience" />
-                            </ListItemButton>
-                        </List>
+                            <List component="div" disablePadding>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemText primary="Experience" />
+                                    <IconButton edge="end">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemButton>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemText primary="Projects" />
+                                    <IconButton edge="end">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemButton>
+                            </List>
+                        </Collapse>
+
+                        <ListItemButton onClick={handleClick}>
+                            <ListItemText primary="Steve Jobs" />
+                            {open ? <ExpandLess /> : <ExpandMore />}
+                            <IconButton edge="end">
+                                <DeleteIcon />
+                            </IconButton>
+                        </ListItemButton>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemText primary="Experience" />
+                                    <IconButton edge="end">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemButton>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemText primary="Projects" />
+                                    <IconButton edge="end">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemButton>
+                            </List>
                         </Collapse>
                     </List>
                 </div>
