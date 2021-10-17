@@ -13,9 +13,10 @@
     width: 100%;
 }
 .recently-viewed {
-    /* temporary - to be replaced by actual component */
     height: 400px;
     background-color: white;
+    margin-top: 0rem;
+
 }
 .search-sector {
     /* temporary - to be replaced by actual component */

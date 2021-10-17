@@ -7,13 +7,14 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
+import "./RecentlyViewed.css";
 
 export default class RecentlyViewed extends React.Component {
   render() {
     const docs = data.documents;  //this coming from a json file, please see below for the sample json
      return (
       <div>
-        <div>
+        <div className="recently_viewed_title">
             <h3>Recently Viewed</h3>
          </div>
         <List component='nav'>
@@ -62,9 +63,6 @@ export default class RecentlyViewed extends React.Component {
         {doc.Sheets.map(sheet => {
           return (
             <ListItem button key={sheet.Id}>
-              <ListItemIcon>
-                {/* <InsertDriveFileTwoToneIcon /> */}
-              </ListItemIcon>
               <ListItemText key={sheet.Id} primary={sheet.Title} />
             </ListItem>
           );

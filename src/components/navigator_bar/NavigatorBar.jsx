@@ -8,9 +8,7 @@ function NavigatorBar() {
       <button className="nav-button"> Resume </button>
       <button className="nav-button"> Create Resume Proposal </button>
       <div className="recently-viewed">
-        {" "}
         <RecentlyViewed />
-        {" "}
       </div>
       {/* <div className="search-sector"> Search sector componenet (placeholder) </div> */}
     </div>
