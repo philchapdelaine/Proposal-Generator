@@ -10,6 +10,21 @@ function CreateSector() {
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  let hasRequiredInfo = false;
+
+  function openModal() {
+    const hasName = name !== "";
+    const hasType = type !== "";
+    hasRequiredInfo = hasName && hasType;
+    setSubmitAttempted(true);
+
+    if (hasRequiredInfo) {
+      setOpen(true);
+      setSubmitAttempted(false);
+    } 
+  }
   
   
   return (
@@ -73,10 +88,12 @@ function CreateSector() {
               // onChange={(event) => setDescription(event.target.value)}
             />
         </div>
-
+        {!hasRequiredInfo && submitAttempted && (
+          <div className="cs-warning"> Sector name and type are required. </div>
+        )}
         <button 
           className="cs-button"
-          onClick={() => setOpen(true)}>  
+          onClick={() => openModal()}>  
             Save Sector 
         </button>
 
