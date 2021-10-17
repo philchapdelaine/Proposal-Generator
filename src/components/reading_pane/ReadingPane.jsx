@@ -5,7 +5,8 @@ import Box from '@material-ui/core/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import CustomListItem from "../../components/custom_list_item/customListItem";
+import CustomListItem from "../custom_list_item/CustomListItem";
+import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 
 function ReadingPane(){
@@ -27,6 +28,13 @@ function ReadingPane(){
                 {value === index && <Box>{children}</Box>}
             </div>
         );
+    }
+
+    {/* TODO--State listener to display/hide modal*/}
+    function openModal() { 
+        return (
+            <div></div>
+        )
     }
 
     return (
@@ -56,13 +64,12 @@ function ReadingPane(){
                 </div>
                 <div className="button-group">
                     <ButtonGroup variant="contained" size="large">
-                        <Button>Edit Sector</Button>
+                        <Button onClick={openModal()}>Edit Sector</Button>
                         <Button>Add Sector</Button>
                     </ButtonGroup>
                 </div>
             </TabPanel>
 
-             {/* TODO--Map the list elements */}
             <TabPanel value={selectedTab} index={1}>
                 <div>
                     <h1 className="reading-pane-title">Proposal Draft</h1>
