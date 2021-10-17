@@ -5,15 +5,7 @@ import Box from '@material-ui/core/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CustomListItem from "../../components/custom_list_item/customListItem";
 import "./ReadingPane.css";
 
 function ReadingPane(){
@@ -37,13 +29,6 @@ function ReadingPane(){
         );
     }
 
-    const [open, setOpen] = React.useState(true);
-
-    const handleClick = () => {
-      setOpen(!open);
-    };
-
-
     return (
         <div className="reading-pane" >
         <div className="reading-pane-header"> Reading Pane </div>
@@ -59,9 +44,9 @@ function ReadingPane(){
                 <div className="sector-preview">
                     <TextField
                         id="outlined-basic" 
-                        label="Experience" 
+                        label="John Smith's experince goes here." 
                         variant="outlined"
-                        placeholder="Some employee's experience"
+                        placeholder="User can edit this sector's contents."
                         multiline
                         rows={10}
                         rowsMax={10}
@@ -76,68 +61,14 @@ function ReadingPane(){
                     </ButtonGroup>
                 </div>
             </TabPanel>
+
+             {/* TODO--Map the list elements */}
             <TabPanel value={selectedTab} index={1}>
                 <div>
                     <h1 className="reading-pane-title">Proposal Draft</h1>
                 </div>
                 <div>
-                    <List
-                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                        component="nav"
-                        subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                            Sectors Added to Proposal 
-                        </ListSubheader>
-                        }
-                    >
-                        <ListItemButton onClick={handleClick}>
-                            <ListItemText primary="John Smith" />
-                            {open ? <ExpandLess /> : <ExpandMore />}
-                            <IconButton edge="end">
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItemButton>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemText primary="Experience" />
-                                    <IconButton edge="end">
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemButton>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemText primary="Projects" />
-                                    <IconButton edge="end">
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemButton>
-                            </List>
-                        </Collapse>
-
-                        <ListItemButton onClick={handleClick}>
-                            <ListItemText primary="Steve Jobs" />
-                            {open ? <ExpandLess /> : <ExpandMore />}
-                            <IconButton edge="end">
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItemButton>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemText primary="Experience" />
-                                    <IconButton edge="end">
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemButton>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemText primary="Projects" />
-                                    <IconButton edge="end">
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemButton>
-                            </List>
-                        </Collapse>
-                    </List>
+                    <CustomListItem />
                 </div>
             </TabPanel>
         </div>
