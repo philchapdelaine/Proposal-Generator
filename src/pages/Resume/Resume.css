@@ -1,8 +1,26 @@
-.resume {
-    display: flex;
-    height: 50em;
+.page {
+  display: flex;
+  width: 1200px;
 }
-.resume-content {
-    float: left;
-    width: 75%;
+
+.nav-bar {
+  width: 200px
+}
+
+.resume-page {
+  flex-grow: 1;
+  display: flex;
+  padding-left: 0px;
+  width: 1200px;
+}
+
+.resume-builder {
+  padding-left: 20px;
+  width: 500px;
+};
+
+.sector-editor {
+  padding-left: 50px;
+  flex-grow: 1;
+  width: 700px;
 }

@@ -1,0 +1,18 @@
+.create-proposal{
+    /* todo: the display, height properties are required to make the 
+    reading pane appear correctly. there's probably a better way to do it but I'll leave it for now */
+    display: flex;
+    height: 50em; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.cp-center-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search-results {
+    margin-left: 10px;
+}
+.cp-center-pane {
+    width: 75%;
+}

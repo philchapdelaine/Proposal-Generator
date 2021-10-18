@@ -1,0 +1,19 @@
+.nav-bar {
+    width: 25%;
+}
+.nav-button {
+    display: flex;
+    background-color: #00569c;
+    color: white;
+    font-size: 0.8em;
+    text-align: left;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border: none;
+    width: 100%;
+}
+.recently-viewed {
+    /* temporary - to be replaced by actual component */
+    height: 75%;
+    background-color: lightgray;
+}

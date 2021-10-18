@@ -10,9 +10,9 @@ import thunk from "redux-thunk";
 import reducers from "./redux";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={createStore(reducers, applyMiddleware(thunk))}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
 
