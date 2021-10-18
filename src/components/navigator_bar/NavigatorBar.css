@@ -16,11 +16,4 @@
     height: 400px;
     background-color: white;
     margin-top: 0rem;
-
-}
-.search-sector {
-    /* temporary - to be replaced by actual component */
-    height: 200px;
-    background-color: #00569c;
-    color: white;
 }

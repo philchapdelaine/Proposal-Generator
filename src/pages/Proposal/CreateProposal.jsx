@@ -40,7 +40,7 @@ function CreateProposal() {
           ></TextField>
         </div>
         <div className="search-results"> Search results: </div>
-        <div className="resume-thumbnails"> {resumes} </div>
+        <ResumeSectorDisplay></ResumeSectorDisplay>
       </div>
       <ReadingPane></ReadingPane>
     </div>
