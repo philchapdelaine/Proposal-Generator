@@ -11,10 +11,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 5%;
+    height: 8%;
     font-size: 22px;
     font-weight: 400;
-    margin-bottom: 8px;
     color: white;
     background-color: #00569c;
 }
@@ -24,7 +23,6 @@
     overflow: hidden;
     height: 5%;
     width: 90%;
-    margin-bottom: 8px;
     align-self: center;
     justify-content: space-between;
     background-color: #97cae7;
@@ -42,8 +40,24 @@ button:hover {
     text-decoration: underline;
 }
 .preview {
-    width: 90%;
-    height: 86%;
+    width: 99%;
+    height: 94%;
     align-self: center;
     background-color: white;
+}
+
+.reading-pane-title {
+    padding-left: 1rem;
+}
+
+.sector-preview {
+    display: flex;
+    justify-content: center;
+    padding: 0rem 1rem 1rem;
+}
+
+.button-group {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
 }

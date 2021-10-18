@@ -9,6 +9,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 import confirmModal from "../../components/confirmModal/confirmModal";
 
+import "./Signup.css";
+
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
