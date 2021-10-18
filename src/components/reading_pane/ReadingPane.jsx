@@ -89,6 +89,11 @@ function ReadingPane() {
           <div>
             <CustomListItem />
           </div>
+          <div className="button-group">
+            <ButtonGroup variant="contained" size="large">
+              <Button>Submit Proposal</Button>
+            </ButtonGroup>
+          </div>
         </TabPanel>
       </div>
     </div>
