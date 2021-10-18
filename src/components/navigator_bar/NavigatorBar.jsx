@@ -1,7 +1,6 @@
 import React from "react";
 import RecentlyViewed from "../../components/recently_viewed/RecentlyViewed";
 import "./NavigatorBar.css";
-import RecentlyViewed from "../../components/recently_viewed/RecentlyViewed";
 
 function NavigatorBar(){
     return (
