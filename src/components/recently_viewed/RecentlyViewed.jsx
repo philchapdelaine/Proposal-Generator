@@ -7,18 +7,20 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import "./RecentlyViewed.css";
 
-export default class CustomListItem extends React.Component {
+export default class RecentlyViewed extends React.Component {
   render() {
     const docs = data.documents;  //this coming from a json file, please see below for the sample json
      return (
       <div>
-        <List component='nav' aria-labelledby='nested-list-subheader'>
+        <div className="recently_viewed_title">
+            <h3>Recently Viewed</h3>
+         </div>
+        <List component='nav'>
           {docs.map(doc => {
             return (
-              <CustomizedListItem key={doc.id} doc={doc} />
+              <ViewedItem key={doc.id} doc={doc} />
             );
           })}
         </List>     
@@ -27,7 +29,7 @@ export default class CustomListItem extends React.Component {
   }
 }
 
- class CustomizedListItem extends React.Component {
+ class ViewedItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +39,7 @@ export default class CustomListItem extends React.Component {
     }
 
     handleClick() {
+      console.log("Handle Clicked....");
        this.setState(prevState => ({
          open: !prevState.open
        }));
@@ -49,9 +52,6 @@ export default class CustomListItem extends React.Component {
       <ListItem button key={doc.Id} onClick={this.handleClick}>
         <ListItemText primary={doc.Name} />
         {this.state.open ? <ExpandLess /> : <ExpandMore />}
-            <IconButton edge="end">
-                <DeleteIcon />
-            </IconButton>
         </ListItem>
       <Collapse
         key={doc.Sheets.Id}
@@ -63,13 +63,7 @@ export default class CustomListItem extends React.Component {
         {doc.Sheets.map(sheet => {
           return (
             <ListItem button key={sheet.Id}>
-              <ListItemIcon>
-                {/* <InsertDriveFileTwoToneIcon /> */}
-              </ListItemIcon>
               <ListItemText key={sheet.Id} primary={sheet.Title} />
-              <IconButton edge="end">
-                <DeleteIcon />
-              </IconButton>
             </ListItem>
           );
         })}

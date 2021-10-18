@@ -13,7 +13,7 @@
     width: 100%;
 }
 .recently-viewed {
-    /* temporary - to be replaced by actual component */
-    height: 75%;
-    background-color: lightgray;
+    height: 400px;
+    background-color: white;
+    margin-top: 0rem;
 }
