@@ -14,12 +14,6 @@
 }
 .recently-viewed {
     /* temporary - to be replaced by actual component */
-    height: 200px;
+    height: 75%;
     background-color: lightgray;
-}
-.search-sector {
-    /* temporary - to be replaced by actual component */
-    height: 200px;
-    background-color: #00569c;
-    color: white;
 }

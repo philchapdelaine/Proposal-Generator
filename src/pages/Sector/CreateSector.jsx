@@ -1,18 +1,36 @@
 import React, { useState } from "react";
 import "./CreateSector.css";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar"
-import Logo from "../../components/logo/logo";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
+import ConfirmSectorModal from "../../components/confirm_sector_modal/confirmSectorModal";
+
 
 function CreateSector() {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
+  const [open, setOpen] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  let hasRequiredInfo = false;
+
+  function openModal() {
+    const hasName = name !== "";
+    const hasType = type !== "";
+    hasRequiredInfo = hasName && hasType;
+    setSubmitAttempted(true);
+
+    if (hasRequiredInfo) {
+      setOpen(true);
+      setSubmitAttempted(false);
+    } 
+  }
+  
+  
   return (
+    
     <div className="create-sector-page">
+      <div id="app-modal"></div>
       <NavigatorBar/>
       <div className="cs-main"> 
         <div className="title"> Create New Sector </div>
@@ -70,11 +88,29 @@ function CreateSector() {
               // onChange={(event) => setDescription(event.target.value)}
             />
         </div>
+        {!hasRequiredInfo && submitAttempted && (
+          <div className="cs-warning"> Sector name and type are required. </div>
+        )}
+        <button 
+          className="cs-button"
+          onClick={() => openModal()}>  
+            Save Sector 
+        </button>
 
-        <button className="cs-button" variant="contained"> Save Sector </button>
+        {open && (
+        <ConfirmSectorModal
+          state={{openData: [open, setOpen]}}
+          name={name}
+          description={description}
+          type={type}
+        />
+        )}
+        
+
       </div>      
     </div>
   );
 }
+
 
 export default CreateSector;
