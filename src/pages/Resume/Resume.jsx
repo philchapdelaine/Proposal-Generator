@@ -6,15 +6,15 @@ import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import SectorEditor from "../../components/sector_editor/SectorEditor";
 
 var samplesectors = [
-  { id: "0", name: "Sample0", type: "Type0", content: "something0" },
-  { id: "1", name: "Sample", type: "Type1", content: "something" },
+  { id: "0", name: "Education", type: "Resume Sector", content: "something0" },
+  { id: "1", name: "Projects", type: "Resume Sector", content: "something" },
   {
     id: "2",
-    name: "New Sector",
-    type: "Experience",
+    name: "Experience",
+    type: "Resume Sector",
     content: "abdgbsbshd asdkbkdsb",
   },
-  { id: "3", name: "New Sector1", type: "Experience2", content: "content1" },
+  { id: "3", name: "Role", type: "Resume Sector", content: "content1" },
 ];
 
 var index = 4;
