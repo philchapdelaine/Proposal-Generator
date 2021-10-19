@@ -55,7 +55,7 @@ class SectorSearchModal extends Component {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Search Sector
+                    Add Sector
                     </Typography>
                     <SectorSearch sectors = {samplesectors} addSector = {(sector) => {this.props.addSector(sector)}}/>
                 </Box>
