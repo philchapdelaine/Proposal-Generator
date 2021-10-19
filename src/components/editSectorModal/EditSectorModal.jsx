@@ -24,9 +24,9 @@ function EditSectorModal(props) {
   // TODO-JC: destructure section object so many props aren't needed?
 
   const handleSave = async () => {
-    await props.saveSector(
-      // TODO-JC: figure out what args are needed for this function
-    );
+    // await props.saveSector(
+    //   // TODO-JC: figure out what args are needed for this function
+    // );
     props.onClose();
   }
 
