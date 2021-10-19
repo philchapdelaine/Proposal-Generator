@@ -28,9 +28,6 @@ function Navigator() {
       <Router>
         <div>
           <nav>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Btn btnName="Home" />
-            </Link>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
             </Link>
@@ -42,9 +39,6 @@ function Navigator() {
             </Link>
             <Link to="/sector" style={{ textDecoration: "none" }}>
               <Btn btnName="Sector" />
-            </Link>
-            <Link to="/proposal" style={{ textDecoration: "none" }}>
-              <Btn btnName="Proposal" />
             </Link>
             <Link to="/create-proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Create Proposal" />
@@ -63,9 +57,9 @@ function Navigator() {
             <Route path="/sector">
               <CreateSector />
             </Route>
-            <Route path="/proposal">
+            {/* <Route path="/proposal">
               <Proposal />
-            </Route>
+            </Route> */}
             <Route path="/create-proposal">
               <CreateProposal />
             </Route>
