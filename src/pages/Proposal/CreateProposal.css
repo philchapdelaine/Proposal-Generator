@@ -10,3 +10,9 @@
     flex-direction: column;
     align-items: center;
 }
+.search-results {
+    margin-left: 10px;
+}
+.cp-center-pane {
+    width: 75%;
+}

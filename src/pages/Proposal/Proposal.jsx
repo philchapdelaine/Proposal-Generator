@@ -21,7 +21,7 @@ const resumes = [];
 function Proposal(){
     for (const resume of dummyResumes) {
         resumes.push(
-            <ResumeThumbnail name={resume["name"]} addable={true}></ResumeThumbnail>
+            <ResumeThumbnail name={resume["name"]} addable={false}></ResumeThumbnail>
         )
     }
     return (
