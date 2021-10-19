@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
@@ -10,7 +10,10 @@ import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 
 function ReadingPane() {
-  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = useState(0);
+    const [open, setOpen] = useState(false);
+    const openModal = () => setOpen(true);
+    const closeModal = () => setOpen(false);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -28,13 +31,6 @@ function ReadingPane() {
         {value === index && <Box>{children}</Box>}
       </div>
     );
-  }
-
-  {
-    /* TODO--State listener to display/hide modal*/
-  }
-  function openModal() {
-    return <div></div>;
   }
 
   {
@@ -76,11 +72,12 @@ function ReadingPane() {
           </div>
           <div className="button-group">
             <ButtonGroup variant="contained" size="large">
-              <Button onClick={openModal()}>Edit Sector</Button>
+              <Button onClick={openModal}>Edit Sector</Button>
               <Button onClick={addSector()}>Add Sector</Button>
             </ButtonGroup>
           </div>
         </TabPanel>
+        <EditSectorModal open={open} onClose={closeModal} sectorName={"Sector 1"}></EditSectorModal>
 
         <TabPanel value={selectedTab} index={1}>
           <div>
