@@ -91,7 +91,7 @@ function ReadingPane() {
           </div>
           <div className="button-group">
             <ButtonGroup variant="contained" size="large">
-              <Button>Submit Proposal</Button>
+              <Button>Save Proposal</Button>
             </ButtonGroup>
           </div>
         </TabPanel>
