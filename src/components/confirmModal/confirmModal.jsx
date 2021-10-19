@@ -1,27 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../logo/logo";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-import Button from "@material-ui/core/Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
 
-function confirmModalPrototype(props) {
-  <div>
-    <Button variant="contained" color="primary">
-      Confirm
-    </Button>
-    <Button variant="outlined">Cancel</Button>
-  </div>;
-}
+// https://mui.com/components/dialogs/
 
-// src: // https://gist.github.com/primaryobjects/aacf6fa49823afb2f6ff065790a5b402
-function confirmModal(props) {
+// mui modal: https://mui.com/components/modal/
+
+// TODO: implement buttons
+function ConfirmModal(props) {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
-    <div
-      className="confirm-modal"
-      onClick={() => {
-        if (window.confirm(props.confirmMsg)) this.onCancel(item);
-      }}
-    ></div>
+    <div className="confirmModal">
+      <Modal open={props.open} onClose={props.handleClose}>
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {props.confirmTitle}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {props.confirmMsg}
+          </Typography>
+        </Box>
+      </Modal>
+    </div>
   );
 }
 
-export default confirmModal;
+export default ConfirmModal;
