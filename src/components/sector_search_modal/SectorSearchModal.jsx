@@ -46,7 +46,7 @@ class SectorSearchModal extends Component {
     render() {
       return (
         <div className = "search-button">
-            <Button variant="contained" onClick={this.openModal}>Search Sector</Button>
+            <Button variant="contained" onClick={this.openModal}>Add Sector</Button>
             <Modal
             open={this.state.open}
             onClose={this.closeModal}
