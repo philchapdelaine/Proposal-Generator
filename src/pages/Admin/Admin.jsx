@@ -14,6 +14,7 @@ import { Box } from "@mui/system";
 import { Delete } from "@mui/icons-material";
 import confirmModal from "../../components/confirmModal/confirmModal";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
+import { useHistory } from "react-router-dom";
 
 const style = {
   width: "75%",
@@ -36,6 +37,11 @@ const handleDelete = () => {
 
 function Admin() {
   const [proposals, setProposals] = useState([]);
+  const history = useHistory();
+  
+  const handleClickEdit = () => {
+    history.push('/create-proposal');
+  }
 
   useEffect(() => {
     // TODO-JC: get user's proposals from DB
@@ -72,6 +78,13 @@ function Admin() {
                     style={{ marginRight: 10 }}
                   >
                     Delete
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    style={{ marginRight: 10 }}
+                    onClick={handleClickEdit}
+                  >
+                    Edit
                   </Button>
                   <Button variant="contained">Export</Button>
                 </Box>
