@@ -19,10 +19,13 @@ import Admin from "../../pages/Admin/Admin";
 
 import "./Navigator.css";
 
+import { useSelector, useDispatch } from "react-redux";
+
 /* TODO: redirect to login if the user is not logged in.
  */
 
 function Navigator() {
+  const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
     <div>
       <Router>
@@ -67,7 +70,7 @@ function Navigator() {
               <Signup />
             </Route>
             <Route path="/">
-              <Home />
+              {loggedin ? <Redirect to="/resume" /> : <Login />}
             </Route>
           </Switch>
         </div>
