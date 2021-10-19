@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import "./confirmSectorModal.css";
+import "./ConfirmSectorModal.css";
 
-const clicks = 0;
-
-function confirmSectorModal( props) {
+function ConfirmSectorModal(props) {
     // src: https://fragmentoid.com/?p=54, https://react.school/ui/modal
     const {
         openData: [open, setOpen],
@@ -39,4 +37,4 @@ function confirmSectorModal( props) {
       );
 }
 
-export default confirmSectorModal;
+export default ConfirmSectorModal;
