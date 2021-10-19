@@ -15,6 +15,7 @@ import { Delete } from "@mui/icons-material";
 import confirmModal from "../../components/confirmModal/confirmModal";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory } from "react-router-dom";
+import "./Admin.css";
 
 const style = {
   width: "75%",
@@ -38,10 +39,10 @@ const handleDelete = () => {
 function Admin() {
   const [proposals, setProposals] = useState([]);
   const history = useHistory();
-  
+
   const handleClickEdit = () => {
-    history.push('/create-proposal');
-  }
+    history.push("/create-proposal");
+  };
 
   useEffect(() => {
     // TODO-JC: get user's proposals from DB
@@ -49,50 +50,52 @@ function Admin() {
   }, []);
 
   return (
-    <div>
+    <div className="admin-page">
       <NavigatorBar />
-      <Box>
-        <Typography variant="h4" margin={3}>
-          Your proposals
-        </Typography>
-        {proposals.map((proposal, id) => {
-          return (
-            <Accordion key={id} style={style}>
-              <AccordionSummary>
-                <Typography>{proposal.name}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box display="flex">
-                  <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                  <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                  <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  style={{ marginTop: 15 }}
-                >
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    style={{ marginRight: 10 }}
+      <div className="admin-main">
+        <Box>
+          <Typography variant="h4" margin={3}>
+            Your proposals
+          </Typography>
+          {proposals.map((proposal, id) => {
+            return (
+              <Accordion key={id} style={style}>
+                <AccordionSummary>
+                  <Typography>{proposal.name}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Box display="flex">
+                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
+                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
+                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    style={{ marginTop: 15 }}
                   >
-                    Delete
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    style={{ marginRight: 10 }}
-                    onClick={handleClickEdit}
-                  >
-                    Edit
-                  </Button>
-                  <Button variant="contained">Export</Button>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-      </Box>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      style={{ marginRight: 10 }}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      style={{ marginRight: 10 }}
+                      onClick={handleClickEdit}
+                    >
+                      Edit
+                    </Button>
+                    <Button variant="contained">Export</Button>
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </Box>
+      </div>
     </div>
   );
 }
