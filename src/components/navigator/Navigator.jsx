@@ -25,7 +25,8 @@ import { useSelector, useDispatch } from "react-redux";
  */
 
 function Navigator() {
-  const loggedin = useSelector((state) => state.loginReducer.loggedIn);
+  const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
+  const imadmin = useSelector((state) => state.loginReducer["admin"]);
   return (
     <div>
       <Router>
@@ -70,7 +71,13 @@ function Navigator() {
               <Signup />
             </Route>
             <Route path="/">
-              {loggedin ? <Redirect to="/resume" /> : <Login />}
+              {loggedin && imadmin ? (
+                <Redirect to="/admin" />
+              ) : loggedin ? (
+                <Redirect to="/resume" />
+              ) : (
+                <Login />
+              )}
             </Route>
           </Switch>
         </div>

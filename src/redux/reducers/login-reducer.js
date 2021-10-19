@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   username: "",
   password: "",
   loggedIn: false,
+  admin: true,
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
