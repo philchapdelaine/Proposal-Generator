@@ -37,7 +37,6 @@ export default class CustomListItem extends React.Component {
     }
 
     handleClick() {
-      console.log("Handle Clicked....");
        this.setState(prevState => ({
          open: !prevState.open
        }));

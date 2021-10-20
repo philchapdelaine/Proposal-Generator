@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./CreateSector.css";
 import TextField from "@material-ui/core/TextField";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar"
-import ConfirmSectorModal from "../../components/confirm_sector_modal/confirmSectorModal";
+import ConfirmSectorModal from "../../components/confirm_sector_modal/ConfirmSectorModal";
 
 
 function CreateSector() {

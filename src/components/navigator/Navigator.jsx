@@ -19,18 +19,19 @@ import Admin from "../../pages/Admin/Admin";
 
 import "./Navigator.css";
 
+import { useSelector, useDispatch } from "react-redux";
+
 /* TODO: redirect to login if the user is not logged in.
  */
 
 function Navigator() {
+  const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
+  const imadmin = useSelector((state) => state.loginReducer["admin"]);
   return (
     <div>
       <Router>
         <div>
           <nav>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Btn btnName="Home" />
-            </Link>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
             </Link>
@@ -42,9 +43,6 @@ function Navigator() {
             </Link>
             <Link to="/sector" style={{ textDecoration: "none" }}>
               <Btn btnName="Sector" />
-            </Link>
-            <Link to="/proposal" style={{ textDecoration: "none" }}>
-              <Btn btnName="Proposal" />
             </Link>
             <Link to="/create-proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Create Proposal" />
@@ -63,9 +61,9 @@ function Navigator() {
             <Route path="/sector">
               <CreateSector />
             </Route>
-            <Route path="/proposal">
+            {/* <Route path="/proposal">
               <Proposal />
-            </Route>
+            </Route> */}
             <Route path="/create-proposal">
               <CreateProposal />
             </Route>
@@ -73,7 +71,13 @@ function Navigator() {
               <Signup />
             </Route>
             <Route path="/">
-              <Home />
+              {loggedin && imadmin ? (
+                <Redirect to="/admin" />
+              ) : loggedin ? (
+                <Redirect to="/resume" />
+              ) : (
+                <Login />
+              )}
             </Route>
           </Switch>
         </div>
