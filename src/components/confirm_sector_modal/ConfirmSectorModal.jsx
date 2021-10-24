@@ -24,7 +24,6 @@ function ConfirmSectorModal(props) {
             <div className="modal-banner"> Confirm New Sector </div>
             <div className="modal-content">
                 <div className="csm-message"> Sectors can be edited later using the proposals page.</div>
-                <div className="csm-header"> Name:</div> <div className="csm-info"> {props.name}</div> 
                 <div className="csm-header">Type:</div> <div className="csm-info"> {props.type} </div>
                 <div className="csm-header"> Description:</div> <div className="csm-info">{props.description} </div>
             </div>
