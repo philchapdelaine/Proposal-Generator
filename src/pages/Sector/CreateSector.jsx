@@ -14,37 +14,6 @@ function CreateSector() {
   const [imgLocation, setImgLocation] = useState("");
   const [division, setDivision] = useState("");
 
-  const textFields = [];
-  const sectorProperties = [{
-    label: "Proposal Number",
-    value: proposalNum,
-    setStateFunc: setProposalNum
-  },
-  {
-    label: "Employee Email",
-    value: email,
-    setStateFunc: setEmail
-  },
-  {
-    label: "Image Location",
-    value: imgLocation,
-    setStateFunc: setImgLocation
-  },]
-  for (const property of sectorProperties) {
-    textFields.push(
-    <p>
-      <TextField
-      label={property.label}
-      className="cs-input"
-      fullWidth={true}
-      variant="outlined"
-      value={property.value}
-      onChange={(event) => property.setStateFunc(event.target.value)}
-      />
-    </p>)
-  }
-
-
   const [open, setOpen] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
@@ -86,9 +55,34 @@ function CreateSector() {
                 <MenuItem value="Publications">Publications</MenuItem> 
               </Select>
             </FormControl>
-
-            {textFields}
-
+            <TextField
+              label="Proposal Number"
+              className="cs-input"
+              fullWidth={true}
+              style={{marginBottom: '15px'}}
+              variant="outlined"
+              value={proposalNum}
+              onChange={(event) => setProposalNum(event.target.value)}
+            />
+            <br/>
+            <TextField
+              label="Employee Email"
+              className="cs-input"
+              fullWidth={true}
+              style={{marginBottom: '15px'}}
+              variant="outlined"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <TextField
+              label="Image Location"
+              className="cs-input"
+              fullWidth={true}
+              style={{marginBottom: '15px'}}
+              variant="outlined"
+              value={imgLocation}
+              onChange={(event) => setImgLocation(event.target.value)}
+            />
             <FormControl fullWidth>
             <InputLabel>Divison</InputLabel>
               <Select
@@ -129,6 +123,10 @@ function CreateSector() {
           state={{openData: [open, setOpen]}}
           description={description}
           type={type}
+          proposalNum={proposalNum}
+          email={email}
+          imgLocation={imgLocation}
+          divison={division}
         />
         )}
         
@@ -137,6 +135,7 @@ function CreateSector() {
     </div>
   );
 }
+
 
 
 export default CreateSector;
