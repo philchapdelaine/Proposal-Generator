@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import EmailIcon from "@mui/icons-material/Email";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,6 +17,7 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -32,6 +34,11 @@ function Signup() {
   }
 
   function usernameUnique(un) {
+    return true; // just placeholding
+  }
+
+  function emailAddressFormatValidator() {
+    // https://help.xmatters.com/ondemand/trial/valid_email_format.htm
     return true; // just placeholding
   }
 
@@ -99,6 +106,21 @@ function Signup() {
           value={password2}
           onChange={(event) => setPassword2(event.target.value)}
           type="password"
+        />
+        <br />
+        <TextField
+          required
+          label="Email"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          }}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <div className="LoginBtnGrp">
           <Button

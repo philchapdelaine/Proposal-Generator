@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 
 import { useSelector, useDispatch } from "react-redux";
 
+import axios from "axios";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -36,13 +38,30 @@ function Login() {
 function LoginBox() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [trueUN, setTrueUN] = useState(false);
 
   // const selector = useSeletor()
   const dispatch = useDispatch();
 
+  function getUser(userID) {
+    // placeholder
+    axios.get(`http://localhost:5000/api/user/${userID}`).then((res) => {
+      const data = res.data;
+      console.log(data);
+      setTrueUN(data["emailAddress"] === username);
+      setFirstName(data["firstName"]);
+      setLastName(data["lastName"]);
+    });
+    console.log(trueUN);
+    return trueUN;
+  }
+
   const validated = () => {
     // TODO
-    return username === "username" && password === "password";
+    // return username === "username"  && password === "password";
+    return getUser(1) && password === "password";
   };
   const handleSubmit = () => {
     // TODO
@@ -50,7 +69,7 @@ function LoginBox() {
     // for now just give under construction alert
     if (validated()) {
       dispatch({ type: "SUCCESSFUL_LOGIN" });
-      alert("Under Construction, but welcome," + username);
+      alert("Under Construction, but welcome," + firstName + lastName);
     } else {
       alert("Incorrect Username or Password");
     }
