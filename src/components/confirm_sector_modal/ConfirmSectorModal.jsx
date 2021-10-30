@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import "./ConfirmSectorModal.css";
+import Axios from 'axios';
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 function ConfirmSectorModal(props) {
     // src: https://fragmentoid.com/?p=54, https://react.school/ui/modal
@@ -11,10 +13,20 @@ function ConfirmSectorModal(props) {
         ...(props.state || {}),
       };
     
-    function submit() {
+    async function submit() {
         setOpen(false);
-        // todo: redirect to admin page?
+        const newSector = {
+          type: props.type,
+          proposalNum: props.proposalNum,
+          email: props.email,
+          imgLocation: props.imgLocation,
+          divison: props.divison,
+          description: props.description
+        };
         // todo: send data to backend
+        const data = await Axios.post('', newSector);
+        console.log(data);
+
     }
 
     return ReactDOM.createPortal(
@@ -32,7 +44,10 @@ function ConfirmSectorModal(props) {
                 <div className="csm-header"> Description:</div> <div className="csm-info">{props.description} </div>
             </div>
             <div className="modal-footer">
-              <button className="csm-button" onClick={() => submit()}> Submit </button>
+              <button className="csm-button" onClick={() => setOpen(false)}> Edit </button>
+              <Link to='/admin'>
+                <button className="csm-button" onClick={() => submit()}> Submit </button>
+              </Link>
             </div>
           </div>
         </>,
