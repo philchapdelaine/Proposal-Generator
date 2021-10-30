@@ -14,19 +14,22 @@ function ConfirmSectorModal(props) {
       };
     
     async function submit() {
-        setOpen(false);
-        const newSector = {
-          type: props.type,
-          proposalNum: props.proposalNum,
-          email: props.email,
-          imgLocation: props.imgLocation,
-          divison: props.divison,
-          description: props.description
-        };
-        // todo: send data to backend
-        const data = await Axios.post('', newSector);
-        console.log(data);
-
+      setOpen(false);
+      Axios.post('/api/sector', {
+          // todo: generate sectorID in database??
+          "sectorID": null,
+          "name": props.type,
+          "linkedEmail": props.email,
+          "division": props.division,
+          "imageLoc": props.imgLocation,
+          "description": props.description
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
 
     return ReactDOM.createPortal(
