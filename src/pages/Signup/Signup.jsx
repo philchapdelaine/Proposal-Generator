@@ -32,7 +32,7 @@ function Signup() {
   };
 
   function validated() {
-    return password === password2 && usernameUnique("");
+    return password === password2 && usernameUnique("") && password.length > 7;
   }
 
   function usernameUnique(un) {
@@ -88,8 +88,12 @@ function Signup() {
         <br />
         <TextField
           required
+          error={password.length < 8}
           label="Password"
           variant="outlined"
+          helperText={
+            password.length < 8 ? "Passwords must be at least 8 characters" : ""
+          }
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
