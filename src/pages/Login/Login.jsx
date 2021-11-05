@@ -128,10 +128,7 @@ function LoginBox() {
           </Button>{" "}
           {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
           {/* https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications */}
-<<<<<<< HEAD
           {/* https://www.bezkoder.com/react-redux-jwt-auth/ */}
-=======
->>>>>>> a45b69e5a0c2e751d055130a8fa7bf08ce4ac1fa
           <Link to="/signup" style={{ textDecoration: "none" }}>
             <Button color="primary" variant="outlined" className="LoginBtn">
               Sign-Up
