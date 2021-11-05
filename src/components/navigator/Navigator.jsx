@@ -61,9 +61,6 @@ function Navigator() {
             <Route path="/sector">
               <CreateSector />
             </Route>
-            {/* <Route path="/proposal">
-              <Proposal />
-            </Route> */}
             <Route path="/create-proposal">
               <CreateProposal />
             </Route>
@@ -85,6 +82,8 @@ function Navigator() {
     </div>
   );
 }
+
+// https://v5.reactrouter.com/web/example/auth-workflow
 
 const Btn = (props) => {
   return (

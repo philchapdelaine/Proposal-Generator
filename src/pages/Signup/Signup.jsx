@@ -17,6 +17,8 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -30,7 +32,7 @@ function Signup() {
   };
 
   function validated() {
-    return password === password2 && usernameUnique("");
+    return password === password2 && usernameUnique("") && password.length > 7;
   }
 
   function usernameUnique(un) {
@@ -40,6 +42,16 @@ function Signup() {
   function emailAddressFormatValidator() {
     // https://help.xmatters.com/ondemand/trial/valid_email_format.htm
     return true; // just placeholding
+  }
+
+  function register() {
+    axios
+      .post("https://localhost:5000/api/autheticate/register", {
+        FirstName: firstName,
+        LastName: lastName,
+        EmailAddress: email,
+      })
+      .then();
   }
 
   const handleSubmit = () => {
@@ -76,8 +88,12 @@ function Signup() {
         <br />
         <TextField
           required
+          error={password.length < 8}
           label="Password"
           variant="outlined"
+          helperText={
+            password.length < 8 ? "Passwords must be at least 8 characters" : ""
+          }
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -108,6 +124,20 @@ function Signup() {
           type="password"
         />
         <br />
+        <TextField
+          required
+          label="First Name"
+          variant="outlined"
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
+        />
+        <TextField
+          required
+          label="Last Name"
+          variant="outlined"
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
+        />
         <TextField
           required
           label="Email"
