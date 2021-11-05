@@ -14,6 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import axios from "axios";
 
+import * as Constants from "../../components/constants";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -45,18 +47,21 @@ function LoginBox() {
   // const selector = useSeletor()
   const dispatch = useDispatch();
 
-  function getUser(userID) {
+  const getUser = async (userID) => {
     // placeholder
-    axios.get(`http://localhost:5000/api/user/${userID}`).then((res) => {
-      const data = res.data;
-      console.log(data);
-      setTrueUN(data["emailAddress"] === username);
-      setFirstName(data["firstName"]);
-      setLastName(data["lastName"]);
-    });
+    const resp = await axios
+      .get(`${Constants.API_URL}/user/${userID}`)
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        setTrueUN(data["emailAddress"] === username);
+        setFirstName(data["firstName"]);
+        setLastName(data["lastName"]);
+      })
+      .catch(setTrueUN(false));
     console.log(trueUN);
     return trueUN;
-  }
+  };
 
   const validated = () => {
     // TODO
@@ -69,7 +74,7 @@ function LoginBox() {
     // for now just give under construction alert
     if (validated()) {
       dispatch({ type: "SUCCESSFUL_LOGIN" });
-      alert("Under Construction, but welcome," + firstName + lastName);
+      alert("Under Construction, but welcome," + firstName + " " + lastName);
     } else {
       alert("Incorrect Username or Password");
     }
@@ -122,6 +127,8 @@ function LoginBox() {
             Sign-in
           </Button>{" "}
           {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
+          {/* https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications */}
+          {/* https://www.bezkoder.com/react-redux-jwt-auth/ */}
           <Link to="/signup" style={{ textDecoration: "none" }}>
             <Button color="primary" variant="outlined" className="LoginBtn">
               Sign-Up
