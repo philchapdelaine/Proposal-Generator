@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./CreateSector.css";
 import TextField from "@material-ui/core/TextField";
-import { Select, InputLabel, FormControl, MenuItem } from '@mui/material';
-import NavigatorBar from "../../components/navigator_bar/NavigatorBar"
+import { Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ConfirmSectorModal from "../../components/confirm_sector_modal/ConfirmSectorModal";
 
 
@@ -27,111 +27,110 @@ function CreateSector() {
     if (hasRequiredInfo) {
       setOpen(true);
       setSubmitAttempted(false);
-    } 
+    }
   }
-  
-  
+
+
   return (
-    
+
     <div className="create-sector-page">
       <div id="app-modal"></div>
-      <NavigatorBar/>
-      <div className="cs-main"> 
+      <NavigatorBar />
+      <div className="cs-main">
         <div className="title"> Create New Sector </div>
-        <div className="cs-input-fields"> 
-  
-            <FormControl fullWidth>
-            <InputLabel>Type</InputLabel>
-              <Select
-                className="cs-input"
-                value={type}
-                onChange={(event) => setType(event.target.value)}
-              >
-                <MenuItem value="Role">Role</MenuItem>
-                <MenuItem value="Education">Education</MenuItem>
-                <MenuItem value="Experience">Experience</MenuItem>  
-                <MenuItem value="Summary">Summary</MenuItem>
-                <MenuItem value="Justification">Justification</MenuItem>
-                <MenuItem value="Publications">Publications</MenuItem> 
-              </Select>
-            </FormControl>
-            <TextField
-              label="Proposal Number"
-              className="cs-input"
-              fullWidth={true}
-              style={{marginBottom: '15px'}}
-              variant="outlined"
-              value={proposalNum}
-              onChange={(event) => setProposalNum(event.target.value)}
-            />
-            <br/>
-            <TextField
-              label="Employee Email"
-              className="cs-input"
-              fullWidth={true}
-              style={{marginBottom: '15px'}}
-              variant="outlined"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <TextField
-              label="Image Location"
-              className="cs-input"
-              fullWidth={true}
-              style={{marginBottom: '15px'}}
-              variant="outlined"
-              value={imgLocation}
-              onChange={(event) => setImgLocation(event.target.value)}
-            />
-            <FormControl fullWidth>
-            <InputLabel>Divison</InputLabel>
-              <Select
-                className="cs-input"
-                value={division}
-                onChange={(event) => setDivision(event.target.value)}
-              >
-                <MenuItem value="Water">Water</MenuItem>
-                <MenuItem value="Bridge">Bridge</MenuItem>
-                <MenuItem value="Electrical">Electrical</MenuItem>  
-                <MenuItem value="Environmental">Environmental</MenuItem>
-                <MenuItem value="Civil">Civil</MenuItem>
-              </Select>
-            </FormControl>
+        <div className="cs-input-fields">
 
-            <TextField
-              label="Description"
+          <FormControl fullWidth>
+            <InputLabel>Type</InputLabel>
+            <Select
               className="cs-input"
-              fullWidth={true}
-              variant="outlined"
-              multiline={true}
-              minRows="8"
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-            />            
+              value={type}
+              onChange={(event) => setType(event.target.value)}
+            >
+              <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
+              <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
+              <MenuItem className="cs-menuitem" value="Experience">Experience</MenuItem>
+              <MenuItem className="cs-menuitem" value="Summary">Summary</MenuItem>
+              <MenuItem className="cs-menuitem" value="Justification">Justification</MenuItem>
+              <MenuItem className="cs-menuitem" value="Publications">Publications</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label="Proposal Number"
+            className="cs-input"
+            fullWidth={true}
+            style={{ marginBottom: '15px' }}
+            variant="outlined"
+            value={proposalNum}
+            onChange={(event) => setProposalNum(event.target.value)}
+          />
+          <br />
+          <TextField
+            label="Employee Email"
+            className="cs-input"
+            fullWidth={true}
+            style={{ marginBottom: '15px' }}
+            variant="outlined"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <TextField
+            label="Image Location"
+            className="cs-input"
+            fullWidth={true}
+            style={{ marginBottom: '15px' }}
+            variant="outlined"
+            value={imgLocation}
+            onChange={(event) => setImgLocation(event.target.value)}
+          />
+          <FormControl fullWidth>
+            <InputLabel>Divison</InputLabel>
+            <Select
+              className="cs-input"
+              value={division}
+              onChange={(event) => setDivision(event.target.value)}
+            >
+              <MenuItem className="cs-menuitem" value="Water">Water</MenuItem>
+              <MenuItem className="cs-menuitem" value="Bridge">Bridge</MenuItem>
+              <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
+              <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
+              <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label="Description"
+            className="cs-input"
+            fullWidth={true}
+            variant="outlined"
+            multiline={true}
+            minRows="8"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
         </div>
         {!hasRequiredInfo && submitAttempted && (
           <div className="cs-warning"> Sector type is required. </div>
         )}
-        <button 
+        <button
           className="cs-button"
-          onClick={() => openModal()}>  
-            Save Sector 
+          onClick={() => openModal()}>
+          Save Sector
         </button>
 
         {open && (
-        <ConfirmSectorModal
-          state={{openData: [open, setOpen]}}
-          description={description}
-          type={type}
-          proposalNum={proposalNum}
-          email={email}
-          imgLocation={imgLocation}
-          divison={division}
-        />
+          <ConfirmSectorModal
+            state={{ openData: [open, setOpen] }}
+            description={description}
+            type={type}
+            proposalNum={proposalNum}
+            email={email}
+            imgLocation={imgLocation}
+            divison={division}
+          />
         )}
-        
 
-      </div>      
+
+      </div>
     </div>
   );
 }
