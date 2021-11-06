@@ -27,6 +27,18 @@ import { useSelector, useDispatch } from "react-redux";
 function Navigator() {
   const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
+
+  const loginRedirects = () => {
+    if (loggedin) {
+      if (imadmin) {
+        return <Redirect to="/admin" />;
+      } else {
+        return <Redirect to="/resume" />;
+      }
+    } else {
+      return <Login />;
+    }
+  };
   return (
     <div>
       <Router>
@@ -67,15 +79,7 @@ function Navigator() {
             <Route path="/signup">
               <Signup />
             </Route>
-            <Route path="/">
-              {loggedin && imadmin ? (
-                <Redirect to="/admin" />
-              ) : loggedin ? (
-                <Redirect to="/resume" />
-              ) : (
-                <Login />
-              )}
-            </Route>
+            <Route path="/">{loginRedirects}</Route>
           </Switch>
         </div>
       </Router>

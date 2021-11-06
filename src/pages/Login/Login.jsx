@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
 
+import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
+
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Button from "@material-ui/core/Button";
@@ -28,11 +30,18 @@ function Login() {
   // const [loggedIn, setLoggedIn] = useState(false);
   const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
-    <div className="Login">
-      <Logo />
-      <br />
-      <br />
-      {loggedin ? <Logout /> : <LoginBox />}
+    <div>
+      {loggedin ? (
+        <div className="nav-bar">
+          <NavigatorBar />
+        </div>
+      ) : null}
+      <div className="Login">
+        <Logo />
+        <br />
+        <br />
+        {loggedin ? <Logout /> : <LoginBox />}
+      </div>
     </div>
   );
 }
@@ -44,7 +53,7 @@ function LoginBox() {
   const [lastName, setLastName] = useState("");
   const [trueUN, setTrueUN] = useState(false);
 
-  // const selector = useSeletor()
+  // const selector = useSelector()
   const dispatch = useDispatch();
 
   const getUser = async (userID) => {
