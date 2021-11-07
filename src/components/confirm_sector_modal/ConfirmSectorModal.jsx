@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import "./ConfirmSectorModal.css";
+import Axios from 'axios';
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 function ConfirmSectorModal(props) {
     // src: https://fragmentoid.com/?p=54, https://react.school/ui/modal
@@ -11,10 +13,23 @@ function ConfirmSectorModal(props) {
         ...(props.state || {}),
       };
     
-    function submit() {
-        setOpen(false);
-        // todo: redirect to admin page?
-        // todo: send data to backend
+    async function submit() {
+      setOpen(false);
+      Axios.post('/api/sector', {
+          // todo: generate sectorID in database??
+          "sectorID": null,
+          "name": props.type,
+          "linkedEmail": props.email,
+          "division": props.division,
+          "imageLoc": props.imgLocation,
+          "description": props.description
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
 
     return ReactDOM.createPortal(
@@ -24,12 +39,18 @@ function ConfirmSectorModal(props) {
             <div className="modal-banner"> Confirm New Sector </div>
             <div className="modal-content">
                 <div className="csm-message"> Sectors can be edited later using the proposals page.</div>
-                <div className="csm-header"> Name:</div> <div className="csm-info"> {props.name}</div> 
-                <div className="csm-header">Type:</div> <div className="csm-info"> {props.type} </div>
+                <div><span className="csm-header"> Type: </span> <span className="csm-info"> {props.type}</span></div>
+                <div><span className="csm-header"> Proposal Number: </span> <span className="csm-info"> {props.proposalNum}</span></div>
+                <div><span className="csm-header"> Employee Email: </span> <span className="csm-info"> {props.email}</span></div>
+                <div><span className="csm-header"> Image Location: </span> <span className="csm-info"> {props.imgLocation}</span></div>
+                <div><span className="csm-header"> Division: </span> <span className="csm-info"> {props.divison}</span></div>
                 <div className="csm-header"> Description:</div> <div className="csm-info">{props.description} </div>
             </div>
             <div className="modal-footer">
-              <button className="csm-button" onClick={() => submit()}> Submit </button>
+              <button className="csm-button" onClick={() => setOpen(false)}> Edit </button>
+              <Link to='/admin'>
+                <button className="csm-button" onClick={() => submit()}> Submit </button>
+              </Link>
             </div>
           </div>
         </>,

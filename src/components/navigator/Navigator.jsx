@@ -29,59 +29,55 @@ function Navigator() {
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
   return (
     <div>
-      <Router>
-        <div>
-          <nav>
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              <Btn btnName="Login" />
-            </Link>
-            <Link to="/admin" style={{ textDecoration: "none" }}>
-              <Btn btnName="Admin" />
-            </Link>
-            <Link to="/resume" style={{ textDecoration: "none" }}>
-              <Btn btnName="Resume" />
-            </Link>
-            <Link to="/sector" style={{ textDecoration: "none" }}>
-              <Btn btnName="Sector" />
-            </Link>
-            <Link to="/create-proposal" style={{ textDecoration: "none" }}>
-              <Btn btnName="Create Proposal" />
-            </Link>
-          </nav>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/admin">
-              <Admin />
-            </Route>
-            <Route path="/resume">
-              <Resume />
-            </Route>
-            <Route path="/sector">
-              <CreateSector />
-            </Route>
-            {/* <Route path="/proposal">
-              <Proposal />
-            </Route> */}
-            <Route path="/create-proposal">
-              <CreateProposal />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/">
-              {loggedin && imadmin ? (
-                <Redirect to="/admin" />
-              ) : loggedin ? (
-                <Redirect to="/resume" />
-              ) : (
-                <Login />
-              )}
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      <nav>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <Btn btnName="Login" />
+        </Link>
+        <Link to="/admin" style={{ textDecoration: "none" }}>
+          <Btn btnName="Admin" />
+        </Link>
+        <Link to="/resume" style={{ textDecoration: "none" }}>
+          <Btn btnName="Resume" />
+        </Link>
+        <Link to="/sector" style={{ textDecoration: "none" }}>
+          <Btn btnName="Sector" />
+        </Link>
+        <Link to="/create-proposal" style={{ textDecoration: "none" }}>
+          <Btn btnName="Create Proposal" />
+        </Link>
+      </nav>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/admin">
+          <Admin />
+        </Route>
+        <Route path="/resume">
+          <Resume />
+        </Route>
+        <Route path="/sector">
+          <CreateSector />
+        </Route>
+        {/* <Route path="/proposal">
+          <Proposal />
+        </Route> */}
+        <Route path="/create-proposal">
+          <CreateProposal />
+        </Route>
+        <Route path="/signup">
+          <Signup />
+        </Route>
+        <Route path="/">
+          {loggedin && imadmin ? (
+            <Redirect to="/admin" />
+          ) : loggedin ? (
+            <Redirect to="/resume" />
+          ) : (
+            <Login />
+          )}
+        </Route>
+      </Switch>
     </div>
   );
 }
