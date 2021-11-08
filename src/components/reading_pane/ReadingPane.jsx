@@ -15,9 +15,9 @@ function ReadingPane() {
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false);
 
-  const handleChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
+    const handleChange = (event, newValue) => {
+      setSelectedTab(newValue);
+    };
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -31,10 +31,6 @@ function ReadingPane() {
         {value === index && <Box>{children}</Box>}
       </div>
     );
-  }
-
-  function addSector() {
-    setSelectedTab(1);
   }
 
   return (

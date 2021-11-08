@@ -12,122 +12,130 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
 let initialResumes = [
-    { "ID" : 10, 
-      "Name": "John Smith",
-      "Sectors": [
-        { 
-          "ID" : 1,
-          "Title": "Experience"
-        },
-        { 
-          "ID" : 2,
-          "Title": "Projects"
-        },
-        { 
-          "ID" : 3,
-          "Title": "Education"
-        }
-      ]
+    {
+        "ID": 10,
+        "Name": "John Smith",
+        "Sectors": [
+            {
+                "ID": 1,
+                "Title": "Experience"
+            },
+            {
+                "ID": 2,
+                "Title": "Projects"
+            },
+            {
+                "ID": 3,
+                "Title": "Education"
+            }
+        ]
     },
-    { "ID" : 11, 
-      "Name": "Steve Jobs",
-      "Sectors": [
-        { 
-          "ID" : 1,
-          "Title": "Experience"
-        },
-        {
-          "ID" : 2,
-          "Title": "Projects"
-        },
-        {
-          "ID" : 3,
-          "Title": "Education"
-        }
-      ]
+    {
+        "ID": 11,
+        "Name": "Steve Jobs",
+        "Sectors": [
+            {
+                "ID": 1,
+                "Title": "Experience"
+            },
+            {
+                "ID": 2,
+                "Title": "Projects"
+            },
+            {
+                "ID": 3,
+                "Title": "Education"
+            }
+        ]
     },
-    { "ID" : 12, 
-    "Name": "Michael Chung",
-    "Sectors": [
-      { 
-        "ID" : 1,
-        "Title": "Experience"
-      },
-      {
-        "ID" : 2,
-        "Title": "Projects"
-      },
-      {
-        "ID" : 3,
-        "Title": "Education"
-      }
-    ]
-  }
-  ];
+    {
+        "ID": 12,
+        "Name": "Michael Chung",
+        "Sectors": [
+            {
+                "ID": 1,
+                "Title": "Experience"
+            },
+            {
+                "ID": 2,
+                "Title": "Projects"
+            },
+            {
+                "ID": 3,
+                "Title": "Education"
+            }
+        ]
+    }
+];
 
 export default class CustomListItem extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      openItemID: null,
-      resumes : initialResumes,
-      loading: false // will be true when axios request is running
-    };
-    this.handleClick = this.handleClick.bind(this);
-    this.handleDeleteResume = this.handleDeleteResume.bind(this);
-    this.handleDeleteSector = this.handleDeleteSector.bind(this);
-  }
-
-  componentDidMount = () => {
-    axios.get('http://localhost:5000/User/2/Proposal/1', {
-    }).then((response) => {
-      console.log(response);
-      this.setState({resumes : response.resumes});
-    }, (error) => {
-      console.log(error);
-    })
-  }
-  
-  handleClick(id) {
-    // const newResumeClicked = this.state.openItemID !== id;
-    // if (newResumeClicked) {
-    //   this.setState({ openItemId : id });
-    // } else {
-    //   this.setState({ openItemId : null });
-    // }
-
-    this.setState({ openItemID : id })
-
-  }
-  
-  handleDeleteResume(id) {
-    this.setState(prevState => ({
-      resumes : prevState.resumes.filter(resume => resume.ID !== id)
-    }));
-  }y
-    
-  handleDeleteSector(resumeId, sectorId) {
-    const resumeToDelete = this.state.resumes.find(resumebyId => resumebyId.ID === resumeId);
-    resumeToDelete.Sectors.filter(sector => sector.ID !== sectorId)
-    this.setState(prevState => ({
-      resumes : prevState.resumes.filter(sector => sector.ID !== sectorId)
-    }));
-  }
-
-  handleSubmit() {
-    if (this.state.resumes !== []) {
-      this.setState({loading: true})
-      axios.post('http://localhost:5000/api/user/2/proposal', {
-        resumes: this.state.resumes
-      }).then((response) => {
-        console.log(response);
-        this.setState({loading: false})
-      }, (error) => {
-        console.log(error);
-      });
+    constructor(props) {
+        super(props);
+        this.state = {
+            openItemID: null,
+            resumes: initialResumes,
+            proposals : [],
+            loading: false // will be true when axios request is running
+        };
+        this.handleClick = this.handleClick.bind(this);
+        this.handleDeleteResume = this.handleDeleteResume.bind(this);
+        this.handleDeleteSector = this.handleDeleteSector.bind(this);
     }
-  }
+
+    componentDidMount = () => {
+        axios.get('http://localhost:5000/api/user/2/proposal', {
+        }).then((response) => {
+            console.log(response);
+            this.setState({ proposals: response.data });
+            console.log(response);
+            const resumes = response.data[0].resumes;
+            console.log(resumes);
+            // this.setState({ resumes: response[0].resumes });
+        }, (error) => {
+            console.log(error);
+        })
+    }
+
+    handleClick(id) {
+        // const newResumeClicked = this.state.openItemID !== id;
+        // if (newResumeClicked) {
+        //   this.setState({ openItemId : id });
+        // } else {
+        //   this.setState({ openItemId : null });
+        // }
+
+        this.setState({ openItemID: id })
+
+    }
+
+    handleDeleteResume(id) {
+        this.setState(prevState => ({
+            resumes: prevState.resumes.filter(resume => resume.ID !== id)
+        }));
+    } y
+
+    handleDeleteSector(resumeId, sectorId) {
+        const resumeToDelete = this.state.resumes.find(resumebyId => resumebyId.ID === resumeId);
+        resumeToDelete.Sectors.filter(sector => sector.ID !== sectorId)
+        this.setState(prevState => ({
+            resumes: prevState.resumes.filter(sector => sector.ID !== sectorId)
+        }));
+    }
+
+    handleSubmit() {
+        if (this.state.resumes !== []) {
+            this.setState({ loading: true })
+            axios.post('http://localhost:5000/api/user/2/proposal', {
+                resumes: this.state.resumes
+            }).then((response) => {
+                console.log(response);
+                this.setState({ loading: false })
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    }
 
   render() {
      return (
