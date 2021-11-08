@@ -1,7 +1,6 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -10,110 +9,163 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default class CustomListItem extends React.Component {
-  render() {
-    const docs = data.documents;  //this coming from a json file, please see below for the sample json
-     return (
-      <div>
-        <List component='nav' aria-labelledby='nested-list-subheader'>
-          {docs.map(doc => {
-            return (
-              <CustomizedListItem key={doc.id} doc={doc} />
-            );
-          })}
-        </List>     
-      </div>
-    );
-  }
-}
+import axios from 'axios';
 
- class CustomizedListItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        open: false
-      };
-      this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick() {
-       this.setState(prevState => ({
-         open: !prevState.open
-       }));
-    }
-
-  render(){
-  const { doc } = this.props;
-  return (
-    <div>
-      <ListItem button key={doc.Id} onClick={this.handleClick}>
-        <ListItemText primary={doc.Name} />
-        {this.state.open ? <ExpandLess /> : <ExpandMore />}
-            <IconButton edge="end">
-                <DeleteIcon />
-            </IconButton>
-        </ListItem>
-      <Collapse
-        key={doc.Sheets.Id}
-        in={this.state.open}
-        timeout='auto'
-        unmountOnExit
-      >
-      <List component='li' disablePadding key={doc.Id}>
-        {doc.Sheets.map(sheet => {
-          return (
-            <ListItem button key={sheet.Id}>
-              <ListItemIcon>
-                {/* <InsertDriveFileTwoToneIcon /> */}
-              </ListItemIcon>
-              <ListItemText key={sheet.Id} primary={sheet.Title} />
-              <IconButton edge="end">
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          );
-        })}
-      </List>
-    </Collapse>
-    <Divider />
-    </div>
-    )
-  }
-}
-
-const data = {
-  "documents": [
-    {
-      "Id": 1,
+let initialResumes = [
+    { "ID" : 10, 
       "Name": "John Smith",
-      "Sheets": [
-        {
-          "Id": 1,
+      "Sectors": [
+        { 
+          "ID" : 1,
           "Title": "Experience"
         },
-        {
-          "Id": 2,
+        { 
+          "ID" : 2,
           "Title": "Projects"
         },
-        {
-          "Id": 3,
+        { 
+          "ID" : 3,
           "Title": "Education"
         }
       ]
     },
-    {
-      "Id": 1,
+    { "ID" : 11, 
       "Name": "Steve Jobs",
-      "Sheets": [
-        {
-          "Id": 1,
-          "Title": "Previous Roles"
+      "Sectors": [
+        { 
+          "ID" : 1,
+          "Title": "Experience"
         },
         {
-          "Id": 2,
+          "ID" : 2,
           "Title": "Projects"
+        },
+        {
+          "ID" : 3,
+          "Title": "Education"
         }
       ]
+    },
+    { "ID" : 12, 
+    "Name": "Michael Chung",
+    "Sectors": [
+      { 
+        "ID" : 1,
+        "Title": "Experience"
+      },
+      {
+        "ID" : 2,
+        "Title": "Projects"
+      },
+      {
+        "ID" : 3,
+        "Title": "Education"
+      }
+    ]
+  }
+  ];
+
+export default class CustomListItem extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      openItemID: null,
+      resumes : initialResumes,
+      loading: false // will be true when axios request is running
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleDeleteResume = this.handleDeleteResume.bind(this);
+    this.handleDeleteSector = this.handleDeleteSector.bind(this);
+  }
+
+  componentDidMount = () => {
+    axios.get('http://localhost:5000/User/2/Proposal/1', {
+    }).then((response) => {
+      console.log(response);
+      this.setState({resumes : response.resumes});
+    }, (error) => {
+      console.log(error);
+    })
+  }
+  
+  handleClick(id) {
+    // const newResumeClicked = this.state.openItemID !== id;
+    // if (newResumeClicked) {
+    //   this.setState({ openItemId : id });
+    // } else {
+    //   this.setState({ openItemId : null });
+    // }
+
+    this.setState({ openItemID : id })
+
+  }
+  
+  handleDeleteResume(id) {
+    this.setState(prevState => ({
+      resumes : prevState.resumes.filter(resume => resume.ID !== id)
+    }));
+  }y
+    
+  handleDeleteSector(resumeId, sectorId) {
+    const resumeToDelete = this.state.resumes.find(resumebyId => resumebyId.ID === resumeId);
+    resumeToDelete.Sectors.filter(sector => sector.ID !== sectorId)
+    this.setState(prevState => ({
+      resumes : prevState.resumes.filter(sector => sector.ID !== sectorId)
+    }));
+  }
+
+  handleSubmit() {
+    if (this.state.resumes !== []) {
+      this.setState({loading: true})
+      axios.post('http://localhost:5000/api/user/2/proposal', {
+        resumes: this.state.resumes
+      }).then((response) => {
+        console.log(response);
+        this.setState({loading: false})
+      }, (error) => {
+        console.log(error);
+      });
     }
-  ]
-}
+  }
+
+  render() {
+     return (
+      <div>
+      <List>
+      {this.state.resumes.map((resume, i) => (
+      <div>
+      <ListItem button key={resume.ID} onClick={() => this.handleClick(resume.ID)}>
+        <ListItemText primary={resume.Name} />
+        {this.state.openItemID === resume.ID ? <ExpandLess/> : <ExpandMore/>}
+            <IconButton edge="end" onClick={() => this.handleDeleteResume(resume.ID)}>
+                <DeleteIcon />
+            </IconButton>
+        </ListItem>
+        <Collapse
+                key={i}
+                in={this.state.openItemID === resume.ID}
+                timeout='auto'
+                unmountOnExit
+              >
+              <List component='li' disablePadding key={resume.ID}>
+                {resume.Sectors.map((sector, j) => {
+                  return (
+                    <ListItem button key={sector.ID}>
+                      <ListItemText key={j} primary={sector.Title} />
+                      <IconButton edge="end" >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Collapse>
+    <Divider />
+    </div>
+      ))}
+    </List>
+    </div>
+     );
+    }
+  }
