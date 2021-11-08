@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./Login.css";
 
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
@@ -62,20 +62,23 @@ function LoginBox() {
       .get(`${Constants.API_URL}/user/${userID}`)
       .then((res) => {
         const data = res.data;
+        console.log("data");
         console.log(data);
         setTrueUN(data["emailAddress"] === username);
         setFirstName(data["firstName"]);
         setLastName(data["lastName"]);
       })
       .catch(setTrueUN(false));
-    console.log(trueUN);
-    return trueUN;
+    console.log("getUser call");
   };
 
   const validated = () => {
     // TODO
     // return username === "username"  && password === "password";
-    return getUser(1) && password === "password";
+    console.log("valided 1");
+    getUser(1);
+    console.log("valided 2");
+    return trueUN && password === "password";
   };
   const handleSubmit = () => {
     // TODO
