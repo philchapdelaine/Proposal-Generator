@@ -52,6 +52,23 @@ function LoginBox() {
   // const selector = useSelector()
   const dispatch = useDispatch();
 
+  // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
+  const authUser = async () => {
+    const resp = await axios
+      .post(
+        `${Constants.API_URL}/authenticate/login/`,
+        {},
+        {
+          auth: {
+            username: username,
+            password: password,
+          },
+        }
+      )
+      .then((res) => {})
+      .catch((error) => {});
+  };
+
   const getUser = async (userID) => {
     // placeholder
     const resp = await axios

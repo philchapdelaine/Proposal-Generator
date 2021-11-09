@@ -8,10 +8,15 @@ import TextField from "@material-ui/core/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 import ConfirmModal from "../../components/confirmModal/confirmModal";
 
 import "./Signup.css";
+
+import * as Constants from "../../components/constants";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -20,6 +25,7 @@ function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("Employee");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -44,21 +50,23 @@ function Signup() {
     return true; // just placeholding
   }
 
-  function register() {
-    axios
-      .post("https://localhost:5000/api/autheticate/register", {
+  const register = async () => {
+    const resp = await axios
+      .post(`${Constants.API_URL}/autheticate/register/`, {
         FirstName: firstName,
         LastName: lastName,
         EmailAddress: email,
       })
-      .then();
-  }
+      .then((res) => {})
+      .catch((err) => {});
+  };
 
   const handleSubmit = () => {
     if (validated()) {
       alert("Sign up under construction");
+      // register();
     } else {
-      alert("one field is incorrect");
+      alert("one field is incorrect or incomplete");
     }
   };
 
@@ -152,7 +160,22 @@ function Signup() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-        <div className="LoginBtnGrp">
+        <br />
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                name="role"
+                checked={role !== "Employee"}
+                onChange={() =>
+                  role === "Employee" ? setRole("Admin") : setRole("Employee")
+                }
+              />
+            }
+            label="Admin"
+          ></FormControlLabel>
+        </FormGroup>
+        <div className="SignupBtnGrp">
           <Button
             variant="contained"
             color="primary"
