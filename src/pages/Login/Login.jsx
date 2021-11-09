@@ -25,7 +25,6 @@ import {
 } from "react-router-dom";
 
 function Login() {
-  // const [loggedIn, setLoggedIn] = useState(false);
   const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
     <div style={{ display: "flex" }}>
@@ -41,7 +40,8 @@ function Login() {
 }
 
 function LoginBox() {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -63,8 +63,13 @@ function LoginBox() {
           },
         }
       )
-      .then((res) => {})
-      .catch((error) => {});
+      .then((res) => {
+        dispatch({ type: "SUCCESSFUL_LOGIN" });
+        alert("Under Construction, but welcome," + firstName + " " + lastName);
+      })
+      .catch((error) => {
+        alert("Incorrect Username or Password");
+      });
   };
 
   const getUser = async (userID) => {
@@ -123,7 +128,13 @@ function LoginBox() {
             ),
           }}
           value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          // onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) =>
+            dispatch({
+              type: "TRY_LOGIN",
+              payload: { username: event.target.value },
+            })
+          }
         />
         <TextField
           required
