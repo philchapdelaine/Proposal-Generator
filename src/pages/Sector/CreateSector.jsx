@@ -84,7 +84,7 @@ function CreateSector() {
             onChange={(event) => setImgLocation(event.target.value)}
           />
           <FormControl fullWidth>
-            <InputLabel>Divison</InputLabel>
+            <InputLabel>Division</InputLabel>
             <Select
               className="cs-input"
               value={division}
@@ -125,7 +125,7 @@ function CreateSector() {
             proposalNum={proposalNum}
             email={email}
             imgLocation={imgLocation}
-            divison={division}
+            division={division}
           />
         )}
 

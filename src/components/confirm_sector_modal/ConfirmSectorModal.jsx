@@ -20,7 +20,8 @@ function ConfirmSectorModal(props) {
           "linkedEmail": props.email,
           "division": props.division,
           "imageLoc": props.imgLocation,
-          "description": props.description
+          "description": props.description,
+          "fileType":"fake/filetype"
         })
         .then((response) => {
           console.log(response);
@@ -41,7 +42,7 @@ function ConfirmSectorModal(props) {
                 <div><span className="csm-header"> Proposal Number: </span> <span className="csm-info"> {props.proposalNum}</span></div>
                 <div><span className="csm-header"> Employee Email: </span> <span className="csm-info"> {props.email}</span></div>
                 <div><span className="csm-header"> Image Location: </span> <span className="csm-info"> {props.imgLocation}</span></div>
-                <div><span className="csm-header"> Division: </span> <span className="csm-info"> {props.divison}</span></div>
+                <div><span className="csm-header"> Division: </span> <span className="csm-info"> {props.division}</span></div>
                 <div className="csm-header"> Description:</div> <div className="csm-info">{props.description} </div>
             </div>
             <div className="modal-footer">
