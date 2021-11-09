@@ -16,8 +16,6 @@ import ConfirmModal from "../../components/confirmModal/confirmModal";
 
 import "./Signup.css";
 
-import * as Constants from "../../components/constants";
-
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +50,7 @@ function Signup() {
 
   const register = async () => {
     const resp = await axios
-      .post(`${Constants.API_URL}/autheticate/register/`, {
+      .post(`/api/autheticate/register/`, {
         FirstName: firstName,
         LastName: lastName,
         EmailAddress: email,

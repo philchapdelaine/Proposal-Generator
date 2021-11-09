@@ -16,8 +16,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import axios from "axios";
 
-import * as Constants from "../../components/constants";
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -56,7 +54,7 @@ function LoginBox() {
   const authUser = async () => {
     const resp = await axios
       .post(
-        `${Constants.API_URL}/authenticate/login/`,
+        `/api/authenticate/login/`,
         {},
         {
           auth: {
@@ -72,7 +70,7 @@ function LoginBox() {
   const getUser = async (userID) => {
     // placeholder
     const resp = await axios
-      .get(`${Constants.API_URL}/user/${userID}`)
+      .get(`/api/user/${userID}`)
       .then((res) => {
         const data = res.data;
         console.log("data");
