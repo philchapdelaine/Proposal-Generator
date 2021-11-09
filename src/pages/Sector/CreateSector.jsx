@@ -21,7 +21,9 @@ function CreateSector() {
 
   function openModal() {
     const hasType = type !== ""; // add other required fields here
-    hasRequiredInfo = hasType;
+    const hasEmail = email !== "";
+    const hasDivision = division !== "";
+    hasRequiredInfo = hasType && hasEmail && hasDivision;
     setSubmitAttempted(true);
 
     if (hasRequiredInfo) {
@@ -109,7 +111,7 @@ function CreateSector() {
           />
         </div>
         {!hasRequiredInfo && submitAttempted && (
-          <div className="cs-warning"> Sector type is required. </div>
+          <div className="cs-warning"> Sector type, email, and division are required fields. </div>
         )}
         <button
           className="cs-button"
