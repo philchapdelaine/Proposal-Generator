@@ -28,6 +28,7 @@ function CreateProposal() {
   }
   return (
     <div className="create-proposal">
+      <NavigatorBar />
       <div className="cp-center-pane">
         <div className="cp-center-header">
           <div className="title"> Create Proposal </div>
