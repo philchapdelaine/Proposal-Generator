@@ -30,12 +30,8 @@ function Login() {
   // const [loggedIn, setLoggedIn] = useState(false);
   const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
-    <div>
-      {loggedin ? (
-        <div className="nav-bar">
-          <NavigatorBar />
-        </div>
-      ) : null}
+    <div style={{ display: "flex" }}>
+      {loggedin ? <NavigatorBar /> : null}
       <div className="Login">
         <Logo />
         <br />
