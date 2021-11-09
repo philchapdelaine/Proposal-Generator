@@ -20,6 +20,9 @@
     margin-top: 15px;
     color: red;
 }
+.cs-menuitem.MuiButtonBase-root {
+    display: flex;
+}
 .cs-button {
     background-color: #00569c;
     color: white;
