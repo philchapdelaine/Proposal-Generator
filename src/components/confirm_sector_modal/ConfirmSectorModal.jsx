@@ -16,8 +16,6 @@ function ConfirmSectorModal(props) {
     async function submit() {
       setOpen(false);
       Axios.post('/api/sector', {
-          // todo: generate sectorID in database??
-          "sectorID": null,
           "name": props.type,
           "linkedEmail": props.email,
           "division": props.division,
