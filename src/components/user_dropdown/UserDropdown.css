@@ -1,0 +1,18 @@
+.user-dropdown {
+    display: inline-flex;
+    float: right;
+    margin-right: 20px;
+}
+.logout-box {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: darkslategray;
+    border-radius: 2px;
+}
+.admin-tag {
+    font-size: small;
+}
+.logout-icon {
+    margin-right: 10px;
+}
