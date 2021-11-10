@@ -16,8 +16,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import axios from "axios";
 
-import * as Constants from "../../components/constants";
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,7 +25,6 @@ import {
 } from "react-router-dom";
 
 function Login() {
-  // const [loggedIn, setLoggedIn] = useState(false);
   const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
     <div style={{ display: "flex" }}>
@@ -43,7 +40,8 @@ function Login() {
 }
 
 function LoginBox() {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -56,7 +54,7 @@ function LoginBox() {
   const authUser = async () => {
     const resp = await axios
       .post(
-        `${Constants.API_URL}/authenticate/login/`,
+        `/api/authenticate/login/`,
         {},
         {
           auth: {
@@ -65,14 +63,19 @@ function LoginBox() {
           },
         }
       )
-      .then((res) => {})
-      .catch((error) => {});
+      .then((res) => {
+        dispatch({ type: "SUCCESSFUL_LOGIN" });
+        alert("Under Construction, but welcome," + firstName + " " + lastName);
+      })
+      .catch((error) => {
+        alert("Incorrect Username or Password");
+      });
   };
 
   const getUser = async (userID) => {
     // placeholder
     const resp = await axios
-      .get(`${Constants.API_URL}/user/${userID}`)
+      .get(`/api/user/${userID}`)
       .then((res) => {
         const data = res.data;
         console.log("data");
@@ -125,7 +128,13 @@ function LoginBox() {
             ),
           }}
           value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          // onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) =>
+            dispatch({
+              type: "TRY_LOGIN",
+              payload: { username: event.target.value },
+            })
+          }
         />
         <TextField
           required

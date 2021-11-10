@@ -43,6 +43,7 @@ function Navigator() {
     <div>
       <Router>
         <div>
+          {/* TODO: COMMENT OUT THE nav code block once testing and dev is finished */}
           <nav>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
