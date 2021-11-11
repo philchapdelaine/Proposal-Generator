@@ -8,7 +8,7 @@ class SectorEditor extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {name: this.props.sector.name, content: this.props.sector.content, id: this.props.sector.id};
+    this.state = {name: this.props.sector.name, content: this.props.sector.description, id: this.props.sector.sectorID};
   }
 
   handleChange = (event) => {
@@ -24,8 +24,8 @@ class SectorEditor extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.id != this.props.sector.id) {
-      this.setState({id: this.props.sector.id, content: this.props.sector.content, name: this.props.sector.name})
+    if (this.state.id != this.props.sector.sectorID) {
+      this.setState({id: this.props.sector.sectorID, content: this.props.sector.description, name: this.props.sector.name})
     }
   }
 

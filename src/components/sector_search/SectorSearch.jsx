@@ -15,8 +15,8 @@ class SectorSearch extends Component {
     });
   };
 
-  addSector(sector) {
-    this.props.addSector(sector);
+  addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) {
+    this.props.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription);
   }
 
   renderSectors() {
@@ -24,7 +24,7 @@ class SectorSearch extends Component {
       return (
         <li
           className={
-            sector.id === this.props.sectorId
+            sector.sectorID === this.props.sectorId
               ? "active user-sector-item"
               : "user-sector-item"
           }
@@ -34,13 +34,13 @@ class SectorSearch extends Component {
             <p>{sector.name}</p>
           </div>
 
-          <div className="sector-type">
-            <p>{sector.type}</p>
+          <div className="sector-division">
+            <p>{sector.division}</p>
           </div>
 
           <div className = 'addButton'>
             <Button variant="outlined" onClick={() =>
-                {this.addSector(sector)}}>Add</Button>
+                {this.addSector(sector.name, sector.division, sector.fileType, sector.imageLoc, sector.description)}}>Add</Button>
           </div>
         </li>
       );

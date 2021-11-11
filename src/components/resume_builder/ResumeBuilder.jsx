@@ -15,8 +15,8 @@ class ResumeBuilder extends Component {
     this.props.deleteSector(sector);
   }
 
-  addSector(sector) {
-    this.props.addSector(sector);
+  addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) {
+    this.props.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription);
   }
 
   selectSector(sectorid) {
@@ -27,7 +27,8 @@ class ResumeBuilder extends Component {
     return (
         <div>
           <div>
-            <SectorSearchModal addSector = {(sector) => {this.addSector(sector)}}></SectorSearchModal>
+            <SectorSearchModal addSector = {(sectorname, sectordivision, filetype, imageloc, sectordescription) => 
+              {this.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}></SectorSearchModal>
           </div>
           <SectorList 
           sectors = {this.state.sectors} 
