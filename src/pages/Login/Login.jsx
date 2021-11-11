@@ -47,6 +47,8 @@ function LoginBox() {
   const [lastName, setLastName] = useState("");
   const [trueUN, setTrueUN] = useState(false);
 
+  const uid = useSelector((state) => state.loginReducer.uid);
+
   // const selector = useSelector()
   const dispatch = useDispatch();
 
@@ -55,20 +57,37 @@ function LoginBox() {
     const resp = await axios
       .post(
         `/api/authenticate/login/`,
-        {},
         {
-          auth: {
-            username: username,
-            password: password,
-          },
+          emailAddress: username,
+          password: password,
         }
+        // {
+        //   auth: {
+        //     username: username,
+        //     password: password,
+        //   },
+        // }
       )
       .then((res) => {
-        dispatch({ type: "SUCCESSFUL_LOGIN" });
-        alert("Under Construction, but welcome," + firstName + " " + lastName);
+        if (res.status === 200) {
+          dispatch({
+            type: "SUCCESSFUL_LOGIN",
+            payload: res.data["applicationUserId"],
+          });
+          alert(
+            "Under Construction, but welcome," +
+              firstName +
+              " " +
+              lastName +
+              "uid: " +
+              uid
+          );
+        } else {
+          alert("Incorrect Username or Password");
+        }
       })
       .catch((error) => {
-        alert("Incorrect Username or Password");
+        alert(error);
       });
   };
 
@@ -96,7 +115,7 @@ function LoginBox() {
     console.log("valided 2");
     return trueUN && password === "password";
   };
-  const handleSubmit = () => {
+  const handleSubmit2 = () => {
     // TODO
     // if not validated, tell user
     // for now just give under construction alert
@@ -106,6 +125,10 @@ function LoginBox() {
     } else {
       alert("Incorrect Username or Password");
     }
+  };
+
+  const handleSubmit = () => {
+    authUser();
   };
 
   return (

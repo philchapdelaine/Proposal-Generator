@@ -5,14 +5,29 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SectorSearch from "../../components/sector_search/SectorSearch";
+import axios from "axios";
 import "./SectorSearchModal.css";
 
 var samplesectors = [
-  {id: '0', name: 'Sample0', type: 'Type0', content: 'something0'}, 
-  {id: '1', name: 'Sample', type: 'Type1', content: 'something'}, 
-  {id: '2', name: 'New Sector', type: 'Experience', content: 'abdgbsbshd asdkbkdsb'},
-  {id: '3', name: 'New Sector1', type: 'Experience2', content: 'content1'}
-  ];
+  {
+    sectorID: 3,
+    name: "Experience",
+    linkedEmail: "mc@ae.com",
+    fileType: "txt",
+    division: "Water",
+    imageLoc: "blah/blah",
+    description: "I'm the best so I don't need to have any experience"
+},
+{
+    sectorID: 4,
+    name: "Projects",
+    linkedEmail: "mc@ae.com",
+    fileType: "txt",
+    division: "Air",
+    imageLoc: null,
+    description: "I'm the best so I don't need to have any projects"
+}
+];
   
 const style = {
 position: 'absolute',
@@ -30,9 +45,18 @@ class SectorSearchModal extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {open: false}
+      this.state = {open: false, sectors: []}
       this.openModal = this.openModal.bind(this);
       this.closeModal = this.closeModal.bind(this);
+    }
+
+    componentDidMount() {
+      // resume = samplesectors
+      const url = "localhost:5000/api/user/sector"
+      axios.get(url)
+        .then((res) => {
+          this.setState({sectors: res});
+        })
     }
 
     openModal() {
@@ -57,7 +81,8 @@ class SectorSearchModal extends Component {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     Add Sector
                     </Typography>
-                    <SectorSearch sectors = {samplesectors} addSector = {(sector) => {this.props.addSector(sector)}}/>
+                    <SectorSearch sectors = {this.state.sectors} addSector = {(sectorname, sectordivision, filetype, imageloc, sectordescription) => 
+                      {this.props.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}/>
                 </Box>
             </Modal>
         </div>

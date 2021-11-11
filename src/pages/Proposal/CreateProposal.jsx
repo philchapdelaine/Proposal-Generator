@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReadingPane from "../../components/reading_pane/ReadingPane";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ResumeSectorDisplay from "../../components/resume_sector_display/ResumeSectorDisplay";
 import "./CreateProposal.css";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 
 // dummy data; this will actually come from the search api
@@ -57,6 +59,33 @@ const recentlyViewedSample = [
 ]
 
 function CreateProposal() {
+  const [resumes, setResumes] = useState([]);
+  const [searchWord, setSearchWord] = useState("");
+
+  const getResults = async () => {
+    await axios
+      .get(`/api/user/1/`)
+      .then((res) => {})
+      .catch((err) => {});
+  };
+
+  function resumePush() {
+    for (const resume of dummyResumes) {
+      resumes.push(
+        <ResumeThumbnail name={resume["name"]} addable={true}></ResumeThumbnail>
+      );
+    }
+  }
+
+  const handleSubmit = () => {
+    if (searchWord !== "") {
+      axios
+        .get(`/api/user/1/resume`)
+        .then((res) => {})
+        .catch((err) => {});
+    }
+  };
+
   return (
     <div className="create-proposal">
       <NavigatorBar isCreateProposal={true} recentlyViewed={recentlyViewedSample}></NavigatorBar>
@@ -68,12 +97,21 @@ function CreateProposal() {
             size="small"
             margin="normal"
             label="Search resumes"
-          ></TextField>
+            onChange={(event) => setSearchWord(event.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className="LoginBtn"
+            onClick={() => handleSubmit()}
+          >
+            Search
+          </Button>
         </div>
         <div className="search-results"> Search results: </div>
-        <ResumeSectorDisplay></ResumeSectorDisplay>
+        <ResumeSectorDisplay />
       </div>
-      <ReadingPane></ReadingPane>
+      <ReadingPane />
     </div>
   );
 }
