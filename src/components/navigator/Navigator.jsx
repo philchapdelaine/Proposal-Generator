@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import Login from "../../pages/Login/Login";
 import Home from "../../pages/Home/Home";
-import Sector from "../../pages/Sector/Sector";
+import CreateSector from "../../pages/Sector/CreateSector";
 import Resume from "../../pages/Resume/Resume";
 import Proposal from "../../pages/Proposal/Proposal";
 import CreateProposal from "../../pages/Proposal/CreateProposal";
@@ -19,18 +19,32 @@ import Admin from "../../pages/Admin/Admin";
 
 import "./Navigator.css";
 
+import { useSelector, useDispatch } from "react-redux";
+
 /* TODO: redirect to login if the user is not logged in.
  */
 
 function Navigator() {
+  const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
+  const imadmin = useSelector((state) => state.loginReducer["admin"]);
+
+  const loginRedirects = () => {
+    if (loggedin) {
+      if (imadmin) {
+        return <Redirect to="/admin" />;
+      } else {
+        return <Redirect to="/resume" />;
+      }
+    } else {
+      return <Login />;
+    }
+  };
   return (
     <div>
       <Router>
         <div>
+          {/* TODO: COMMENT OUT THE nav code block once testing and dev is finished */}
           <nav>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Btn btnName="Home" />
-            </Link>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
             </Link>
@@ -42,9 +56,6 @@ function Navigator() {
             </Link>
             <Link to="/sector" style={{ textDecoration: "none" }}>
               <Btn btnName="Sector" />
-            </Link>
-            <Link to="/proposal" style={{ textDecoration: "none" }}>
-              <Btn btnName="Proposal" />
             </Link>
             <Link to="/create-proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Create Proposal" />
@@ -61,10 +72,7 @@ function Navigator() {
               <Resume />
             </Route>
             <Route path="/sector">
-              <Sector />
-            </Route>
-            <Route path="/proposal">
-              <Proposal />
+              <CreateSector />
             </Route>
             <Route path="/create-proposal">
               <CreateProposal />
@@ -72,15 +80,15 @@ function Navigator() {
             <Route path="/signup">
               <Signup />
             </Route>
-            <Route path="/">
-              <Home />
-            </Route>
+            <Route path="/">{loginRedirects}</Route>
           </Switch>
         </div>
       </Router>
     </div>
   );
 }
+
+// https://v5.reactrouter.com/web/example/auth-workflow
 
 const Btn = (props) => {
   return (
