@@ -37,7 +37,7 @@ const recentlyViewedSample = [
     "resumeID": 2,
     "sectors": [
         {
-            "sectorID": 1,
+            "sectorID": 3,
             "name": "Experience",
             "linkedEmail": "mc@ae.com",
             "fileType": "txt",
@@ -46,7 +46,7 @@ const recentlyViewedSample = [
             "description": "I'm the best so I don't need to have any experience"
         },
         {
-            "sectorID": 2,
+            "sectorID": 4,
             "name": "Projects",
             "linkedEmail": "mc@ae.com",
             "fileType": "txt",
@@ -61,6 +61,8 @@ const recentlyViewedSample = [
 function CreateProposal() {
   const [resumes, setResumes] = useState([]);
   const [searchWord, setSearchWord] = useState("");
+  const [clickedSector, setClickedSector] = useState("");
+  const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
 
   const getResults = async () => {
     await axios
@@ -85,10 +87,20 @@ function CreateProposal() {
         .catch((err) => {});
     }
   };
+  // updates clicked sector from search results AND from RecentlyViewed
+  function updateClickedSector(sector, addToRecentlyViewed = false) {
+    setClickedSector(sector);
+    // todo: check for duplicates, add to recentlyViewedResumes
+  }
 
   return (
     <div className="create-proposal">
-      <NavigatorBar isCreateProposal={true} recentlyViewed={recentlyViewedSample}></NavigatorBar>
+      <NavigatorBar 
+        isCreateProposal={true}
+        recentlyViewed={recentlyViewedSample}
+        onSectorClick={updateClickedSector}
+      >
+      </NavigatorBar>
       <div className="cp-center-pane">
         <div className="cp-center-header">
           <div className="title"> Create Proposal </div>
@@ -109,9 +121,12 @@ function CreateProposal() {
           </Button>
         </div>
         <div className="search-results"> Search results: </div>
-        <ResumeSectorDisplay />
+        <ResumeSectorDisplay
+          displayedResumes={recentlyViewedSample}
+          onSectorClick={updateClickedSector}
+        ></ResumeSectorDisplay>
       </div>
-      <ReadingPane />
+      <ReadingPane displayedSector={clickedSector}></ReadingPane>
     </div>
   );
 }

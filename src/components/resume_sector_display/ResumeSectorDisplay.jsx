@@ -8,56 +8,57 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 
-export default function ResumeSectorDisplay() {
+export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
-
-  const sector = [
-    ["Utlity Consultant", "test", "test", "test", "test"],
-    ["Education", "test", "test", "test", "test"],
-    ["Projects", "test", "test", "test", "test"],
-  ];
 
   const user = [1, 2, 3];
 
-  function generateRows(row) {
+  function handleSectorClick(sector) {
+    props.onSectorClick(sector, true);
+
+  }
+
+  function generateRows(sector) {
+    
     return (
-      <TableRow>
+      <TableRow onClick={() => handleSectorClick(sector)} >
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[0]}
+          {sector.name}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[1]}
+          {sector.division}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[2]}
+          {sector.description}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[3]}
+          {/* TODO: decide which sector properties to display here*/}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[4]}
+          {sector[4]}
         </TableCell>
       </TableRow>
     );
   }
 
-  function generateAccordian(user) {
+  function generateAccordian(resume) {
+    // todo: get user info (name, email) based on resume id
     return (
       <Accordion
-        expanded={expanded === "panel" + user}
-        onChange={handleChange("panel" + user)}
+        expanded={expanded === "panel" + resume}
+        onChange={handleChange("panel" + resume)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls={"panel" + user + " bh-content"}
-          id={"panel" + user + "bh-header"}
+          aria-controls={"panel" + resume + " bh-content"}
+          id={"panel" + resume + "bh-header"}
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>John Doe</Typography>
           <Typography sx={{ color: "text.secondary" }}>
             johndoe@example.com
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>{sector.map(generateRows)}</AccordionDetails>
+        <AccordionDetails>{resume.sectors.map(generateRows)}</AccordionDetails>
       </Accordion>
     );
   }
@@ -66,5 +67,5 @@ export default function ResumeSectorDisplay() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  return user.map(generateAccordian);
+  return props.displayedResumes.map(generateAccordian);
 }

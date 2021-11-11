@@ -39,7 +39,7 @@ function NavigatorBar(props) {
       </nav>
       <div className="recently-viewed">
         {" "}
-        {props.isCreateProposal ? <RecentlyViewed resumes={props.recentlyViewed}>{props.recentlyViewed}</RecentlyViewed> : null }
+        {props.isCreateProposal ? <RecentlyViewed onSectorClick={props.onSectorClick} resumes={props.recentlyViewed}>{props.recentlyViewed}</RecentlyViewed> : null }
       </div>
     </div>
   );

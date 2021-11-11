@@ -9,9 +9,10 @@ import CustomListItem from "../custom_list_item/CustomListItem";
 import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 
-function ReadingPane() {
+function ReadingPane(props) {
   const [selectedTab, setSelectedTab] = useState(0);
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [displayedSector, setDisplayedSector] = useState("");
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false);
 
@@ -55,7 +56,9 @@ function ReadingPane() {
         </Tabs>
         <TabPanel value={selectedTab} index={0}>
           <div>
-            <h1 className="reading-pane-title">Experience</h1>
+            <h1 className="reading-pane-title">{props.displayedSector.name || "Click a sector to preview..."}</h1>
+            {props.displayedSector.division ? <p> Division: {props.displayedSector.division} </p> : null}
+            { /* TODO: display and style the rest of the sector's info */ }
           </div>
           <div className="sector-preview">
             <TextField
