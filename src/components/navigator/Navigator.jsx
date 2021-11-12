@@ -28,7 +28,7 @@ function Navigator() {
   const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
 
-  const loginRedirects = () => {
+  const loggedinRedirects = () => {
     if (loggedin) {
       if (imadmin) {
         return <Redirect to="/admin" />;
@@ -39,12 +39,13 @@ function Navigator() {
       return <Login />;
     }
   };
+
   return (
     <div>
       <Router>
         <div>
           {/* TODO: COMMENT OUT THE nav code block once testing and dev is finished */}
-          <nav>
+          {/* <nav>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
             </Link>
@@ -60,28 +61,37 @@ function Navigator() {
             <Link to="/create-proposal" style={{ textDecoration: "none" }}>
               <Btn btnName="Create Proposal" />
             </Link>
-          </nav>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/admin">
-              <Admin />
-            </Route>
-            <Route path="/resume">
-              <Resume />
-            </Route>
-            <Route path="/sector">
-              <CreateSector />
-            </Route>
-            <Route path="/create-proposal">
-              <CreateProposal />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/">{loginRedirects}</Route>
-          </Switch>
+          </nav> */}
+          {loggedin ? (
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/admin">
+                <Admin />
+              </Route>
+              <Route path="/resume">
+                <Resume />
+              </Route>
+              <Route path="/sector">
+                <CreateSector />
+              </Route>
+              <Route path="/create-proposal">
+                <CreateProposal />
+              </Route>
+              {/* <Route path="/signup">
+                <Signup />
+              </Route> */}
+              <Route path="/">{loggedinRedirects}</Route>
+            </Switch>
+          ) : (
+            <Switch>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+              <Route path="/">{loggedinRedirects}</Route>
+            </Switch>
+          )}
         </div>
       </Router>
     </div>
