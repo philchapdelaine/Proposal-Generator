@@ -12,6 +12,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
+import { Link, Redirect } from "react-router-dom";
+
 import ConfirmModal from "../../components/confirmModal/confirmModal";
 
 import "./Signup.css";
@@ -200,6 +202,13 @@ function Signup() {
         confirmMsg="All information will need to be re-typed if you quit now."
         handleClose={handleClose}
         open={open}
+        handleProceed={
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <Button color="primary" variant="outlined" className="LoginBtn">
+              Yes
+            </Button>
+          </Link>
+        }
       ></ConfirmModal>
     </div>
   );

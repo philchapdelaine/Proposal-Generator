@@ -79,13 +79,16 @@ function Navigator() {
               <Route path="/create-proposal">
                 <CreateProposal />
               </Route>
-              <Route path="/signup">
+              {/* <Route path="/signup">
                 <Signup />
-              </Route>
+              </Route> */}
               <Route path="/">{loggedinRedirects}</Route>
             </Switch>
           ) : (
             <Switch>
+              <Route path="/signup">
+                <Signup />
+              </Route>
               <Route path="/">{loggedinRedirects}</Route>
             </Switch>
           )}
