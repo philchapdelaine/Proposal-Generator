@@ -38,7 +38,7 @@ const recentlyViewedSample = [
     "sectors": [
         {
             "sectorID": 3,
-            "name": "Experience",
+            "name": "Education",
             "linkedEmail": "mc@ae.com",
             "fileType": "txt",
             "division": "Water",
@@ -47,7 +47,7 @@ const recentlyViewedSample = [
         },
         {
             "sectorID": 4,
-            "name": "Projects",
+            "name": "Skills",
             "linkedEmail": "mc@ae.com",
             "fileType": "txt",
             "division": "Air",
@@ -57,6 +57,8 @@ const recentlyViewedSample = [
     ]
   },
 ]
+
+const maxLengthRecentlyViewed = 6;
 
 function CreateProposal() {
   const [resumes, setResumes] = useState([]);
@@ -87,18 +89,30 @@ function CreateProposal() {
         .catch((err) => {});
     }
   };
-  // updates clicked sector from search results AND from RecentlyViewed
-  function updateClickedSector(sector, addToRecentlyViewed = false) {
+
+  function addToRecentlyViewed(resume) {
+    const isMaxLengthReached = recentlyViewedResumes.length > maxLengthRecentlyViewed;
+
+    for (let i = 0; i < recentlyViewedResumes.length; i++) {
+      if (resume.resumeID == recentlyViewedResumes[i].resumeID) {
+        recentlyViewedResumes.splice(i, 1);
+      }
+    }
+    setRecentlyViewedResumes([resume].concat(recentlyViewedResumes));
+    if (isMaxLengthReached) recentlyViewedResumes.pop();
+  }
+
+  function updateDisplayedSector(sector, searchedResume = null) {
     setClickedSector(sector);
-    // todo: check for duplicates, add to recentlyViewedResumes
+    if (searchedResume) addToRecentlyViewed(searchedResume);
   }
 
   return (
     <div className="create-proposal">
       <NavigatorBar 
         isCreateProposal={true}
-        recentlyViewed={recentlyViewedSample}
-        onSectorClick={updateClickedSector}
+        recentlyViewed={recentlyViewedResumes}
+        onSectorClick={updateDisplayedSector}
       >
       </NavigatorBar>
       <div className="cp-center-pane">
@@ -123,7 +137,7 @@ function CreateProposal() {
         <div className="search-results"> Search results: </div>
         <ResumeSectorDisplay
           displayedResumes={recentlyViewedSample}
-          onSectorClick={updateClickedSector}
+          onSectorClick={updateDisplayedSector}
         ></ResumeSectorDisplay>
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>

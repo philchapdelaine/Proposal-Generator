@@ -11,17 +11,14 @@ import TableBody from "@mui/material/TableBody";
 export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
 
-  const user = [1, 2, 3];
-
-  function handleSectorClick(sector) {
-    props.onSectorClick(sector, true);
-
+  function handleSectorClick(sector, currResume) {
+    props.onSectorClick(sector, currResume);
   }
 
-  function generateRows(sector) {
+  function generateRows(sector, currResume) {
     
     return (
-      <TableRow onClick={() => handleSectorClick(sector)} >
+      <TableRow onClick={() => handleSectorClick(sector, currResume)} >
         <TableCell sx={{ width: "23%" }} align="left">
           {sector.name}
         </TableCell>
@@ -58,7 +55,7 @@ export default function ResumeSectorDisplay(props) {
             johndoe@example.com
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>{resume.sectors.map(generateRows)}</AccordionDetails>
+        <AccordionDetails>{resume.sectors.map((sector) => generateRows(sector, resume))}</AccordionDetails>
       </Accordion>
     );
   }
