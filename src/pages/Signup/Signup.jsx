@@ -192,7 +192,7 @@ function Signup() {
               handleOpen();
             }}
           >
-            Cancel
+            Sign-in
           </Button>
         </div>
       </Box>
