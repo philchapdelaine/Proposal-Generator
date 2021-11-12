@@ -5,12 +5,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EmailIcon from "@mui/icons-material/Email";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import Checkbox from "@mui/material/Checkbox";
 
 import { Link, Redirect } from "react-router-dom";
 
@@ -18,13 +16,17 @@ import ConfirmModal from "../../components/confirmModal/confirmModal";
 
 import "./Signup.css";
 
+import isEmail from "validator/lib/isEmail";
+
+import axios from "axios";
+
 function Signup() {
   const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
   const [role, setRole] = useState("Employee");
 
   const [open, setOpen] = useState(false);
@@ -38,33 +40,37 @@ function Signup() {
   };
 
   function validated() {
-    return password === password2 && usernameUnique("") && password.length > 7;
-  }
-
-  function usernameUnique(un) {
-    return true; // just placeholding
+    return (
+      password === password2 &&
+      emailAddressFormatValidator() &&
+      password.length > 7
+    );
   }
 
   function emailAddressFormatValidator() {
     // https://help.xmatters.com/ondemand/trial/valid_email_format.htm
-    return true; // just placeholding
+    // https://www.npmjs.com/package/validator
+    return isEmail(username);
   }
 
   const register = async () => {
     const resp = await axios
-      .post(`/api/autheticate/register/`, {
+      .post(`/api/authenticate/register/`, {
         FirstName: firstName,
         LastName: lastName,
-        EmailAddress: email,
+        EmailAddress: username,
       })
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => {
+        alert("Sign up under construction");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const handleSubmit = () => {
     if (validated()) {
-      alert("Sign up under construction");
-      // register();
+      register();
     } else {
       alert("one field is incorrect or incomplete");
     }
@@ -81,7 +87,13 @@ function Signup() {
       >
         <TextField
           required
-          label="Username"
+          label="Username (email)"
+          // error={}
+          helperText={
+            emailAddressFormatValidator()
+              ? ""
+              : "Username must be a valid email format"
+          }
           variant="outlined"
           InputProps={{
             startAdornment: (
@@ -146,7 +158,7 @@ function Signup() {
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
         />
-        <TextField
+        {/* <TextField
           required
           label="Email"
           variant="outlined"
@@ -159,22 +171,16 @@ function Signup() {
           }}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-        />
+        /> */}
         <br />
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                name="role"
-                checked={role !== "Employee"}
-                onChange={() =>
-                  role === "Employee" ? setRole("Admin") : setRole("Employee")
-                }
-              />
-            }
-            label="Admin"
-          ></FormControlLabel>
-        </FormGroup>
+        <Checkbox
+          name="role"
+          checked={role !== "Employee"}
+          onChange={() =>
+            role === "Employee" ? setRole("Admin") : setRole("Employee")
+          }
+        />
+        Admin
         <div className="SignupBtnGrp">
           <Button
             variant="contained"
