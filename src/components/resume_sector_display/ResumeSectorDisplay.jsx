@@ -42,13 +42,13 @@ export default function ResumeSectorDisplay(props) {
     // todo: get user info (name, email) based on resume id
     return (
       <Accordion
-        expanded={expanded === "panel" + resume}
-        onChange={handleChange("panel" + resume)}
+        expanded={expanded === "panel" + resume.resumeID}
+        onChange={handleChange("panel" + resume.resumeID)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls={"panel" + resume + " bh-content"}
-          id={"panel" + resume + "bh-header"}
+          aria-controls={"panel" + resume.resumeID + " bh-content"}
+          id={"panel" + resume.resumeID + "bh-header"}
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>John Doe</Typography>
           <Typography sx={{ color: "text.secondary" }}>
