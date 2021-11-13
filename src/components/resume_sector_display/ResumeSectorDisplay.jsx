@@ -7,9 +7,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import "./ResumeSectorDisplay.css";
+import Axios from 'axios';
+
 
 export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
+  const [resumeOwnerName, setResumeOwnerName] = useState("");
+  const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
 
   function handleSectorClick(sector, currResume) {
     props.onSectorClick(sector, currResume);
@@ -18,7 +23,7 @@ export default function ResumeSectorDisplay(props) {
   function generateRows(sector, currResume) {
     
     return (
-      <TableRow onClick={() => handleSectorClick(sector, currResume)} >
+      <TableRow hover onClick={() => handleSectorClick(sector, currResume)} >
         <TableCell sx={{ width: "23%" }} align="left">
           {sector.name}
         </TableCell>
@@ -39,21 +44,28 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function generateAccordian(resume) {
-    // todo: get user info (name, email) based on resume id
+
+    useEffect(() => {
+      const fetchName = async () => {
+        const user = await Axios.get('/api/user/' + resume.resumeID + "/")
+        setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
+        setResumeOwnerEmail(user.data.emailAddress);
+      }
+      fetchName();
+    }, [])
+
     return (
       <Accordion
         expanded={expanded === "panel" + resume.resumeID}
         onChange={handleChange("panel" + resume.resumeID)}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMoreIcon className="rsd-expand-icon"/>}
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>John Doe</Typography>
-          <Typography sx={{ color: "text.secondary" }}>
-            johndoe@example.com
-          </Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>{resumeOwnerName || "Name not available"}</Typography>
+          <Typography sx={{ color: "text.secondary" }}>{resumeOwnerEmail || " "}</Typography>
         </AccordionSummary>
         <AccordionDetails>{resume.sectors.map((sector) => generateRows(sector, resume))}</AccordionDetails>
       </Accordion>

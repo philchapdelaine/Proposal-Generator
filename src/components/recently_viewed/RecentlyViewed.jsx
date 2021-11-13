@@ -44,7 +44,7 @@ export default class RecentlyViewed extends React.Component {
     super(props);
     this.state = {
         open: false,
-        allUsers: null
+        resumeOwnerName: "Name not available"
       };
       this.handleClick = this.handleClick.bind(this);
       this.updateClickedSector = this.updateClickedSector.bind(this);
@@ -61,29 +61,24 @@ export default class RecentlyViewed extends React.Component {
       this.props.onSectorUpdate(sector);
     }
 
-    // TODO: get user's name to display by searching all user data?
-
-    // updateUsers = async() => {
-    //   try {
-    //     const users = await Axios.get('/api/user');
-    //     this.setState({
-    //       allUsers: users.data
-    //     });
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
-    // }
-
-    // componentDidMount() {
-    //   this.updateUsers();
-    // }
+    componentDidMount() {
+      Axios.get('/api/user/' + this.props.doc.resumeID + "/")
+      .then((res) => {
+        this.setState({
+          resumeOwnerName: res.data.firstName + " " + res.data.lastName   
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
 
   render() {
     const resume = this.props.doc;
     return (
       <div>
         <ListItem button key={resume.resumeID} onClick={this.handleClick}>
-          <ListItemText primary="temporary name"/>
+          <ListItemText primary={this.state.resumeOwnerName}/>
           {this.state.open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
         <Collapse
@@ -106,20 +101,6 @@ export default class RecentlyViewed extends React.Component {
       </div>
       )
     }
-}
-function getResumeName(resumeID) {
-  if (this.state.allUsers) {
-    for (const user of users) {
-      if (user.resume) {
-        const currResumeID = user.resume.resumeID;
-        const hasMatchingID = currResumeID == resumeID;
-        if (hasMatchingID) {
-          return user.firstName + " " + user.lastName
-        }
-      } 
-    }
-  }
-  return ""
 }
 
 const data = {

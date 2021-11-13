@@ -134,7 +134,7 @@ function CreateProposal() {
             Search
           </Button>
         </div>
-        <div className="search-results"> Search results: </div>
+        <div className="search-results"> Search results: </div> <br/>
         <ResumeSectorDisplay
           displayedResumes={recentlyViewedSample}
           onSectorClick={updateDisplayedSector}
