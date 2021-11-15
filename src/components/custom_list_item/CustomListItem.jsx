@@ -11,62 +11,69 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import axios from 'axios';
 
-let initialResumes = [
-    {
-        "ID": 10,
-        "Name": "John Smith",
-        "Sectors": [
-            {
-                "ID": 1,
-                "Title": "Experience"
-            },
-            {
-                "ID": 2,
-                "Title": "Projects"
-            },
-            {
-                "ID": 3,
-                "Title": "Education"
-            }
-        ]
-    },
-    {
-        "ID": 11,
-        "Name": "Steve Jobs",
-        "Sectors": [
-            {
-                "ID": 1,
-                "Title": "Experience"
-            },
-            {
-                "ID": 2,
-                "Title": "Projects"
-            },
-            {
-                "ID": 3,
-                "Title": "Education"
-            }
-        ]
-    },
-    {
-        "ID": 12,
-        "Name": "Michael Chung",
-        "Sectors": [
-            {
-                "ID": 1,
-                "Title": "Experience"
-            },
-            {
-                "ID": 2,
-                "Title": "Projects"
-            },
-            {
-                "ID": 3,
-                "Title": "Education"
-            }
-        ]
-    }
-];
+import { connect } from 'react-redux';
+import { getResumes } from '../../redux/actions/rp-actions';
+
+let initialProposal = {
+proposalID : 1,
+resumes : 
+    [
+        {
+            "ID": 1,
+            "Name": "John Smith",
+            "Sectors": [
+                {
+                    "ID": 1,
+                    "Title": "Experience"
+                },
+                {
+                    "ID": 2,
+                    "Title": "Projects"
+                },
+                {
+                    "ID": 3,
+                    "Title": "Education"
+                }
+            ]
+        },
+        {
+            "ID": 2,
+            "Name": "Steve Jobs",
+            "Sectors": [
+                {
+                    "ID": 1,
+                    "Title": "Experience"
+                },
+                {
+                    "ID": 2,
+                    "Title": "Projects"
+                },
+                {
+                    "ID": 3,
+                    "Title": "Education"
+                }
+            ]
+        },
+        {
+            "ID": 3,
+            "Name": "Michael Chung",
+            "Sectors": [
+                {
+                    "ID": 1,
+                    "Title": "Experience"
+                },
+                {
+                    "ID": 2,
+                    "Title": "Projects"
+                },
+                {
+                    "ID": 3,
+                    "Title": "Education"
+                }
+            ]
+        }
+    ]
+};
 
 export default class CustomListItem extends React.Component {
 
@@ -74,7 +81,7 @@ export default class CustomListItem extends React.Component {
         super(props);
         this.state = {
             openItemID: null,
-            resumes: initialResumes,
+            currentProposal: initialProposal,
             proposals : [],
             loading: false // will be true when axios request is running
         };
@@ -83,18 +90,22 @@ export default class CustomListItem extends React.Component {
         this.handleDeleteSector = this.handleDeleteSector.bind(this);
     }
 
+//     componentDidMount = () => {
+//       axios.get('http://localhost:5000/api/user/2/proposal', {
+//       }).then((response) => {
+//           console.log(response);
+//           this.setState({ proposals: response.data });
+//           console.log(response);
+//           const resumes = response.data[0].resumes;
+//           console.log(resumes);
+//           // this.setState({ resumes: response[0].resumes });
+//       }, (error) => {
+//           console.log(error);
+//       })
+//   }
+
     componentDidMount = () => {
-        axios.get('http://localhost:5000/api/user/2/proposal', {
-        }).then((response) => {
-            console.log(response);
-            this.setState({ proposals: response.data });
-            console.log(response);
-            const resumes = response.data[0].resumes;
-            console.log(resumes);
-            // this.setState({ resumes: response[0].resumes });
-        }, (error) => {
-            console.log(error);
-        })
+        console.log(this.props.getResumes)
     }
 
     handleClick(id) {
@@ -104,19 +115,18 @@ export default class CustomListItem extends React.Component {
         // } else {
         //   this.setState({ openItemId : null });
         // }
-
         this.setState({ openItemID: id })
-
     }
 
     handleDeleteResume(id) {
+        console.log(this.state.currentProposal.resumes.filter(resume => resume.ID !== id))
         this.setState(prevState => ({
-            resumes: prevState.resumes.filter(resume => resume.ID !== id)
+            resumes: prevState.currentProposal.resumes.filter(resume => resume.ID !== id)
         }));
-    } y
+    }
 
     handleDeleteSector(resumeId, sectorId) {
-        const resumeToDelete = this.state.resumes.find(resumebyId => resumebyId.ID === resumeId);
+        const resumeToDelete = this.state.currentProposal.resumes.find(resumebyId => resumebyId.ID === resumeId);
         resumeToDelete.Sectors.filter(sector => sector.ID !== sectorId)
         this.setState(prevState => ({
             resumes: prevState.resumes.filter(sector => sector.ID !== sectorId)
@@ -141,10 +151,10 @@ export default class CustomListItem extends React.Component {
      return (
       <div>
       <List>
-      {this.state.resumes.map((resume, i) => (
+      {this.state.currentProposal.resumes.map((resume, i) => (
       <div>
       <ListItem button key={resume.ID} onClick={() => this.handleClick(resume.ID)}>
-        <ListItemText primary={resume.Name} />
+        <ListItemText primary={resume.Name} secondary={`ID : ${resume.ID}`}/>
         {this.state.openItemID === resume.ID ? <ExpandLess/> : <ExpandMore/>}
             <IconButton edge="end" onClick={() => this.handleDeleteResume(resume.ID)}>
                 <DeleteIcon />
@@ -159,7 +169,7 @@ export default class CustomListItem extends React.Component {
               <List component='li' disablePadding key={resume.ID}>
                 {resume.Sectors.map((sector, j) => {
                   return (
-                    <ListItem button key={sector.ID}>
+                    <ListItem button key={sector.ID+resume.ID}>
                       <ListItemText key={j} primary={sector.Title} />
                       <IconButton edge="end" >
                         <DeleteIcon />
