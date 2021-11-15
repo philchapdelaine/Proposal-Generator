@@ -27,60 +27,78 @@ import { useSelector, useDispatch } from "react-redux";
 function Navigator() {
   const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
+
+  const loggedinRedirects = () => {
+    if (loggedin) {
+      if (imadmin) {
+        return <Redirect to="/admin" />;
+      } else {
+        return <Redirect to="/resume" />;
+      }
+    } else {
+      return <Login />;
+    }
+  };
+
   return (
     <div>
-      <nav>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <Btn btnName="Login" />
-        </Link>
-        <Link to="/admin" style={{ textDecoration: "none" }}>
-          <Btn btnName="Admin" />
-        </Link>
-        <Link to="/resume" style={{ textDecoration: "none" }}>
-          <Btn btnName="Resume" />
-        </Link>
-        <Link to="/sector" style={{ textDecoration: "none" }}>
-          <Btn btnName="Sector" />
-        </Link>
-        <Link to="/create-proposal" style={{ textDecoration: "none" }}>
-          <Btn btnName="Create Proposal" />
-        </Link>
-      </nav>
-      <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/admin">
-          <Admin />
-        </Route>
-        <Route path="/resume">
-          <Resume />
-        </Route>
-        <Route path="/sector">
-          <CreateSector />
-        </Route>
-        {/* <Route path="/proposal">
-          <Proposal />
-        </Route> */}
-        <Route path="/create-proposal">
-          <CreateProposal />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/">
-          {loggedin && imadmin ? (
-            <Redirect to="/admin" />
-          ) : loggedin ? (
-            <Redirect to="/resume" />
+      <Router>
+        <div>
+          {/* TODO: COMMENT OUT THE nav code block once testing and dev is finished */}
+          {/* <nav>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Btn btnName="Login" />
+            </Link>
+            <Link to="/admin" style={{ textDecoration: "none" }}>
+              <Btn btnName="Admin" />
+            </Link>
+            <Link to="/resume" style={{ textDecoration: "none" }}>
+              <Btn btnName="Resume" />
+            </Link>
+            <Link to="/sector" style={{ textDecoration: "none" }}>
+              <Btn btnName="Sector" />
+            </Link>
+            <Link to="/create-proposal" style={{ textDecoration: "none" }}>
+              <Btn btnName="Create Proposal" />
+            </Link>
+          </nav> */}
+          {loggedin ? (
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/admin">
+                <Admin />
+              </Route>
+              <Route path="/resume">
+                <Resume />
+              </Route>
+              <Route path="/sector">
+                <CreateSector />
+              </Route>
+              <Route path="/create-proposal">
+                <CreateProposal />
+              </Route>
+              {/* <Route path="/signup">
+                <Signup />
+              </Route> */}
+              <Route path="/">{loggedinRedirects}</Route>
+            </Switch>
           ) : (
-            <Login />
+            <Switch>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+              <Route path="/">{loggedinRedirects}</Route>
+            </Switch>
           )}
-        </Route>
-      </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
+
+// https://v5.reactrouter.com/web/example/auth-workflow
 
 const Btn = (props) => {
   return (
