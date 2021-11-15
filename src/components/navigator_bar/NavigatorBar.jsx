@@ -12,7 +12,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-function NavigatorBar() {
+function NavigatorBar(props) {
   const isAdmin = useSelector((state) => state.loginReducer.admin);
 
   return (
@@ -39,7 +39,7 @@ function NavigatorBar() {
       </nav>
       <div className="recently-viewed">
         {" "}
-        <RecentlyViewed />{" "}
+        {props.isCreateProposal ? <RecentlyViewed onSectorClick={props.onSectorClick} resumes={props.recentlyViewed}>{props.recentlyViewed}</RecentlyViewed> : null }
       </div>
     </div>
   );
