@@ -52,10 +52,10 @@ class SectorSearchModal extends Component {
 
     componentDidMount() {
       // resume = samplesectors
-      const url = "localhost:5000/api/user/sector"
+      const url = "/api/sector/"
       axios.get(url)
-        .then((res) => {
-          this.setState({sectors: res});
+          .then((res) => {
+          this.setState({sectors: res.data});
         })
     }
 

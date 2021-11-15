@@ -41,10 +41,6 @@ var resume = [];
 
 var index = 3;
 
-const client = axios.create({
-  baseURL: "localhost:5000/api/"
-});
-
 class Resume extends Component {
   constructor(props) {
     super(props);
@@ -53,10 +49,10 @@ class Resume extends Component {
 
   componentDidMount() {
     // resume = samplesectors
-    const url = "localhost:5000/api/user/" + this.state.user.applicationUserId + "/resume"
+    const url = "/api/user/" + this.state.user.applicationUserId + "/resume"
     axios.get(url)
       .then((res) => {
-        resume = res;
+        resume = res.data;
         curruser = sampleuser;
         this.setState({sectors: resume, user: curruser});
       })
@@ -64,10 +60,10 @@ class Resume extends Component {
 
   componentDidUpdate() {
     // resume = samplesectors
-    const url = "localhost:5000/api/user/" + this.state.user.applicationUserId + "/resume"
+    const url = "/api/user/" + this.state.user.applicationUserId + "/resume"
     axios.get(url)
       .then((res) => {
-        resume = res;
+        resume = res.data;
         this.setState({sectors: resume});
       })
   }
@@ -85,7 +81,7 @@ class Resume extends Component {
       imageLoc: imageloc,
       description: sectordescription,
     }
-    const url = "localhost:5000/api/user/" + this.state.user.applicationUserId + "/resume/sector"
+    const url = "/api/user/" + this.state.user.applicationUserId + "/resume/sector"
     index++;
     //resume.push(newsector);
     axios.post(url, newsector).then((res) => {
@@ -95,7 +91,7 @@ class Resume extends Component {
     console.log("Added " + newsector.name);
   }
   deleteSector(sector) {
-    const url = "localhost:5000/api/user/" + this.state.user.applicationUserId + "/resume/sector/" + sector.sectorID
+    const url = "/api/user/" + this.state.user.applicationUserId + "/resume/sector/" + sector.sectorID
     axios.delete(url).then((res) => {
       this.forceUpdate()
     })
@@ -104,7 +100,7 @@ class Resume extends Component {
     console.log("Deleted " + sector.name);
   }
   saveSector(sectorid, sectorname, sectorcontent) {
-    const url = "localhost:5000/api/sector/" + sector.sectorID
+    const url = "/api/sector/" + sector.sectorID
     var oldsector = resume[resume.findIndex(e => e.sectorID === sectorid)]
     oldsector.name = sectorname;
     oldsector.description = sectorcontent;
