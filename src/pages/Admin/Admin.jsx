@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import Logo from "../../components/logo/logo";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import {
   Accordion,
   AccordionDetails,
@@ -11,13 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { Delete } from "@mui/icons-material";
-import confirmModal from "../../components/confirmModal/confirmModal";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory } from "react-router-dom";
 import "./Admin.css";
 import Axios from 'axios';
 import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
+import { setProposals as setProposalsRedux } from "../../redux/actions/proposal-actions";
+import { useDispatch } from 'react-redux'
 
 const style = {
   width: "75%",
@@ -41,6 +37,7 @@ const handleDelete = () => {
 function Admin() {
   const [proposals, setProposals] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleClickEdit = () => {
     history.push("/create-proposal");
@@ -52,6 +49,7 @@ function Admin() {
       let response = await Axios.get('/api/user/0/proposal');
       if (response.data) {
         setProposals(response.data);
+        dispatch(setProposalsRedux(response.data));
       }
     };
 
