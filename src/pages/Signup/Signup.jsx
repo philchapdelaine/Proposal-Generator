@@ -59,6 +59,8 @@ function Signup() {
         FirstName: firstName,
         LastName: lastName,
         EmailAddress: username,
+        Password: password,
+        RoleType: role
       })
       .then((res) => {
         alert("Sign up under construction");
@@ -177,7 +179,7 @@ function Signup() {
           name="role"
           checked={role !== "Employee"}
           onChange={() =>
-            role === "Employee" ? setRole("Admin") : setRole("Employee")
+            role === "Employee" ? setRole("Project Administrator") : setRole("Employee")
           }
         />
         Admin
