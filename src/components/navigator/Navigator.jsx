@@ -27,10 +27,23 @@ import { useSelector, useDispatch } from "react-redux";
 function Navigator() {
   const loggedin = useSelector((state) => state.loginReducer["loggedIn"]);
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
+
+  const loginRedirects = () => {
+    if (loggedin) {
+      if (imadmin) {
+        return <Redirect to="/admin" />;
+      } else {
+        return <Redirect to="/resume" />;
+      }
+    } else {
+      return <Login />;
+    }
+  };
   return (
     <div>
       <Router>
         <div>
+          {/* TODO: COMMENT OUT THE nav code block once testing and dev is finished */}
           <nav>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Btn btnName="Login" />
@@ -61,30 +74,21 @@ function Navigator() {
             <Route path="/sector">
               <CreateSector />
             </Route>
-            {/* <Route path="/proposal">
-              <Proposal />
-            </Route> */}
             <Route path="/create-proposal">
               <CreateProposal />
             </Route>
             <Route path="/signup">
               <Signup />
             </Route>
-            <Route path="/">
-              {loggedin && imadmin ? (
-                <Redirect to="/admin" />
-              ) : loggedin ? (
-                <Redirect to="/resume" />
-              ) : (
-                <Login />
-              )}
-            </Route>
+            <Route path="/">{loginRedirects}</Route>
           </Switch>
         </div>
       </Router>
     </div>
   );
 }
+
+// https://v5.reactrouter.com/web/example/auth-workflow
 
 const Btn = (props) => {
   return (

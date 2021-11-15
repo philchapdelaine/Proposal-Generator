@@ -2,11 +2,15 @@ import React, { useState } from "react";
 
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import EmailIcon from "@mui/icons-material/Email";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 import ConfirmModal from "../../components/confirmModal/confirmModal";
 
@@ -16,6 +20,10 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("Employee");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -28,18 +36,35 @@ function Signup() {
   };
 
   function validated() {
-    return password === password2 && usernameUnique("");
+    return password === password2 && usernameUnique("") && password.length > 7;
   }
 
   function usernameUnique(un) {
     return true; // just placeholding
   }
 
+  function emailAddressFormatValidator() {
+    // https://help.xmatters.com/ondemand/trial/valid_email_format.htm
+    return true; // just placeholding
+  }
+
+  const register = async () => {
+    const resp = await axios
+      .post(`/api/autheticate/register/`, {
+        FirstName: firstName,
+        LastName: lastName,
+        EmailAddress: email,
+      })
+      .then((res) => {})
+      .catch((err) => {});
+  };
+
   const handleSubmit = () => {
     if (validated()) {
       alert("Sign up under construction");
+      // register();
     } else {
-      alert("one field is incorrect");
+      alert("one field is incorrect or incomplete");
     }
   };
 
@@ -69,8 +94,12 @@ function Signup() {
         <br />
         <TextField
           required
+          error={password.length < 8}
           label="Password"
           variant="outlined"
+          helperText={
+            password.length < 8 ? "Passwords must be at least 8 characters" : ""
+          }
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -100,7 +129,51 @@ function Signup() {
           onChange={(event) => setPassword2(event.target.value)}
           type="password"
         />
-        <div className="LoginBtnGrp">
+        <br />
+        <TextField
+          required
+          label="First Name"
+          variant="outlined"
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
+        />
+        <TextField
+          required
+          label="Last Name"
+          variant="outlined"
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
+        />
+        <TextField
+          required
+          label="Email"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          }}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <br />
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                name="role"
+                checked={role !== "Employee"}
+                onChange={() =>
+                  role === "Employee" ? setRole("Admin") : setRole("Employee")
+                }
+              />
+            }
+            label="Admin"
+          ></FormControlLabel>
+        </FormGroup>
+        <div className="SignupBtnGrp">
           <Button
             variant="contained"
             color="primary"

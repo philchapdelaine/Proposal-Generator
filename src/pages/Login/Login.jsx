@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./Login.css";
+
+import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -12,6 +14,8 @@ import Box from "@mui/material/Box";
 
 import { useSelector, useDispatch } from "react-redux";
 
+import axios from "axios";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,39 +25,110 @@ import {
 } from "react-router-dom";
 
 function Login() {
-  // const [loggedIn, setLoggedIn] = useState(false);
   const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   return (
-    <div className="Login">
-      <Logo />
-      <br />
-      <br />
-      {loggedin ? <Logout /> : <LoginBox />}
+    <div style={{ display: "flex" }}>
+      {loggedin ? <NavigatorBar /> : null}
+      <div className="Login">
+        <Logo />
+        <br />
+        <br />
+        {loggedin ? <Logout /> : <LoginBox />}
+      </div>
     </div>
   );
 }
 
 function LoginBox() {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [trueUN, setTrueUN] = useState(false);
 
-  // const selector = useSeletor()
+  const uid = useSelector((state) => state.loginReducer.uid);
+
+  // const selector = useSelector()
   const dispatch = useDispatch();
+
+  // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
+  const authUser = async () => {
+    const resp = await axios
+      .post(
+        `/api/authenticate/login/`,
+        {
+          emailAddress: username,
+          password: password,
+        }
+        // {
+        //   auth: {
+        //     username: username,
+        //     password: password,
+        //   },
+        // }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch({
+            type: "SUCCESSFUL_LOGIN",
+            payload: res.data["applicationUserId"],
+          });
+          alert(
+            "Under Construction, but welcome," +
+              firstName +
+              " " +
+              lastName +
+              "uid: " +
+              uid
+          );
+        } else {
+          alert("Incorrect Username or Password");
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const getUser = async (userID) => {
+    // placeholder
+    const resp = await axios
+      .get(`/api/user/${userID}`)
+      .then((res) => {
+        const data = res.data;
+        console.log("data");
+        console.log(data);
+        setTrueUN(data["emailAddress"] === username);
+        setFirstName(data["firstName"]);
+        setLastName(data["lastName"]);
+      })
+      .catch(setTrueUN(false));
+    console.log("getUser call");
+  };
 
   const validated = () => {
     // TODO
-    return username === "username" && password === "password";
+    // return username === "username"  && password === "password";
+    console.log("valided 1");
+    getUser(1);
+    console.log("valided 2");
+    return trueUN && password === "password";
   };
-  const handleSubmit = () => {
+  const handleSubmit2 = () => {
     // TODO
     // if not validated, tell user
     // for now just give under construction alert
     if (validated()) {
       dispatch({ type: "SUCCESSFUL_LOGIN" });
-      alert("Under Construction, but welcome," + username);
+      alert("Under Construction, but welcome," + firstName + " " + lastName);
     } else {
       alert("Incorrect Username or Password");
     }
+  };
+
+  const handleSubmit = () => {
+    authUser();
   };
 
   return (
@@ -76,7 +151,13 @@ function LoginBox() {
             ),
           }}
           value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          // onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) =>
+            dispatch({
+              type: "TRY_LOGIN",
+              payload: { username: event.target.value },
+            })
+          }
         />
         <TextField
           required
@@ -103,6 +184,8 @@ function LoginBox() {
             Sign-in
           </Button>{" "}
           {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
+          {/* https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications */}
+          {/* https://www.bezkoder.com/react-redux-jwt-auth/ */}
           <Link to="/signup" style={{ textDecoration: "none" }}>
             <Button color="primary" variant="outlined" className="LoginBtn">
               Sign-Up
