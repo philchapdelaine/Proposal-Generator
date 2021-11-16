@@ -12,10 +12,11 @@ export const setProposals = proposals => {
   }
 };
 
-export const getResumes = proposals => {
+export const deleteResume = (resumeId, proposalId) => {
   return {
-    type: "FETCH_RESUMES",
-    proposals: proposals
+    type: "DELETE_RESUME",
+    proposalId : proposalId,
+    resumeId: resumeId
   }
 };
 

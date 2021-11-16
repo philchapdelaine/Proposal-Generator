@@ -11,78 +11,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import axios from 'axios';
 
-import { connect } from 'react-redux';
-import { getResumes } from '../../redux/actions/rp-actions';
+import { addProposal as addProposalRedux } from "../../redux/actions/proposal-actions";
+import { deleteProposal as deleteProposalRedux } from "../../redux/actions/proposal-actions";
+import { useDispatch, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-let initialProposal = {
-proposalID : 1,
-resumes : 
-    [
-        {
-            "ID": 1,
-            "Name": "John Smith",
-            "Sectors": [
-                {
-                    "ID": 1,
-                    "Title": "Experience"
-                },
-                {
-                    "ID": 2,
-                    "Title": "Projects"
-                },
-                {
-                    "ID": 3,
-                    "Title": "Education"
-                }
-            ]
-        },
-        {
-            "ID": 2,
-            "Name": "Steve Jobs",
-            "Sectors": [
-                {
-                    "ID": 1,
-                    "Title": "Experience"
-                },
-                {
-                    "ID": 2,
-                    "Title": "Projects"
-                },
-                {
-                    "ID": 3,
-                    "Title": "Education"
-                }
-            ]
-        },
-        {
-            "ID": 3,
-            "Name": "Michael Chung",
-            "Sectors": [
-                {
-                    "ID": 1,
-                    "Title": "Experience"
-                },
-                {
-                    "ID": 2,
-                    "Title": "Projects"
-                },
-                {
-                    "ID": 3,
-                    "Title": "Education"
-                }
-            ]
-        }
-    ]
-};
-
-export default class CustomListItem extends React.Component {
+class CustomListItem extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             openItemID: null,
-            currentProposal: initialProposal,
-            proposals : [],
+            currentProposal: this.props.proposals[0],
+            proposals: this.props.proposals,
             loading: false // will be true when axios request is running
         };
         this.handleClick = this.handleClick.bind(this);
@@ -90,39 +31,35 @@ export default class CustomListItem extends React.Component {
         this.handleDeleteSector = this.handleDeleteSector.bind(this);
     }
 
-//     componentDidMount = () => {
-//       axios.get('http://localhost:5000/api/user/2/proposal', {
-//       }).then((response) => {
-//           console.log(response);
-//           this.setState({ proposals: response.data });
-//           console.log(response);
-//           const resumes = response.data[0].resumes;
-//           console.log(resumes);
-//           // this.setState({ resumes: response[0].resumes });
-//       }, (error) => {
-//           console.log(error);
-//       })
-//   }
-
-    componentDidMount = () => {
-        console.log(this.props.getResumes)
-    }
+    //     componentDidMount = () => {
+    //       axios.get('http://localhost:5000/api/user/2/proposal', {
+    //       }).then((response) => {
+    //           console.log(response);
+    //           this.setState({ proposals: response.data });
+    //           console.log(response);
+    //           const resumes = response.data[0].resumes;
+    //           console.log(resumes);
+    //           // this.setState({ resumes: response[0].resumes });
+    //       }, (error) => {
+    //           console.log(error);
+    //       })
+    //   }
 
     handleClick(id) {
-        // const newResumeClicked = this.state.openItemID !== id;
-        // if (newResumeClicked) {
-        //   this.setState({ openItemId : id });
+        // const oldResumeClicked = this.state.openItemID === id;
+        // console.log(newResumeClicked)
+        // if (oldResumeClicked) {
+        //   this.setState({ openItemId : 0 });
+        //   console.log(this.state.openItemID)
+        // }
         // } else {
         //   this.setState({ openItemId : null });
         // }
         this.setState({ openItemID: id })
     }
 
-    handleDeleteResume(id) {
-        console.log(this.state.currentProposal.resumes.filter(resume => resume.ID !== id))
-        this.setState(prevState => ({
-            resumes: prevState.currentProposal.resumes.filter(resume => resume.ID !== id)
-        }));
+    handleDeleteResume(resumeId) {
+        this.props.deleteResume(resumeId, this.state.currentProposal.proposalId);
     }
 
     handleDeleteSector(resumeId, sectorId) {
@@ -147,43 +84,59 @@ export default class CustomListItem extends React.Component {
         }
     }
 
-  render() {
-     return (
-      <div>
-      <List>
-      {this.state.currentProposal.resumes.map((resume, i) => (
-      <div>
-      <ListItem button key={resume.ID} onClick={() => this.handleClick(resume.ID)}>
-        <ListItemText primary={resume.Name} secondary={`ID : ${resume.ID}`}/>
-        {this.state.openItemID === resume.ID ? <ExpandLess/> : <ExpandMore/>}
-            <IconButton edge="end" onClick={() => this.handleDeleteResume(resume.ID)}>
-                <DeleteIcon />
-            </IconButton>
-        </ListItem>
-        <Collapse
-                key={i}
-                in={this.state.openItemID === resume.ID}
-                timeout='auto'
-                unmountOnExit
-              >
-              <List component='li' disablePadding key={resume.ID}>
-                {resume.Sectors.map((sector, j) => {
-                  return (
-                    <ListItem button key={sector.ID+resume.ID}>
-                      <ListItemText key={j} primary={sector.Title} />
-                      <IconButton edge="end" >
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </Collapse>
-    <Divider />
-    </div>
-      ))}
-    </List>
-    </div>
-     );
+    render() {
+        return (
+        <div>
+        <List>
+        {this.state.currentProposal.resumes.map((resume, i) => (
+        <div>
+        <ListItem button key={resume.ID} onClick={() => this.handleClick(resume.ID)}>
+            <ListItemText primary={resume.Name} secondary={`ID : ${resume.ID}`}/>
+            {this.state.openItemID === resume.ID ? <ExpandLess/> : <ExpandMore/>}
+                <IconButton edge="end" onClick={() => this.handleDeleteResume(resume.ID)}>
+                    <DeleteIcon />
+                </IconButton>
+            </ListItem>
+            <Collapse
+                    key={i}
+                    in={this.state.openItemID === resume.ID}
+                    timeout='auto'
+                    unmountOnExit
+                >
+                <List component='li' disablePadding key={resume.ID}>
+                    {resume.Sectors.map((sector, j) => {
+                    return (
+                        <ListItem button key={sector.ID+resume.ID}>
+                        <ListItemText key={j} primary={sector.Title} />
+                        <IconButton edge="end" >
+                            <DeleteIcon />
+                        </IconButton>
+                        </ListItem>
+                    );
+                    })}
+                </List>
+                </Collapse>
+        <Divider />
+        </div>
+        ))}
+        </List>
+        </div>
+        );
+        }
     }
-  }
+
+function mapStateToProps(state) {
+    return {
+        proposals: state.proposalReducer.proposals
+    }
+};
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        deleteResume: (resumeId, proposalId) => { dispatch({type: 'DELETE_RESUME', resumeId: resumeId, proposalId: proposalId}) }
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomListItem);
