@@ -64,7 +64,7 @@ export default function ResumeSectorDisplay(props) {
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>{resumeOwnerName || "Name not available"}</Typography>
+          <Typography sx={{ flexShrink: 0 }}>{resumeOwnerName || "Name not available"}</Typography>
           <Typography sx={{ color: "text.secondary" }}>{resumeOwnerEmail || " "}</Typography>
         </AccordionSummary>
         <AccordionDetails>{resume.sectors.map((sector) => generateRows(sector, resume))}</AccordionDetails>

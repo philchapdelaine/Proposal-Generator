@@ -20,7 +20,6 @@ export default class RecentlyViewed extends React.Component {
   };
 
   render() {
-    const docs = data.documents;  //this coming from a json file, please see below for the sample json
     const recentlyViewed = this.props.resumes;
      return (
       <div>
@@ -101,41 +100,4 @@ export default class RecentlyViewed extends React.Component {
       </div>
       )
     }
-}
-
-const data = {
-  "documents": [
-    {
-      "Id": 1,
-      "Name": "John Smith",
-      "Sheets": [
-        {
-          "Id": 1,
-          "Title": "Experience"
-        },
-        {
-          "Id": 2,
-          "Title": "Projects"
-        },
-        {
-          "Id": 3,
-          "Title": "Education"
-        }
-      ]
-    },
-    {
-      "Id": 1,
-      "Name": "Steve Jobs",
-      "Sheets": [
-        {
-          "Id": 1,
-          "Title": "Previous Roles"
-        },
-        {
-          "Id": 2,
-          "Title": "Projects"
-        }
-      ]
-    }
-  ]
 }
