@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReadingPane from "../../components/reading_pane/ReadingPane";
-import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ResumeSectorDisplay from "../../components/resume_sector_display/ResumeSectorDisplay";
 import "./CreateProposal.css";
@@ -8,23 +7,64 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 
-const dummyResumes = [
-  {
-    name: "first last",
-  },
-  {
-    name: "first last",
-  },
-  {
-    name: "first last",
-  },
-];
 
-const resumes = [];
+// dummy data; this will actually come from the search api
+const recentlyViewedSample = [
+  {
+    "resumeID": 1,
+    "sectors": [
+        {
+            "sectorID": 1,
+            "name": "Experience",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Water",
+            "imageLoc": "blah/blah",
+            "description": "I'm the best so I don't need to have any experience"
+        },
+        {
+            "sectorID": 2,
+            "name": "Projects",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Air",
+            "imageLoc": null,
+            "description": "I'm the best so I don't need to have any projects"
+        }
+    ]
+  },
+  {
+    "resumeID": 2,
+    "sectors": [
+        {
+            "sectorID": 3,
+            "name": "Education",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Water",
+            "imageLoc": "blah/blah",
+            "description": "I'm the best so I don't need to have any experience"
+        },
+        {
+            "sectorID": 4,
+            "name": "Skills",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Air",
+            "imageLoc": null,
+            "description": "I'm the best so I don't need to have any projects"
+        }
+    ]
+  },
+]
+
+const maxLengthRecentlyViewed = 6;
 
 function CreateProposal() {
   const [resumes, setResumes] = useState([]);
   const [searchWord, setSearchWord] = useState("");
+  const [clickedSector, setClickedSector] = useState("");
+  const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
 
   const getResults = async () => {
     await axios
@@ -50,9 +90,31 @@ function CreateProposal() {
     }
   };
 
+  function addToRecentlyViewed(resume) {
+    const isMaxLengthReached = recentlyViewedResumes.length > maxLengthRecentlyViewed;
+
+    for (let i = 0; i < recentlyViewedResumes.length; i++) {
+      if (resume.resumeID == recentlyViewedResumes[i].resumeID) {
+        recentlyViewedResumes.splice(i, 1);
+      }
+    }
+    setRecentlyViewedResumes([resume].concat(recentlyViewedResumes));
+    if (isMaxLengthReached) recentlyViewedResumes.pop();
+  }
+
+  function updateDisplayedSector(sector, searchedResume = null) {
+    setClickedSector(sector);
+    if (searchedResume) addToRecentlyViewed(searchedResume);
+  }
+
   return (
     <div className="create-proposal">
-      <NavigatorBar />
+      <NavigatorBar 
+        isCreateProposal={true}
+        recentlyViewed={recentlyViewedResumes}
+        onSectorClick={updateDisplayedSector}
+      >
+      </NavigatorBar>
       <div className="cp-center-pane">
         <div className="cp-center-header">
           <div className="title"> Create Proposal </div>
@@ -72,10 +134,13 @@ function CreateProposal() {
             Search
           </Button>
         </div>
-        <div className="search-results"> Search results: </div>
-        <ResumeSectorDisplay />
+        <div className="search-results"> Search results: </div> <br/>
+        <ResumeSectorDisplay
+          displayedResumes={recentlyViewedSample}
+          onSectorClick={updateDisplayedSector}
+        ></ResumeSectorDisplay>
       </div>
-      <ReadingPane />
+      <ReadingPane displayedSector={clickedSector}></ReadingPane>
     </div>
   );
 }
