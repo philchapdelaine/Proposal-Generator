@@ -8,7 +8,12 @@ class ResumeBuilder extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {sectors: this.props.sectors};
+    if (this.props.sectors === undefined) {
+      this.state = {sectors: []};
+    } else {
+      this.state = {sectors: this.props.sectors};
+    }
+    
   }
 
   deleteSector(sector) {
