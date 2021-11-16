@@ -69,23 +69,19 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		let newState = {proposals: [...state.proposals, {proposal: action.proposal}]};
 		return newState;
 	}
-	if (action.type === 'DELETE_RESUME') {
-		let newState = {proposals: [...state.proposals]};
-
-		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId)
-		console.log('propIndex', proposaltoUpdateIndex)
-		let updatedProposal = newState.proposals[proposaltoUpdateIndex].resumes.filter(resume => resume.ID !== action.resumeId);
-		newState.proposals[proposaltoUpdateIndex].resumes = updatedProposal;
-		console.log(newState);
-
-		return newState;
-	}
 	if (action.type === 'SET_PROPOSALS') {
 		let newState = {proposals: action.proposals};
 		return newState;
 	}
 	if (action.type === 'CLEAR_PROPOSALS') {
 		let newState = INITIAL_STATE;
+		return newState;
+	}
+	if (action.type === 'DELETE_RESUME') {
+		let newState = {proposals: [...state.proposals]};
+		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId)
+		let updatedProposal = newState.proposals[proposaltoUpdateIndex].resumes.filter(resume => resume.ID !== action.resumeId);
+		newState.proposals[proposaltoUpdateIndex].resumes = updatedProposal;
 		return newState;
 	}
   return state;

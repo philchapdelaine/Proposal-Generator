@@ -12,16 +12,16 @@ export const setProposals = proposals => {
   }
 };
 
+export const clearProposals = () => {
+  return {
+    type: "CLEAR_PROPOSALS"
+  }
+};
+
 export const deleteResume = (resumeId, proposalId) => {
   return {
     type: "DELETE_RESUME",
     proposalId : proposalId,
     resumeId: resumeId
-  }
-};
-
-export const clearProposals = () => {
-  return {
-    type: "CLEAR_PROPOSALS"
   }
 };

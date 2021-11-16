@@ -11,13 +11,12 @@ import "./ReadingPane.css";
 
 function ReadingPane() {
   const [selectedTab, setSelectedTab] = useState(0);
-    const [open, setOpen] = useState(false);
-    const openModal = () => setOpen(true);
-    const closeModal = () => setOpen(false);
-
-    const handleChange = (event, newValue) => {
-      setSelectedTab(newValue);
-    };
+  const [open, setOpen] = useState(false);
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;

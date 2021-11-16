@@ -11,10 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import axios from 'axios';
 
-import { addProposal as addProposalRedux } from "../../redux/actions/proposal-actions";
-import { deleteProposal as deleteProposalRedux } from "../../redux/actions/proposal-actions";
-import { useDispatch, connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 class CustomListItem extends React.Component {
 
