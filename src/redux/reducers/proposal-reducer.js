@@ -73,9 +73,9 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		let newState = {proposals: [...state.proposals]};
 
 		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId)
-
+		console.log('propIndex', proposaltoUpdateIndex)
 		let updatedProposal = newState.proposals[proposaltoUpdateIndex].resumes.filter(resume => resume.ID !== action.resumeId);
-		newState.proposals[proposaltoUpdateIndex] = updatedProposal;
+		newState.proposals[proposaltoUpdateIndex].resumes = updatedProposal;
 		console.log(newState);
 
 		return newState;
