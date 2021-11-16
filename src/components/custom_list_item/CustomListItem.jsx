@@ -68,7 +68,7 @@ class CustomListItem extends React.Component {
     }
 
     handleSubmit() {
-        if (this.state.resumes !== []) {
+        if (this.state.currentProposal.resumes !== []) {
             this.setState({ loading: true })
             axios.post('http://localhost:5000/api/user/2/proposal', {
                 resumes: this.state.resumes

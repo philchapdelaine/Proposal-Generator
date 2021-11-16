@@ -25,3 +25,12 @@ export const deleteResume = (resumeId, proposalId) => {
     resumeId: resumeId
   }
 };
+
+export const addResume = (resumeId, proposalId, sector) => {
+  return {
+    type: "DELETE_RESUME",
+    proposalId : proposalId,
+    resumeId: resumeId,
+    sector: sector
+  }
+};
