@@ -62,7 +62,8 @@ export default class RecentlyViewed extends React.Component {
     }
 
     componentDidMount() {
-      Axios.get('/api/user/' + this.props.doc.resumeID + "/")
+      // this.props.doc.resumeID is NULL
+      Axios.get('/api/user/1/')
       .then((res) => {
         this.setState({
           resumeOwnerName: res.data.firstName + " " + res.data.lastName   
