@@ -56,7 +56,7 @@ class SectorSearchModal extends Component {
       if (noAPI) {
         this.setState({sectors: samplesectors});
       } else {
-        const url = `http://localhost:5000/api/sector`
+        const url = `/api/sector`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});
