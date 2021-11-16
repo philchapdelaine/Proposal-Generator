@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Button from '@mui/material/Button';
 import "./SectorList.css";
-import DeleteSectorDialog from "../delete_sector_dialog/DeleteSectorDialog";
 
 class SectorList extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {sectors: []}
     this.onItemClickHandler = this.onItemClickHandler.bind(this);
   }
 
@@ -40,7 +40,8 @@ class SectorList extends Component {
           </div>
 
           <div className = 'delete-button'>
-            <DeleteSectorDialog deleteSector = {() => {this.deleteSector(sector)}}></DeleteSectorDialog>
+            <Button variant="outlined" color="error" onClick={() =>
+                {this.deleteSector(sector)}}>Delete</Button>
           </div>
         </li>
       );
@@ -69,7 +70,6 @@ SectorList.propTypes = {
   sectorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fetchSectors: PropTypes.func,
   deleteSector: PropTypes.func,
-  sectors: PropTypes.any,
   selectSector: PropTypes.func
 };
 
