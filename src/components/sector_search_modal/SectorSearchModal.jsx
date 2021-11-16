@@ -41,6 +41,8 @@ boxShadow: 24,
 p: 4,
 };
 
+var noAPI = false;
+
 class SectorSearchModal extends Component {
 
     constructor(props) {
@@ -51,12 +53,15 @@ class SectorSearchModal extends Component {
     }
 
     componentDidMount() {
-      // resume = samplesectors
-      const url = "localhost:5000/api/user/sector"
-      axios.get(url)
-        .then((res) => {
-          this.setState({sectors: res});
-        })
+      if (noAPI) {
+        this.setState({sectors: samplesectors});
+      } else {
+        const url = `/api/sector`
+        axios.get(url)
+          .then((res) => {
+            this.setState({sectors: res.data});
+          })
+      }
     }
 
     openModal() {

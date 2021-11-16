@@ -47,7 +47,8 @@ export default function ResumeSectorDisplay(props) {
 
     useEffect(() => {
       const fetchName = async () => {
-        const user = await Axios.get('/api/user/' + resume.resumeID + "/")
+        // Currently resume.resumeID NULL
+        const user = await Axios.get('/api/user/1/')
         setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
         setResumeOwnerEmail(user.data.emailAddress);
       }
