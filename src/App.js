@@ -25,7 +25,7 @@ function App() {
           <Logo />
         </header>
         <div className="mainstage">
-          <p>Resume Generator</p>
+          <span>Resume Generator</span>
         </div>
         {isLoggedIn ? <UserDropdown/> : <Redirect to="/login" /> }
         <Navigator/>
