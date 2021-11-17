@@ -3,69 +3,33 @@ const initialProposal = {
 	resumes : 
 		[
 			{
-				"ID": 1,
-				"Name": "John Smith",
-				"Sectors": [
-					{
-						"ID": 1,
-						"Title": "Experience"
-					},
-					{
-						"ID": 2,
-						"Title": "Projects"
-					},
-					{
-						"ID": 3,
-						"Title": "Education"
-					}
-				]
+				"sectorID": 1,
+				"name": "Experience",
+				"linkedEmail": "mc@ae.com",
+				"division": "Water",
+				"imageLoc": "blah/blah",
+				"description":"I am a great description"
 			},
 			{
-				"ID": 2,
-				"Name": "Steve Jobs",
-				"Sectors": [
-					{
-						"ID": 1,
-						"Title": "Experience"
-					},
-					{
-						"ID": 2,
-						"Title": "Projects"
-					},
-					{
-						"ID": 3,
-						"Title": "Education"
-					}
-				]
-			},
-			{
-				"ID": 3,
-				"Name": "Michael Chung",
-				"Sectors": [
-					{
-						"ID": 1,
-						"Title": "Experience"
-					},
-					{
-						"ID": 2,
-						"Title": "Projects"
-					},
-					{
-						"ID": 3,
-						"Title": "Education"
-					}
-				]
+				"sectorID": 2,
+				"name": "Education",
+				"linkedEmail": "mc@ae.com",
+				"division": "Ground",
+				"imageLoc": null,
+				"description":"I am also a super great description"
 			}
 		]
 	};
-	
+
 
 const intialSector = {
-	sectorID: 1,
-	name: 'Experience',
-	division: 'water',
-	description: 'This will be a good description blah blah blahmhdjhasdkshsjkdhsjhkjsh'
-  }
+	"sectorID": 3,
+	"name": "TestSector",
+	"linkedEmail": "mc@ae.com",
+	"division": "Air",
+	"imageLoc": "blah/blah",
+	"description": "How do I keep making these descriptions so good"
+}
 
 const INITIAL_STATE = {
 	currentSector: intialSector,
@@ -85,14 +49,14 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		let newState = INITIAL_STATE;
 		return newState;
 	}
-	if (action.type === 'DELETE_RESUME') {
+	if (action.type === 'DELETE_SECTOR') {
 		let newState = {
 			currentSector: state.currentSector,
 			proposals: [...state.proposals]
 		};
-		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId)
-		let updatedProposal = newState.proposals[proposaltoUpdateIndex].resumes.filter(resume => resume.ID !== action.resumeId);
-		newState.proposals[proposaltoUpdateIndex].resumes = updatedProposal;
+		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
+		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
+		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
 		return newState;
 	}
 	if (action.type === 'ADD_RESUME') {
@@ -101,8 +65,8 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			proposals: [...state.proposals]
 		};
 		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId)
-		let updatedProposal = newState.proposals[proposaltoUpdateIndex].resumes.filter(resume => resume.ID !== action.resumeId);
-		newState.proposals[proposaltoUpdateIndex].resumes = updatedProposal;
+		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.push(action.newSector);
+		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
 		return newState;
 	}
   return state;

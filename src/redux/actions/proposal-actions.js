@@ -18,19 +18,18 @@ export const clearProposals = () => {
   }
 };
 
-export const deleteResume = (resumeId, proposalId) => {
+export const deleteSector = (sectorID, proposalId) => {
   return {
-    type: "DELETE_RESUME",
+    type: "DELETE_SECTOR",
     proposalId : proposalId,
-    resumeId: resumeId
+    sectorID: sectorID
   }
 };
 
-export const addResume = (resumeId, proposalId, sector) => {
+export const addSector = (sector, proposalId) => {
   return {
-    type: "DELETE_RESUME",
+    type: "ADD_SECTOR",
     proposalId : proposalId,
-    resumeId: resumeId,
     sector: sector
   }
 };

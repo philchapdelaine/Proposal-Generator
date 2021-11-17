@@ -24,7 +24,6 @@ class CustomListItem extends React.Component {
             loading: false // will be true when axios request is running
         };
         this.handleClick = this.handleClick.bind(this);
-        this.handleDeleteResume = this.handleDeleteResume.bind(this);
         this.handleDeleteSector = this.handleDeleteSector.bind(this);
     }
 
@@ -55,16 +54,8 @@ class CustomListItem extends React.Component {
         this.setState({ openItemID: id })
     }
 
-    handleDeleteResume(resumeId) {
-        this.props.deleteResume(resumeId, this.state.currentProposal.proposalId);
-    }
-
-    handleDeleteSector(resumeId, sectorId) {
-        const resumeToDelete = this.state.currentProposal.resumes.find(resumebyId => resumebyId.ID === resumeId);
-        resumeToDelete.Sectors.filter(sector => sector.ID !== sectorId)
-        this.setState(prevState => ({
-            resumes: prevState.resumes.filter(sector => sector.ID !== sectorId)
-        }));
+    handleDeleteSector(sectorID) {
+        this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
     }
 
     handleSubmit() {
@@ -85,32 +76,28 @@ class CustomListItem extends React.Component {
         return (
         <div>
         <List>
-        {this.state.currentProposal.resumes.map((resume, i) => (
+        {this.state.currentProposal.resumes.map((sector, i) => (
         <div>
-        <ListItem button key={resume.ID} onClick={() => this.handleClick(resume.ID)}>
-            <ListItemText primary={resume.Name} secondary={`ID : ${resume.ID}`}/>
-            {this.state.openItemID === resume.ID ? <ExpandLess/> : <ExpandMore/>}
-                <IconButton edge="end" onClick={() => this.handleDeleteResume(resume.ID)}>
+        <ListItem button key={sector.sectorID} onClick={() => this.handleClick(sector.sectorID)}>
+            <ListItemText primary={`${sector.name} for ${sector.linkedEmail}`} secondary={`Division : ${sector.division}`}/>
+            {this.state.openItemID === sector.sectorID ? <ExpandLess/> : <ExpandMore/>}
+                <IconButton edge="end" onClick={() => this.handleDeleteSector(sector.sectorID)}>
                     <DeleteIcon />
                 </IconButton>
             </ListItem>
             <Collapse
                     key={i}
-                    in={this.state.openItemID === resume.ID}
+                    in={this.state.openItemID === sector.sectorID}
                     timeout='auto'
                     unmountOnExit
                 >
-                <List component='li' disablePadding key={resume.ID}>
-                    {resume.Sectors.map((sector, j) => {
-                    return (
-                        <ListItem button key={sector.ID+resume.ID}>
-                        <ListItemText key={j} primary={sector.Title} />
-                        <IconButton edge="end" >
-                            <DeleteIcon />
-                        </IconButton>
-                        </ListItem>
-                    );
-                    })}
+                <List component='li' disablePadding key={sector.sectorID}>
+                    <ListItem>
+                        <ListItemText primary={sector.description} />
+                    </ListItem>
+                    <ListItem >
+                        <ListItemText primary={sector.imageLoc} />
+                    </ListItem>
                 </List>
                 </Collapse>
         <Divider />
@@ -131,7 +118,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        deleteResume: (resumeId, proposalId) => { dispatch({type: 'DELETE_RESUME', resumeId: resumeId, proposalId: proposalId}) }
+        deleteSector: (sectorID, proposalId) => { dispatch({type: 'DELETE_SECTOR', sectorID: sectorID, proposalId: proposalId}) }
     }
 };
 

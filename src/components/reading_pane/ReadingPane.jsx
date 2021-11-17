@@ -57,7 +57,7 @@ function ReadingPane() {
             <h4>Division: {currentSector.division}</h4>
           </div>
           <div className="sector-preview">
-            <h7>{currentSector.description}</h7>
+            <h6>{currentSector.description}</h6>
           </div>
           <div className="button-group">
             <ButtonGroup variant="contained" size="large">
