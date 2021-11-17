@@ -16,7 +16,12 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       };
 
     case "SUCCESSFUL_LOGIN":
-      return { ...state, loggedIn: true, uid: action.payload["uid"] };
+      return {
+        ...state,
+        loggedIn: true,
+        uid: action.payload["applicationUserId"],
+        // admin: action.payload["projectAdmin"],
+      };
 
     case "FAILED_LOGIN":
       return { ...state, password: "", loggedIn: false };
