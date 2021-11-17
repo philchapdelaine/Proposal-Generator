@@ -47,6 +47,7 @@ class SectorList extends Component {
     });
   }
 
+
   render() {
     return (
       <div>
@@ -58,8 +59,10 @@ class SectorList extends Component {
             <p>Division</p>
           </div>
         </div>
+        <div className = "list-container">
         {this.props.sectors &&
           this.renderSectors()}
+          </div>
       </div>
     );
   }
