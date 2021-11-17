@@ -34,7 +34,7 @@ const recentlyViewedSample = [
     ]
   },
   {
-    "resumeID": 2,
+    "resumeID": 1,
     "sectors": [
         {
             "sectorID": 3,

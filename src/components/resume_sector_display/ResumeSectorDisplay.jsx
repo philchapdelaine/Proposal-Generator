@@ -54,12 +54,12 @@ export default function ResumeSectorDisplay(props) {
   function generateAccordian(resume) {
 
     useEffect(() => {
-      // const fetchName = async () => {
-      //   const user = await Axios.get('/api/user/' + resume.resumeID + "/")
-      //   setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
-      //   setResumeOwnerEmail(user.data.emailAddress);
-      // }
-      // fetchName();
+      const fetchName = async () => {
+        const user = await Axios.get('/api/user/' + resume.resumeID + "/")
+        setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
+        setResumeOwnerEmail(user.data.emailAddress);
+      }
+      fetchName();
     }, [])
 
     return (
