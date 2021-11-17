@@ -7,57 +7,68 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import "./ResumeSectorDisplay.css";
+import Axios from 'axios';
 
-export default function ResumeSectorDisplay() {
+
+export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
+  const [resumeOwnerName, setResumeOwnerName] = useState("");
+  const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
 
-  const sector = [
-    ["Utlity Consultant", "test", "test", "test", "test"],
-    ["Education", "test", "test", "test", "test"],
-    ["Projects", "test", "test", "test", "test"],
-  ];
+  function handleSectorClick(sector, currResume) {
+    props.onSectorClick(sector, currResume);
+  }
 
-  const user = [1, 2, 3];
-
-  function generateRows(row) {
+  function generateRows(sector, currResume) {
+    
     return (
-      <TableRow>
+      <TableRow hover onClick={() => handleSectorClick(sector, currResume)} >
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[0]}
+          {sector.name}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[1]}
+          {sector.division}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[2]}
+          {sector.description}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[3]}
+          {/* TODO: decide which sector properties to display here*/}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {row[4]}
+          {sector[4]}
         </TableCell>
       </TableRow>
     );
   }
 
-  function generateAccordian(user) {
+  function generateAccordian(resume) {
+
+    useEffect(() => {
+      const fetchName = async () => {
+        // Currently resume.resumeID NULL
+        const user = await Axios.get('/api/user/1/')
+        setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
+        setResumeOwnerEmail(user.data.emailAddress);
+      }
+      fetchName();
+    }, [])
+
     return (
       <Accordion
-        expanded={expanded === "panel" + user}
-        onChange={handleChange("panel" + user)}
+        expanded={expanded === "panel" + resume.resumeID}
+        onChange={handleChange("panel" + resume.resumeID)}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls={"panel" + user + " bh-content"}
-          id={"panel" + user + "bh-header"}
+          expandIcon={<ExpandMoreIcon className="rsd-expand-icon"/>}
+          aria-controls={"panel" + resume.resumeID + " bh-content"}
+          id={"panel" + resume.resumeID + "bh-header"}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>John Doe</Typography>
-          <Typography sx={{ color: "text.secondary" }}>
-            johndoe@example.com
-          </Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>{resumeOwnerName || "Name not available"}</Typography>
+          <Typography sx={{ color: "text.secondary" }}>{resumeOwnerEmail || " "}</Typography>
         </AccordionSummary>
-        <AccordionDetails>{sector.map(generateRows)}</AccordionDetails>
+        <AccordionDetails>{resume.sectors.map((sector) => generateRows(sector, resume))}</AccordionDetails>
       </Accordion>
     );
   }
@@ -66,5 +77,5 @@ export default function ResumeSectorDisplay() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  return user.map(generateAccordian);
+  return props.displayedResumes.map(generateAccordian);
 }

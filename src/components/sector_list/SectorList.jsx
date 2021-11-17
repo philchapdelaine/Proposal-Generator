@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Button from '@mui/material/Button';
 import "./SectorList.css";
+import DeleteSectorDialog from "../delete_sector_dialog/DeleteSectorDialog";
 
 class SectorList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {sectors: []}
     this.onItemClickHandler = this.onItemClickHandler.bind(this);
   }
 
   onItemClickHandler(sector) {
-    this.props.selectSector(sector.id);
+    this.props.selectSector(sector.sectorID);
   }
 
   deleteSector(sector) {
@@ -25,7 +25,7 @@ class SectorList extends Component {
         <li
           onClick={() => {this.onItemClickHandler(sector)}}
           className={
-            sector.id === this.props.sectorId
+            sector.sectorID === this.props.sectorId
               ? "active user-sector-item"
               : "user-sector-item"
           }
@@ -35,13 +35,12 @@ class SectorList extends Component {
             <p>{sector.name}</p>
           </div>
 
-          <div className="sector-type">
-            <p>{sector.type}</p>
+          <div className="sector-division">
+            <p>{sector.division}</p>
           </div>
 
           <div className = 'delete-button'>
-            <Button variant="outlined" color="error" onClick={() =>
-                {this.deleteSector(sector)}}>Delete</Button>
+            <DeleteSectorDialog deleteSector = {() => {this.deleteSector(sector)}}></DeleteSectorDialog>
           </div>
         </li>
       );
@@ -55,8 +54,8 @@ class SectorList extends Component {
           <div className="sector-name-header">
             <p>Name</p>
           </div>
-          <div className="sector-type-header">
-            <p>Type</p>
+          <div className="sector-division-header">
+            <p>Division</p>
           </div>
         </div>
         {this.props.sectors &&
@@ -68,6 +67,7 @@ class SectorList extends Component {
 
 SectorList.propTypes = {
   sectorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  sectors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   fetchSectors: PropTypes.func,
   deleteSector: PropTypes.func,
   selectSector: PropTypes.func

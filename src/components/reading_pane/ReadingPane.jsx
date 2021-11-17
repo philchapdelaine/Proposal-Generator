@@ -23,7 +23,7 @@ function ReadingPane(props) {
 
     const currentSector = useSelector((state) => state.proposalReducer.currentSector);
     const dispatch = useDispatch();
-
+    
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
         return (

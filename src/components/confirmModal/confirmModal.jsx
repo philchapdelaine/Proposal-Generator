@@ -36,6 +36,14 @@ function ConfirmModal(props) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {props.confirmMsg}
           </Typography>
+          {props.handleProceed}{" "}
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={props.handleClose}
+          >
+            No
+          </Button>
         </Box>
       </Modal>
     </div>

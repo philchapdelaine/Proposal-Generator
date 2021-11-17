@@ -43,88 +43,38 @@ function LoginBox() {
   // const [username, setUsername] = useState("");
   const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [trueUN, setTrueUN] = useState(false);
 
   const uid = useSelector((state) => state.loginReducer.uid);
 
-  // const selector = useSelector()
   const dispatch = useDispatch();
 
   // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
   const authUser = async () => {
     const resp = await axios
-      .post(
-        `/api/authenticate/login/`,
-        {
-          emailAddress: username,
-          password: password,
-        }
-        // {
-        //   auth: {
-        //     username: username,
-        //     password: password,
-        //   },
-        // }
-      )
+      .post(`/api/authenticate/login/`, {
+        emailAddress: username,
+        password: password,
+      })
       .then((res) => {
         if (res.status === 200) {
           dispatch({
             type: "SUCCESSFUL_LOGIN",
-            payload: res.data["applicationUserId"],
+            payload: res.data,
           });
-          alert(
-            "Under Construction, but welcome," +
-              firstName +
-              " " +
-              lastName +
-              "uid: " +
-              uid
-          );
         } else {
           alert("Incorrect Username or Password");
         }
       })
-      .catch((error) => {
-        alert(error);
+      .catch((err) => {
+        if (err.status === 500) {
+          // alert("Error " + err.staus + ". Wrong Username or Password");
+          alert("Incorrect Username or Password");
+        } else if (err.status === 404) {
+          alert("Error " + err.status + ". Server is down");
+        } else {
+          alert(err);
+        }
       });
-  };
-
-  const getUser = async (userID) => {
-    // placeholder
-    const resp = await axios
-      .get(`/api/user/${userID}`)
-      .then((res) => {
-        const data = res.data;
-        console.log("data");
-        console.log(data);
-        setTrueUN(data["emailAddress"] === username);
-        setFirstName(data["firstName"]);
-        setLastName(data["lastName"]);
-      })
-      .catch(setTrueUN(false));
-    console.log("getUser call");
-  };
-
-  const validated = () => {
-    // TODO
-    // return username === "username"  && password === "password";
-    console.log("valided 1");
-    getUser(1);
-    console.log("valided 2");
-    return trueUN && password === "password";
-  };
-  const handleSubmit2 = () => {
-    // TODO
-    // if not validated, tell user
-    // for now just give under construction alert
-    if (validated()) {
-      dispatch({ type: "SUCCESSFUL_LOGIN" });
-      alert("Under Construction, but welcome," + firstName + " " + lastName);
-    } else {
-      alert("Incorrect Username or Password");
-    }
   };
 
   const handleSubmit = () => {

@@ -14,7 +14,7 @@
   
   .sector-name p,
   .sector-employee p,
-  .sector-type p,
+  .sector-division p,
   .sector-length p {
     white-space: nowrap;
     overflow: hidden;
@@ -23,8 +23,8 @@
     line-height: 42px;
   }
   
-  .sector-type,
-  .sector-type-header {
+  .sector-division,
+  .sector-division-header {
       width: 200px;
   }
 
@@ -35,7 +35,7 @@
   
   .sector-name-header p,
   .sector-employee-header p,
-  .sector-type-header p,
+  .sector-division-header p,
   .sector-length-header p {
     text-transform: uppercase;
     font-size: 20px;
