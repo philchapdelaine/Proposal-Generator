@@ -23,7 +23,7 @@ const initialProposal = {
 
 
 const intialSector = {
-	"sectorID": 3,
+	"sectorID": 4,
 	"name": "TestSector",
 	"linkedEmail": "mc@ae.com",
 	"division": "Air",

@@ -39,9 +39,11 @@ function ReadingPane(props) {
     }
 
     function handleAddSector() {
-        setSelectedTab(1);
-        dispatch({ type: 'ADD_SECTOR', proposalId: 0 });
-        return <div></div>;
+        let isEmpty = Object.keys(currentSector).length === 0
+        if (!isEmpty) {
+            setSelectedTab(1);
+            dispatch({ type: 'ADD_SECTOR', proposalId: 0 });
+        }
     }
 
     function sectorFieldDisplay(title, content) {
