@@ -43,13 +43,9 @@ function LoginBox() {
   // const [username, setUsername] = useState("");
   const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [trueUN, setTrueUN] = useState(false);
 
   const uid = useSelector((state) => state.loginReducer.uid);
 
-  // const selector = useSelector()
   const dispatch = useDispatch();
 
   // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
@@ -74,14 +70,6 @@ function LoginBox() {
             type: "SUCCESSFUL_LOGIN",
             payload: res.data["applicationUserId"],
           });
-          alert(
-            "Under Construction, but welcome," +
-              firstName +
-              " " +
-              lastName +
-              "uid: " +
-              uid
-          );
         } else {
           alert("Incorrect Username or Password");
         }
@@ -89,42 +77,6 @@ function LoginBox() {
       .catch((error) => {
         alert(error);
       });
-  };
-
-  const getUser = async (userID) => {
-    // placeholder
-    const resp = await axios
-      .get(`/api/user/${userID}`)
-      .then((res) => {
-        const data = res.data;
-        console.log("data");
-        console.log(data);
-        setTrueUN(data["emailAddress"] === username);
-        setFirstName(data["firstName"]);
-        setLastName(data["lastName"]);
-      })
-      .catch(setTrueUN(false));
-    console.log("getUser call");
-  };
-
-  const validated = () => {
-    // TODO
-    // return username === "username"  && password === "password";
-    console.log("valided 1");
-    getUser(1);
-    console.log("valided 2");
-    return trueUN && password === "password";
-  };
-  const handleSubmit2 = () => {
-    // TODO
-    // if not validated, tell user
-    // for now just give under construction alert
-    if (validated()) {
-      dispatch({ type: "SUCCESSFUL_LOGIN" });
-      alert("Under Construction, but welcome," + firstName + " " + lastName);
-    } else {
-      alert("Incorrect Username or Password");
-    }
   };
 
   const handleSubmit = () => {

@@ -9,9 +9,10 @@ import CustomListItem from "../custom_list_item/CustomListItem";
 import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 
-function ReadingPane() {
+function ReadingPane(props) {
   const [selectedTab, setSelectedTab] = useState(0);
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [displayedSector, setDisplayedSector] = useState("");
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false);
 
@@ -39,7 +40,15 @@ function ReadingPane() {
   function addSector() {
     return <div></div>;
   }
-
+  function sectorFieldDisplay(title, content) {
+    if(!content) return null;
+    return (
+      <div className="reading-pane-title">
+        <h3>{title}</h3>
+        <div>{content}</div>
+      </div>
+    )
+  }
   return (
     <div className="reading-pane">
       <div className="reading-pane-header"> Reading Pane </div>
@@ -55,21 +64,14 @@ function ReadingPane() {
         </Tabs>
         <TabPanel value={selectedTab} index={0}>
           <div>
-            <h1 className="reading-pane-title">Experience</h1>
+            <h1 className="reading-pane-title">{props.displayedSector.name || "Click a sector to preview..."}</h1>
+            {sectorFieldDisplay("Proposal Number", props.displayedSector.proposalNum)}
+            {sectorFieldDisplay("Email", props.displayedSector.linkedEmail)}
+            {sectorFieldDisplay("Image Location", props.displayedSector.imageLoc)}
+            {sectorFieldDisplay("Division", props.displayedSector.division)}
+            {sectorFieldDisplay("Description", props.displayedSector.description)}
           </div>
-          <div className="sector-preview">
-            <TextField
-              id="outlined-basic"
-              label="John Smith's experince goes here."
-              variant="outlined"
-              placeholder="User can edit this sector's contents."
-              multiline
-              rows={10}
-              rowsMax={10}
-              margin="normal"
-              fullWidth
-            />
-          </div>
+   
           <div className="button-group">
             <ButtonGroup variant="contained" size="large">
               <Button onClick={openModal}>Edit Sector</Button>
