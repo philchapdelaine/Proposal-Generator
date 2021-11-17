@@ -67,9 +67,9 @@ class SectorList extends Component {
 
 SectorList.propTypes = {
   sectorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  sectors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   fetchSectors: PropTypes.func,
   deleteSector: PropTypes.func,
-  sectors: PropTypes.any,
   selectSector: PropTypes.func
 };
 

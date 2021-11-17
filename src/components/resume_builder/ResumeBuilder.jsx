@@ -8,12 +8,6 @@ class ResumeBuilder extends Component {
 
   constructor(props) {
     super(props);
-    if (this.props.sectors === undefined) {
-      this.state = {sectors: []};
-    } else {
-      this.state = {sectors: this.props.sectors};
-    }
-    
   }
 
   deleteSector(sector) {
@@ -36,7 +30,7 @@ class ResumeBuilder extends Component {
               {this.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}></SectorSearchModal>
           </div>
           <SectorList 
-          sectors = {this.state.sectors} 
+          sectors = {this.props.sectors} 
           deleteSector = {(sector) => {this.deleteSector(sector)}} 
           selectSector = {(sectorid) => {this.selectSector(sectorid)}}></SectorList>
         </div>

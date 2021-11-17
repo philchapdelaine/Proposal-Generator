@@ -57,6 +57,7 @@ class Resume extends Component {
     if (noAPI) {
       resume = samplesectors
       curruser = sampleuser
+      this.setState({sectors: resume});
     } else {
       //curruser = sampleuser;
       this.setState({user: curruser})
@@ -65,7 +66,6 @@ class Resume extends Component {
         .then((res) => {
           resume = res.data.sectors;
           this.setState({sectors: resume})
-          console.log(this.state.sectors, this.state.user);
         })
     }
   }
@@ -81,6 +81,10 @@ class Resume extends Component {
           this.setState({sectors: resume});
         })
     }
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.sectors);
   }
 
   selectSector(newID) {
@@ -147,7 +151,6 @@ class Resume extends Component {
         </div>
         <div className = "resume-page">
           <div className = "resume-builder">
-         { console.log(this.state.sectors)}
             <ResumeBuilder sectors = {this.state.sectors}
             addSector = {(sectorname, sectordivision, filetype, imageloc, sectordescription) => 
               {this.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}
