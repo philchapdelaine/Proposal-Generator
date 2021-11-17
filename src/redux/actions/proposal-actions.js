@@ -29,6 +29,13 @@ export const deleteSector = (sectorID, proposalId) => {
 export const addSector = (proposalId) => {
   return {
     type: "ADD_SECTOR",
-    proposalId : proposalId
+      proposalId: proposalId
   }
+};
+
+export const setProposalIndex = (currentProposalIndex) => {
+    return {
+        type: "SET_PROPOSAL_INDEX",
+        currentProposalIndex: currentProposalIndex
+    }
 };

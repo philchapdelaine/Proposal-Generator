@@ -7,6 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 
+import { useSelector, useDispatch } from "react-redux";
+
 
 // dummy data; this will actually come from the search api
 const recentlyViewedSample = [
@@ -65,6 +67,13 @@ function CreateProposal() {
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      // set to the as of yet uncreated proposal index flag of -1, 
+      // which will be changed when proposal is actually created and has an index
+      dispatch({ type: 'SET_PROPOSAL_INDEX', currentcurrentProposalIndex: -1 });
+  });
 
   const getResults = async () => {
     await axios

@@ -42,7 +42,7 @@ function ReadingPane(props) {
         let isEmpty = Object.keys(currentSector).length === 0
         if (!isEmpty) {
             setSelectedTab(1);
-            dispatch({ type: 'ADD_SECTOR', proposalId: 0 });
+            dispatch({ type: 'ADD_SECTOR', proposalId: 1 });
         }
     }
 

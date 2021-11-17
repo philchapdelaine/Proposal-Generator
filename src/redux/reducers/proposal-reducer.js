@@ -32,6 +32,7 @@ const intialSector = {
 }
 
 const INITIAL_STATE = {
+	currentProposalIndex: -1,
 	currentSector: intialSector,
 	proposals: [initialProposal]
 }
@@ -39,6 +40,7 @@ const INITIAL_STATE = {
 const proposalReducer = (state = INITIAL_STATE, action) => {
 	if (action.type === 'ADD_PROPOSAL') {
 		let newState = {
+			currentProposalIndex: 0,
 			currentSector: intialSector,
 			proposals: [...state.proposals, { proposal: action.proposal }]
 		};
@@ -46,6 +48,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 	}
 	if (action.type === 'SET_PROPOSALS') {
 		let newState = {
+			currentProposalIndex: 0,
 			currentSector: intialSector,
 			proposals: action.proposals
 		};
@@ -57,6 +60,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 	}
 	if (action.type === 'DELETE_SECTOR') {
 		let newState = {
+			currentProposalIndex: 0,
 			currentSector: state.currentSector,
 			proposals: [...state.proposals]
 		};
@@ -67,11 +71,29 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 	}
 	if (action.type === 'ADD_SECTOR') {
 		let newState = {
+			currentProposalIndex: state.currentProposalIndex,
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
-		let proposaltoUpdateIndex = 0;
-		newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+		if (newState.currentProposalIndex !== -1) {
+			let proposaltoUpdateIndex = 0;
+			newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+			return newState;
+		}
+		let newProposal = {
+			proposalId: 100,
+			resumes: [state.currentSector]
+        }
+		newState.currentProposalIndex = newState.proposals.push(newProposal) - 1;
+		return newState;
+	}
+	if (action.type === 'SET_PROPOSAL_INDEX') {
+		let newState = {
+			currentProposalIndex: action.currentProposalIndex,
+			currentSector: {},
+			proposals: [...state.proposals]
+		};
+		console.log("hello");
 		return newState;
 	}
   return state;

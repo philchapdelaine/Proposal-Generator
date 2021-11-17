@@ -19,7 +19,7 @@ class CustomListItem extends React.Component {
         super(props);
         this.state = {
             openItemID: null,
-            currentProposal: this.props.proposals[0],
+            currentProposal: this.props.proposals[this.props.currentProposalIndex],
             proposals: this.props.proposals,
             loading: false // will be true when axios request is running
         };
@@ -59,24 +59,22 @@ class CustomListItem extends React.Component {
     }
 
     handleSubmit() {
-        if (this.state.currentProposal.resumes !== []) {
-            this.setState({ loading: true })
-            axios.post('http://localhost:5000/api/user/2/proposal', {
-                resumes: this.state.resumes
-            }).then((response) => {
-                console.log(response);
-                this.setState({ loading: false })
-            }, (error) => {
-                console.log(error);
-            });
-        }
+        this.setState({ loading: true })
+        axios.post('http://localhost:5000/api/user/2/proposal', {
+            resumes: this.state.currentProposal.resumes
+        }).then((response) => {
+            console.log(response);
+            this.setState({ loading: false })
+        }, (error) => {
+            console.log(error);
+        });
     }
 
     render() {
         return (
         <div>
         <List>
-        {this.state.currentProposal.resumes.map((sector, i) => (
+            {this.state.currentProposal === undefined ? <div></div> : this.state.currentProposal.resumes.map((sector, i) => (
         <div>
         <ListItem button key={sector.sectorID} onClick={() => this.handleClick(sector.sectorID)}>
             <ListItemText primary={`${sector.name} for ${sector.linkedEmail}`} secondary={`Division : ${sector.division}`}/>
@@ -111,7 +109,8 @@ class CustomListItem extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        proposals: state.proposalReducer.proposals
+        proposals: state.proposalReducer.proposals,
+        currentProposalIndex: state.proposalReducer.currentProposalIndex
     }
 };
 
