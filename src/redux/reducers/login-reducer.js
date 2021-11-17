@@ -2,7 +2,7 @@ const INITIAL_STATE = {
   username: "",
   password: "",
   loggedIn: false,
-  admin: true,
+  admin: false,
   uid: -1,
 };
 
@@ -20,7 +20,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loggedIn: true,
         uid: action.payload["applicationUserId"],
-        // admin: action.payload["projectAdmin"],
+        admin: action.payload["roleType"] === "Project Administrator",
       };
 
     case "FAILED_LOGIN":
