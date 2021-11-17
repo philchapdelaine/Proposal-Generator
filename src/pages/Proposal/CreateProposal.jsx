@@ -69,12 +69,6 @@ function CreateProposal() {
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-      // set to the as of yet uncreated proposal index flag of -1, 
-      // which will be changed when proposal is actually created and has an index
-      dispatch({ type: 'SET_PROPOSAL_INDEX', currentcurrentProposalIndex: -1 });
-  });
-
   const getResults = async () => {
     await axios
       .get(`/api/user/1/`)

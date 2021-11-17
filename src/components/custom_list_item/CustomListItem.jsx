@@ -89,14 +89,16 @@ class CustomListItem extends React.Component {
                     timeout='auto'
                     unmountOnExit
                 >
-                <List component='li' disablePadding key={sector.sectorID}>
-                    <ListItem>
-                        <ListItemText primary={sector.description} />
-                    </ListItem>
-                    <ListItem >
-                        <ListItemText primary={sector.imageLoc} />
-                    </ListItem>
-                </List>
+                <div>
+                    <List component='li' disablePadding key={sector.sectorID}>
+                        <ListItem>
+                            <ListItemText primary={sector.description} />
+                        </ListItem>
+                        <ListItem >
+                            <ListItemText primary={sector.imageLoc} />
+                        </ListItem>
+                    </List>
+                </div>
                 </Collapse>
         <Divider />
         </div>

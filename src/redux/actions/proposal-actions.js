@@ -39,3 +39,10 @@ export const setProposalIndex = (currentProposalIndex) => {
         currentProposalIndex: currentProposalIndex
     }
 };
+
+export const setCurrentSector = (currentSector) => {
+    return {
+        type: "SET_CURRENT_SECTOR",
+        currentSector: currentSector
+    }
+};

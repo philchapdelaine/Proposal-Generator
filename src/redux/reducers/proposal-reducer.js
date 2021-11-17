@@ -21,7 +21,7 @@ const initialProposal = {
 		]
 	};
 
-
+// just for testing
 const intialSector = {
 	"sectorID": 4,
 	"name": "TestSector",
@@ -33,7 +33,7 @@ const intialSector = {
 
 const INITIAL_STATE = {
 	currentProposalIndex: -1,
-	currentSector: intialSector,
+	currentSector: {},
 	proposals: [initialProposal]
 }
 
@@ -41,7 +41,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 	if (action.type === 'ADD_PROPOSAL') {
 		let newState = {
 			currentProposalIndex: 0,
-			currentSector: intialSector,
+			currentSector: state.currentSector,
 			proposals: [...state.proposals, { proposal: action.proposal }]
 		};
 		return newState;
@@ -49,7 +49,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 	if (action.type === 'SET_PROPOSALS') {
 		let newState = {
 			currentProposalIndex: 0,
-			currentSector: intialSector,
+			currentSector: state.currentSector,
 			proposals: action.proposals
 		};
 		return newState;
@@ -60,7 +60,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 	}
 	if (action.type === 'DELETE_SECTOR') {
 		let newState = {
-			currentProposalIndex: 0,
+			currentProposalIndex: state.currentProposalIndex,
 			currentSector: state.currentSector,
 			proposals: [...state.proposals]
 		};
@@ -75,15 +75,18 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
+		// case where sector is added to existing proposal
 		if (newState.currentProposalIndex !== -1) {
-			let proposaltoUpdateIndex = 0;
+			let proposaltoUpdateIndex = state.currentProposalIndex;
 			newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
 			return newState;
 		}
+		// case where sector is added to new proposal
 		let newProposal = {
 			proposalId: 100,
-			resumes: [state.currentSector]
-        }
+			resumes: []
+		}
+		newProposal.resumes.push(state.currentSector);
 		newState.currentProposalIndex = newState.proposals.push(newProposal) - 1;
 		return newState;
 	}
@@ -93,7 +96,15 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
-		console.log("hello");
+		return newState;
+	}
+	if (action.type === 'SET_CURRENT_SECTOR') {
+		let newState = {
+			currentProposalIndex: state.currentProposalIndex,
+			currentSector: action.currentSector,
+			proposals: [...state.proposals]
+		};
+		console.log(newState)
 		return newState;
 	}
   return state;
