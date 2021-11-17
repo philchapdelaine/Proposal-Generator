@@ -51,31 +51,29 @@ function LoginBox() {
   // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
   const authUser = async () => {
     const resp = await axios
-      .post(
-        `/api/authenticate/login/`,
-        {
-          emailAddress: username,
-          password: password,
-        }
-        // {
-        //   auth: {
-        //     username: username,
-        //     password: password,
-        //   },
-        // }
-      )
+      .post(`/api/authenticate/login/`, {
+        emailAddress: username,
+        password: password,
+      })
       .then((res) => {
         if (res.status === 200) {
           dispatch({
             type: "SUCCESSFUL_LOGIN",
-            payload: res.data["applicationUserId"],
+            payload: res.data,
           });
         } else {
           alert("Incorrect Username or Password");
         }
       })
-      .catch((error) => {
-        alert(error);
+      .catch((err) => {
+        if (err.status === 500) {
+          // alert("Error " + err.staus + ". Wrong Username or Password");
+          alert("Incorrect Username or Password");
+        } else if (err.status === 404) {
+          alert("Error " + err.status + ". Server is down");
+        } else {
+          alert(err);
+        }
       });
   };
 
