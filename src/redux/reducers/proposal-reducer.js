@@ -38,11 +38,17 @@ const INITIAL_STATE = {
 
 const proposalReducer = (state = INITIAL_STATE, action) => {
 	if (action.type === 'ADD_PROPOSAL') {
-		let newState = {proposals: [...state.proposals, {proposal: action.proposal}]};
+		let newState = {
+			currentSector: intialSector,
+			proposals: [...state.proposals, { proposal: action.proposal }]
+		};
 		return newState;
 	}
 	if (action.type === 'SET_PROPOSALS') {
-		let newState = {proposals: action.proposals};
+		let newState = {
+			currentSector: intialSector,
+			proposals: action.proposals
+		};
 		return newState;
 	}
 	if (action.type === 'CLEAR_PROPOSALS') {
@@ -59,14 +65,13 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
 		return newState;
 	}
-	if (action.type === 'ADD_RESUME') {
+	if (action.type === 'ADD_SECTOR') {
 		let newState = {
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
-		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId)
-		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.push(action.newSector);
-		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
+		let proposaltoUpdateIndex = 0;
+		newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
 		return newState;
 	}
   return state;
