@@ -58,6 +58,7 @@ const initialProposal = {
 			}
 		]
 	};
+	
 
 const intialSector = {
 	sectorID: 1,
