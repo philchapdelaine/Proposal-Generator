@@ -61,7 +61,7 @@ class Resume extends Component {
     } else {
       //curruser = sampleuser;
       this.setState({user: curruser})
-      const url = `http://localhost:5000/api/user/${sampleuser.applicationUserId}/resume`
+      const url = `/api/user/${sampleuser.applicationUserId}/resume`
       axios.get(url)
         .then((res) => {
           resume = res.data.sectors;
@@ -74,7 +74,7 @@ class Resume extends Component {
     if (noAPI) {
       this.setState({sectors: resume});
     } else {
-      const url = `http://localhost:5000/api/user/${sampleuser.applicationUserId}/resume`
+      const url = `/api/user/${sampleuser.applicationUserId}/resume`
       axios.get(url)
         .then((res) => {
           resume = res.data.sectors;
@@ -93,7 +93,6 @@ class Resume extends Component {
 
   addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) {
     var newsector = {          
-      sectorID: index,
       name: sectorname,
       linkedEmail: sampleuser.emailAddress,
       fileType: filetype,
@@ -101,12 +100,12 @@ class Resume extends Component {
       imageLoc: imageloc,
       description: sectordescription,
     }
-    index++;
+
     if (noAPI) {
       resume.push(newsector);
       this.setState({sectors: resume});
     } else {
-      const url = `http://localhost:5000/api/user/${sampleuser.applicationUserId}/resume/sector`
+      const url = `/api/user/${sampleuser.applicationUserId}/resume/sector`
       axios.post(url, newsector).then((res) => {
         this.handleUpdate()
       })
@@ -119,7 +118,7 @@ class Resume extends Component {
       resume.splice(resume.findIndex((e) => e.sectorID === sector.sectorID),1);
       this.setState({sectors: resume});
     } else {
-      const url = `http://localhost:5000/api/user/${sampleuser.applicationUserId}/resume/sector/${sector.sectorID}`
+      const url = `/api/user/${sampleuser.applicationUserId}/resume/sector/${sector.sectorID}`
       axios.delete(url).then((res) => {
         this.handleUpdate()
       })
@@ -135,7 +134,7 @@ class Resume extends Component {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
       this.setState({sectors: resume});
     } else {
-      const url = `http://localhost:5000/api/sector/${oldsector.sectorID}`
+      const url = `/api/sector/${oldsector.sectorID}`
       axios.put(url, oldsector).then((res) => {
         this.handleUpdate()
       })
