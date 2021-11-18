@@ -66,11 +66,11 @@ function LoginBox() {
         }
       })
       .catch((err) => {
-        if (err.status === 500) {
+        if (err.response.status === 404) {
+          alert("Error " + err.response.status + ". Server is down");
+        } else if (err.response.status === 500) {
           // alert("Error " + err.staus + ". Wrong Username or Password");
           alert("Incorrect Username or Password");
-        } else if (err.status === 404) {
-          alert("Error " + err.status + ". Server is down");
         } else {
           alert(err);
         }
