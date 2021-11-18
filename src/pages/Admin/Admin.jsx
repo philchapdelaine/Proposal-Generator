@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import Logo from "../../components/logo/logo";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import {
   Accordion,
   AccordionDetails,
@@ -11,11 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { Delete } from "@mui/icons-material";
-import confirmModal from "../../components/confirmModal/confirmModal";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory } from "react-router-dom";
 import "./Admin.css";
+import Axios from 'axios';
+import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
+import { setProposals as setProposalsRedux } from "../../redux/actions/proposal-actions";
+import { useDispatch } from 'react-redux'
 
 const style = {
   width: "75%",
@@ -39,6 +37,7 @@ const handleDelete = () => {
 function Admin() {
   const [proposals, setProposals] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleClickEdit = () => {
     history.push("/create-proposal");
@@ -63,8 +62,16 @@ function Admin() {
   }
 
   useEffect(() => {
-    // TODO-JC: get user's proposals from DB
-    setProposals([{ name: "Proposal 1" }, { name: "Proposal 2" }]);
+    const getProposals = async () => {
+      // TODO-JC: use user's id once that is implemented
+      let response = await Axios.get('/api/user/0/proposal');
+      if (response.data) {
+        setProposals(response.data);
+        dispatch(setProposalsRedux(response.data));
+      }
+    };
+
+    getProposals();
   }, []);
 
   return (
@@ -79,13 +86,15 @@ function Admin() {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary>
-                  <Typography>{proposal.name}</Typography>
+                  <Typography>{proposal.proposalID}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Box display="flex">
-                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
+                    {proposal.resumes?.map((resume, id) => {
+                      return (
+                        <ResumeThumbnail name={resume.name} key={id} notClickable />
+                      );
+                    })}
                   </Box>
                   <Box
                     display="flex"

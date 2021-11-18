@@ -9,6 +9,8 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
+import { useDispatch } from "react-redux";
+
 
 const useStyles = makeStyles(() => ({
   resumeOwnerInfo: {
@@ -23,9 +25,11 @@ export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
   const [resumeOwnerName, setResumeOwnerName] = useState("");
   const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
+  const dispatch = useDispatch();
 
-  function handleSectorClick(sector, currResume) {
-    props.onSectorClick(sector, currResume);
+    function handleSectorClick(sector, currResume) {
+    dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector })
+    // props.onSectorClick(sector, currResume);
   }
 
   function generateRows(sector, currResume) {
