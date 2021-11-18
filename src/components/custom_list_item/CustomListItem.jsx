@@ -8,6 +8,10 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
+
+import "../reading_pane/ReadingPane.css";
 
 import axios from 'axios';
 
@@ -26,20 +30,6 @@ class CustomListItem extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleDeleteSector = this.handleDeleteSector.bind(this);
     }
-
-    //     componentDidMount = () => {
-    //       axios.get('http://localhost:5000/api/user/2/proposal', {
-    //       }).then((response) => {
-    //           console.log(response);
-    //           this.setState({ proposals: response.data });
-    //           console.log(response);
-    //           const resumes = response.data[0].resumes;
-    //           console.log(resumes);
-    //           // this.setState({ resumes: response[0].resumes });
-    //       }, (error) => {
-    //           console.log(error);
-    //       })
-    //   }
 
     handleClick(id) {
         // const oldResumeClicked = this.state.openItemID === id;
@@ -60,9 +50,11 @@ class CustomListItem extends React.Component {
 
     handleSubmit() {
         this.setState({ loading: true })
-        axios.post('http://localhost:5000/api/user/2/proposal', {
-            resumes: this.state.currentProposal.resumes
-        }).then((response) => {
+        const config = { headers: { 'Content-Type': 'application/json' } };
+        // delete testURL after JC's part
+        //let url = `http://localhost:5000/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+        let testURL = `http://localhost:5000/api/user/0/proposal/${this.state.currentProposal.proposalID}`;
+        axios.put(testURL, this.state.currentProposal, config).then((response) => {
             console.log(response);
             this.setState({ loading: false })
         }, (error) => {
@@ -104,6 +96,11 @@ class CustomListItem extends React.Component {
         </div>
         ))}
         </List>
+            <div className="button-group">
+                <ButtonGroup variant="contained" size="large">
+                    <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                </ButtonGroup>
+            </div>
         </div>
         );
         }
@@ -112,7 +109,8 @@ class CustomListItem extends React.Component {
 function mapStateToProps(state) {
     return {
         proposals: state.proposalReducer.proposals,
-        currentProposalIndex: state.proposalReducer.currentProposalIndex
+        currentProposalIndex: state.proposalReducer.currentProposalIndex,
+        userID : state.loginReducer.uid
     }
 };
 

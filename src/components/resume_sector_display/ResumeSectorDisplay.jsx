@@ -19,8 +19,8 @@ export default function ResumeSectorDisplay(props) {
   const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
   const dispatch = useDispatch();
 
-  function handleSectorClick(sector, currResume) {
-      dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector })
+    function handleSectorClick(sector, currResume) {
+    dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector })
     // props.onSectorClick(sector, currResume);
   }
 

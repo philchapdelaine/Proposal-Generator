@@ -16,43 +16,48 @@ const recentlyViewedSample = [
     "resumeID": 1,
     "sectors": [
         {
-            "sectorID": 1,
+            "sectorID": 4,
             "name": "Experience",
             "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Water",
-            "imageLoc": "blah/blah",
+            "division": "New Division",
+            "empty": true,
+            "proposalNumber": "1",
+            "imageLoc": null,
             "description": "I'm the best so I don't need to have any experience"
         },
         {
             "sectorID": 2,
             "name": "Projects",
             "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
             "division": "Air",
+            "empty": true,
+            "proposalNumber": "1",
             "imageLoc": null,
             "description": "I'm the best so I don't need to have any projects"
         }
+
     ]
   },
   {
     "resumeID": 2,
     "sectors": [
         {
-            "sectorID": 3,
-            "name": "Education",
+            "sectorID": 6,
+            "name": "Experience",
             "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Water",
-            "imageLoc": "blah/blah",
+            "division": "New Division",
+            "empty": true,
+            "proposalNumber": "1",
+            "imageLoc": null,
             "description": "I'm the best so I don't need to have any experience"
         },
         {
-            "sectorID": 4,
-            "name": "Skills",
+            "sectorID": 8,
+            "name": "Projects",
             "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
             "division": "Air",
+            "empty": true,
+            "proposalNumber": "1",
             "imageLoc": null,
             "description": "I'm the best so I don't need to have any projects"
         }

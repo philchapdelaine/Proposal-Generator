@@ -7,16 +7,20 @@ const initialProposal = {
 				"name": "Experience",
 				"linkedEmail": "mc@ae.com",
 				"division": "Water",
+				"empty": true,
+				"proposalNumber": "1",
 				"imageLoc": "blah/blah",
-				"description":"I am a great description"
+				"description": "I'm the best so I don't need to have any experience"
 			},
 			{
 				"sectorID": 2,
 				"name": "Education",
 				"linkedEmail": "mc@ae.com",
 				"division": "Ground",
-				"imageLoc": null,
-				"description":"I am also a super great description"
+				"empty": true,
+				"proposalNumber": "1",
+				"imageLoc": "blah/blah",
+				"description": "II am also a super great description"
 			}
 		]
 	};
@@ -96,6 +100,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
+		console.log(newState.currentProposalIndex);
 		return newState;
 	}
 	if (action.type === 'SET_CURRENT_SECTOR') {
@@ -104,7 +109,6 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: action.currentSector,
 			proposals: [...state.proposals]
 		};
-		console.log(newState)
 		return newState;
 	}
   return state;

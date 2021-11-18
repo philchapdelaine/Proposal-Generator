@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import CustomListItem from "../custom_list_item/CustomListItem";
@@ -93,11 +92,6 @@ function ReadingPane(props) {
                     </div>
                     <div>
                         <CustomListItem />
-                    </div>
-                    <div className="button-group">
-                        <ButtonGroup variant="contained" size="large">
-                            <Button>Save Proposal</Button>
-                        </ButtonGroup>
                     </div>
                 </TabPanel>
             </div>
