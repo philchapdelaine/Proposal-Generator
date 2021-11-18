@@ -1,7 +1,6 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -9,111 +8,118 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
 
-export default class CustomListItem extends React.Component {
-  render() {
-    const docs = data.documents;  //this coming from a json file, please see below for the sample json
-     return (
-      <div>
-        <List component='nav' aria-labelledby='nested-list-subheader'>
-          {docs.map(doc => {
-            return (
-              <CustomizedListItem key={doc.id} doc={doc} />
-            );
-          })}
-        </List>     
-      </div>
-    );
-  }
-}
+import "../reading_pane/ReadingPane.css";
 
- class CustomizedListItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        open: false
-      };
-      this.handleClick = this.handleClick.bind(this);
+import axios from 'axios';
+
+import { connect } from 'react-redux';
+
+class CustomListItem extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            openItemID: null,
+            currentProposal: this.props.proposals[this.props.currentProposalIndex],
+            proposals: this.props.proposals,
+            loading: false // will be true when axios request is running
+        };
+        this.handleClick = this.handleClick.bind(this);
+        this.handleDeleteSector = this.handleDeleteSector.bind(this);
     }
 
-    handleClick() {
-       this.setState(prevState => ({
-         open: !prevState.open
-       }));
+    handleClick(id) {
+        // const oldResumeClicked = this.state.openItemID === id;
+        // console.log(newResumeClicked)
+        // if (oldResumeClicked) {
+        //   this.setState({ openItemId : 0 });
+        //   console.log(this.state.openItemID)
+        // }
+        // } else {
+        //   this.setState({ openItemId : null });
+        // }
+        this.setState({ openItemID: id })
     }
 
-  render(){
-  const { doc } = this.props;
-  return (
-    <div>
-      <ListItem button key={doc.Id} onClick={this.handleClick}>
-        <ListItemText primary={doc.Name} />
-        {this.state.open ? <ExpandLess /> : <ExpandMore />}
-            <IconButton edge="end">
-                <DeleteIcon />
-            </IconButton>
-        </ListItem>
-      <Collapse
-        key={doc.Sheets.Id}
-        in={this.state.open}
-        timeout='auto'
-        unmountOnExit
-      >
-      <List component='li' disablePadding key={doc.Id}>
-        {doc.Sheets.map(sheet => {
-          return (
-            <ListItem button key={sheet.Id}>
-              <ListItemIcon>
-                {/* <InsertDriveFileTwoToneIcon /> */}
-              </ListItemIcon>
-              <ListItemText key={sheet.Id} primary={sheet.Title} />
-              <IconButton edge="end">
-                <DeleteIcon />
-              </IconButton>
+    handleDeleteSector(sectorID) {
+        this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+    }
+
+    handleSubmit() {
+        this.setState({ loading: true })
+        const config = { headers: { 'Content-Type': 'application/json' } };
+        // delete testURL after JC's part
+        //let url = `http://localhost:5000/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+        let testURL = `http://localhost:5000/api/user/0/proposal/${this.state.currentProposal.proposalID}`;
+        axios.put(testURL, this.state.currentProposal, config).then((response) => {
+            console.log(response);
+            this.setState({ loading: false })
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+    render() {
+        return (
+        <div>
+        <List>
+            {this.state.currentProposal === undefined ? <div></div> : this.state.currentProposal.resumes.map((sector, i) => (
+        <div>
+        <ListItem button key={sector.sectorID} onClick={() => this.handleClick(sector.sectorID)}>
+            <ListItemText primary={`${sector.name} for ${sector.linkedEmail}`} secondary={`Division : ${sector.division}`}/>
+            {this.state.openItemID === sector.sectorID ? <ExpandLess/> : <ExpandMore/>}
+                <IconButton edge="end" onClick={() => this.handleDeleteSector(sector.sectorID)}>
+                    <DeleteIcon />
+                </IconButton>
             </ListItem>
-          );
-        })}
-      </List>
-    </Collapse>
-    <Divider />
-    </div>
-    )
-  }
-}
-
-const data = {
-  "documents": [
-    {
-      "Id": 1,
-      "Name": "John Smith",
-      "Sheets": [
-        {
-          "Id": 1,
-          "Title": "Experience"
-        },
-        {
-          "Id": 2,
-          "Title": "Projects"
-        },
-        {
-          "Id": 3,
-          "Title": "Education"
+            <Collapse
+                    key={i}
+                    in={this.state.openItemID === sector.sectorID}
+                    timeout='auto'
+                    unmountOnExit
+                >
+                <div>
+                    <List component='li' disablePadding key={sector.sectorID}>
+                        <ListItem>
+                            <ListItemText primary={sector.description} />
+                        </ListItem>
+                        <ListItem >
+                            <ListItemText primary={sector.imageLoc} />
+                        </ListItem>
+                    </List>
+                </div>
+                </Collapse>
+        <Divider />
+        </div>
+        ))}
+        </List>
+            <div className="button-group">
+                <ButtonGroup variant="contained" size="large">
+                    <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                </ButtonGroup>
+            </div>
+        </div>
+        );
         }
-      ]
-    },
-    {
-      "Id": 1,
-      "Name": "Steve Jobs",
-      "Sheets": [
-        {
-          "Id": 1,
-          "Title": "Previous Roles"
-        },
-        {
-          "Id": 2,
-          "Title": "Projects"
-        }
-      ]
     }
-  ]
-}
+
+function mapStateToProps(state) {
+    return {
+        proposals: state.proposalReducer.proposals,
+        currentProposalIndex: state.proposalReducer.currentProposalIndex,
+        userID : state.loginReducer.uid
+    }
+};
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        deleteSector: (sectorID, proposalId) => { dispatch({type: 'DELETE_SECTOR', sectorID: sectorID, proposalId: proposalId}) }
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomListItem);
