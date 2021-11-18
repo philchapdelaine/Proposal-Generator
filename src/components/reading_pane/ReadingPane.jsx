@@ -53,9 +53,8 @@ function ReadingPane(props) {
                 newProposal.resumes.push(currentSector);
 
                 const config = { headers: { 'Content-Type': 'application/json' } };
-                //let url = `http://localhost:5000/api/user/${this.props.userID}/proposal/`;
-                let testURL = `http://localhost:5000/api/user/0/proposal/`;
-                axios.post(testURL, newProposal, config).then((response) => {
+                let url = `http://localhost:5000/api/user/${this.props.userID}/proposal/`;
+                axios.post(url, newProposal, config).then((response) => {
                     dispatch({ type: 'ADD_SECTOR_NEW_PROPOSAL', newProposal: response.data });
                 }, (error) => {
                     console.log(error);
