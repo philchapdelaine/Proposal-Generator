@@ -1,3 +1,4 @@
+// used for testing
 const initialProposal = {
 	"proposalId": 1,
 	"proposalName": "dummy proposal",
@@ -39,7 +40,7 @@ const intialSector = {
 const INITIAL_STATE = {
 	currentProposalIndex: -1,
 	currentSector: {},
-	proposals: [initialProposal]
+	proposals: []
 }
 
 const proposalReducer = (state = INITIAL_STATE, action) => {
@@ -71,9 +72,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		};
 		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
 		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
-		console.log(updatedSectors);
 		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
-		console.log(newState);
 		return newState;
 	}
 	if (action.type === 'ADD_SECTOR') {
