@@ -8,6 +8,7 @@ import CustomListItem from "../custom_list_item/CustomListItem";
 import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 import { useSelector, useDispatch } from "react-redux";
+import axios from 'axios';
 
 function ReadingPane(props) {
     const [selectedTab, setSelectedTab] = useState(0);
@@ -21,6 +22,7 @@ function ReadingPane(props) {
     };
 
     const currentSector = useSelector((state) => state.proposalReducer.currentSector);
+    let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
     const dispatch = useDispatch();
     
     function TabPanel(props) {
@@ -38,10 +40,31 @@ function ReadingPane(props) {
     }
 
     function handleAddSector() {
-        let isEmpty = Object.keys(currentSector).length === 0
+        let isEmpty = Object.keys(currentSector).length === 0;
+        let proposalNotCreated = currentProposalIndex === -1;
         if (!isEmpty) {
+            // case where sector is added to a non-existent proposal
+            if (proposalNotCreated) {
+                // build a fresh proposal
+                let newProposal = {
+                    "proposalName": "Untitled New Proposal",
+                    "resumes": []
+                };
+                newProposal.resumes.push(currentSector);
+
+                const config = { headers: { 'Content-Type': 'application/json' } };
+                //let url = `http://localhost:5000/api/user/${this.props.userID}/proposal/`;
+                let testURL = `http://localhost:5000/api/user/0/proposal/`;
+                axios.post(testURL, newProposal, config).then((response) => {
+                    dispatch({ type: 'ADD_SECTOR_NEW_PROPOSAL', newProposal: response.data });
+                }, (error) => {
+                    console.log(error);
+                });
+            } else {
+                // case where sector is added to existing proposal
+                dispatch({ type: 'ADD_SECTOR', proposalId: 1 });
+            }
             setSelectedTab(1);
-            dispatch({ type: 'ADD_SECTOR', proposalId: 1 });
         }
     }
 

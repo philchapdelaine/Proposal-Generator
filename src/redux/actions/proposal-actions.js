@@ -33,6 +33,13 @@ export const addSector = (proposalId) => {
   }
 };
 
+export const addSectorNewProposal = (newProposal) => {
+    return {
+        type: "ADD_SECTOR_NEW_PROPOSAl",
+        newProposal: newProposal
+    }
+};
+
 export const setProposalIndex = (currentProposalIndex) => {
     return {
         type: "SET_PROPOSAL_INDEX",

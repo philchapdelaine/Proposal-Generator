@@ -1,6 +1,7 @@
 const initialProposal = {
-	proposalId : 1,
-	resumes : 
+	"proposalId": 1,
+	"proposalName": "dummy proposal",
+	"resumes" : 
 		[
 			{
 				"sectorID": 1,
@@ -70,7 +71,9 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		};
 		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
 		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
+		console.log(updatedSectors);
 		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
+		console.log(newState);
 		return newState;
 	}
 	if (action.type === 'ADD_SECTOR') {
@@ -79,18 +82,18 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
-		// case where sector is added to existing proposal
-		if (newState.currentProposalIndex !== -1) {
-			let proposaltoUpdateIndex = state.currentProposalIndex;
-			newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
-			return newState;
-		}
-		// case where sector is added to new proposal
-		let newProposal = {
-			proposalId: 100,
-			resumes: []
-		}
-		newProposal.resumes.push(state.currentSector);
+		let proposaltoUpdateIndex = state.currentProposalIndex;
+		newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+		return newState;
+	}
+	// This will only get called when a user adds the first sector to new proposal
+	if (action.type === 'ADD_SECTOR_NEW_PROPOSAL') {
+		let newState = {
+			currentProposalIndex: state.currentProposalIndex,
+			currentSector: {},
+			proposals: [...state.proposals]
+		};
+		let newProposal = action.newProposal;
 		newState.currentProposalIndex = newState.proposals.push(newProposal) - 1;
 		return newState;
 	}
@@ -100,7 +103,6 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: {},
 			proposals: [...state.proposals]
 		};
-		console.log(newState.currentProposalIndex);
 		return newState;
 	}
 	if (action.type === 'SET_CURRENT_SECTOR') {
