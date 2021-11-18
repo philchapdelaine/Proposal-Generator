@@ -10,10 +10,13 @@ import { Box } from "@mui/system";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory } from "react-router-dom";
 import "./Admin.css";
-import Axios from 'axios';
+import axios from "axios";
 import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
-import { setProposalIndex, setProposals as setProposalsRedux } from "../../redux/actions/proposal-actions";
-import { useDispatch } from 'react-redux'
+import {
+  setProposalIndex,
+  setProposals as setProposalsRedux,
+} from "../../redux/actions/proposal-actions";
+import { useDispatch } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
 import { useSelector } from "react-redux";
 
@@ -56,13 +59,13 @@ function Admin() {
   };
 
   const handleDelete = async () => {
-    await Axios.delete(`/api/user/${uid}/proposal/${idToDelete}`);
+    await axios.delete(`/api/user/${uid}/proposal/${idToDelete}`);
     setModalOpen(false);
   };
 
   useEffect(() => {
     const getProposals = async () => {
-      let response = await Axios.get(`/api/user/${uid}/proposal`);
+      let response = await axios.get(`/api/user/${uid}/proposal`);
       if (response.data) {
         setProposals(response.data);
         dispatch(setProposalsRedux(response.data));
@@ -90,7 +93,11 @@ function Admin() {
                   <Box display="flex">
                     {proposal.resumes?.map((resume, id) => {
                       return (
-                        <ResumeThumbnail name={resume.name} key={id} notClickable />
+                        <ResumeThumbnail
+                          name={resume.name}
+                          key={id}
+                          notClickable
+                        />
                       );
                     })}
                   </Box>
@@ -120,20 +127,24 @@ function Admin() {
               </Accordion>
             );
           })}
-          {modalOpen ?
-          <ConfirmModal
-            confirmTitle="Are you sure you would like to delete this proposal?"
-            confirmMsg="This action cannot be reversed."
-            handleClose={handleCloseModal}
-            open={modalOpen}
-            handleProceed={
-                <Button color="primary" variant="outlined" color="error" onClick={handleDelete}>
+          {modalOpen ? (
+            <ConfirmModal
+              confirmTitle="Are you sure you would like to delete this proposal?"
+              confirmMsg="This action cannot be reversed."
+              handleClose={handleCloseModal}
+              open={modalOpen}
+              handleProceed={
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDelete}
+                >
                   Delete
                 </Button>
-            }
-          />
-          : undefined
-          }
+              }
+            />
+          ) : undefined}
         </Box>
       </div>
     </div>
