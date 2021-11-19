@@ -26,7 +26,9 @@ function ReadingPane(props) {
   );
   let currentProposalIndex = useSelector(
     (state) => state.proposalReducer.currentProposalIndex
-  );
+    );
+  const uid = useSelector((state) => state.loginReducer.uid);
+
   const dispatch = useDispatch();
 
   function TabPanel(props) {
@@ -57,7 +59,7 @@ function ReadingPane(props) {
         newProposal.resumes.push(currentSector);
 
         const config = { headers: { "Content-Type": "application/json" } };
-        let url = `/api/user/${this.props.userID}/proposal/`;
+          let url = `/api/user/${uid}/proposal/`;
         axios
           .post(url, newProposal, config)
           .then((response) => {

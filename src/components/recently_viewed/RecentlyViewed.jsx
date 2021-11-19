@@ -66,9 +66,8 @@ class ViewedItem extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.doc.resumeID is NULL
     axios
-      .get("/api/user/1/")
+      .get("/api/user/" + this.props.doc.resumeID + "/")
       .then((res) => {
         this.setState({
           resumeOwnerName: res.data.firstName + " " + res.data.lastName,
@@ -113,40 +112,3 @@ class ViewedItem extends React.Component {
     );
   }
 }
-
-const data = {
-  documents: [
-    {
-      Id: 1,
-      Name: "John Smith",
-      Sheets: [
-        {
-          Id: 1,
-          Title: "Experience",
-        },
-        {
-          Id: 2,
-          Title: "Projects",
-        },
-        {
-          Id: 3,
-          Title: "Education",
-        },
-      ],
-    },
-    {
-      Id: 1,
-      Name: "Steve Jobs",
-      Sheets: [
-        {
-          Id: 1,
-          Title: "Previous Roles",
-        },
-        {
-          Id: 2,
-          Title: "Projects",
-        },
-      ],
-    },
-  ],
-};

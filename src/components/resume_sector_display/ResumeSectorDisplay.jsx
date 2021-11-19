@@ -7,19 +7,31 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import { makeStyles } from '@material-ui/core/styles';
 import "./ResumeSectorDisplay.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
+
+const useStyles = makeStyles(() => ({
+  resumeOwnerInfo: {
+    marginLeft: "15px",
+    marginRight: "10px"
+  },
+}));
+
+
+
 export default function ResumeSectorDisplay(props) {
+  const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [resumeOwnerName, setResumeOwnerName] = useState("");
   const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
   const dispatch = useDispatch();
 
-  function handleSectorClick(sector, currResume) {
-    dispatch({ type: "SET_CURRENT_SECTOR", currentSector: sector });
-    // props.onSectorClick(sector, currResume);
+    function handleSectorClick(sector, currResume) {
+    dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector })
+    props.onSectorClick(sector, currResume);
   }
 
   function generateRows(sector, currResume) {
@@ -65,6 +77,7 @@ export default function ResumeSectorDisplay(props) {
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
+          sx={{ width: '100%', display: 'flex',  justifyContent:'space-between'}}
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             {resumeOwnerName || "Name not available"}
