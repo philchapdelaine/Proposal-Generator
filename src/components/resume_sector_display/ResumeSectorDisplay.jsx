@@ -41,16 +41,19 @@ export default function ResumeSectorDisplay(props) {
           {sector.name}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
+          {sector.linkedEmail}
+        </TableCell>
+        <TableCell sx={{ width: "23%" }} align="left">
+          {sector.proposalNumber}
+        </TableCell>
+        <TableCell sx={{ width: "23%" }} align="left">
           {sector.division}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
           {sector.description}
         </TableCell>
         <TableCell sx={{ width: "23%" }} align="left">
-          {/* TODO: decide which sector properties to display here*/}
-        </TableCell>
-        <TableCell sx={{ width: "23%" }} align="left">
-          {sector[4]}
+          {sector.imageLoc}
         </TableCell>
       </TableRow>
     );
@@ -60,7 +63,6 @@ export default function ResumeSectorDisplay(props) {
     const uid = useSelector((state) => state.loginReducer.uid);
     useEffect(() => {
       const fetchName = async () => {
-        // Currently resume.resumeID NULL
         const user = await axios.get(`/api/user/${uid}/`);
         setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
         setResumeOwnerEmail(user.data.emailAddress);
