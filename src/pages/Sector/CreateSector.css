@@ -33,3 +33,8 @@
     border: none;
     cursor: pointer;
 }
+
+.cs-success-message {
+    color: green;
+
+}

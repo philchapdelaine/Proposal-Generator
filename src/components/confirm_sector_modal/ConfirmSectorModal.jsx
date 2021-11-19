@@ -21,10 +21,11 @@ function ConfirmSectorModal(props) {
           "division": props.division,
           "imageLoc": props.imgLocation,
           "description": props.description,
-          "fileType":"fake/filetype"
+          "ProposalNumber": props.proposalNum
         })
         .then((response) => {
           console.log(response);
+          props.onSuccessfulCreate();
         })
         .catch((err) => {
           console.log(err);
@@ -47,9 +48,7 @@ function ConfirmSectorModal(props) {
             </div>
             <div className="modal-footer">
               <button className="csm-button" onClick={() => setOpen(false)}> Edit </button>
-              <Link to='/admin'>
-                <button className="csm-button" onClick={() => submit()}> Submit </button>
-              </Link>
+              <button className="csm-button" onClick={() => submit()}> Submit </button>
             </div>
           </div>
         </>,
