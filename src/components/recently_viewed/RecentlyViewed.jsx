@@ -65,8 +65,9 @@ class ViewedItem extends React.Component {
     this.props.onSectorUpdate(sector);
   }
 
-    componentDidMount() {
-      Axios.get('/api/user/' + this.props.doc.resumeID + "/")
+  componentDidMount() {
+    axios
+      .get("/api/user/" + this.props.doc.resumeID + "/")
       .then((res) => {
         this.setState({
           resumeOwnerName: res.data.firstName + " " + res.data.lastName,
@@ -108,6 +109,6 @@ class ViewedItem extends React.Component {
         </Collapse>
         <Divider />
       </div>
-      )
-    }
+    );
+  }
 }
