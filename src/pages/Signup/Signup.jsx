@@ -65,7 +65,7 @@ function Signup() {
       .then((res) => {
         if (res.status === 200) {
           alert(res.status + ": Sign up successful!");
-          // window.location = "/login"; // uncomment this if you wanna redirect to login after successful registration
+          window.location = "/login"; // uncomment this if you wanna redirect to login after successful registration
         } else {
           alert(res);
         }

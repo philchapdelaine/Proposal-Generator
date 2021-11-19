@@ -17,6 +17,8 @@ function CreateSector() {
   const [open, setOpen] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
+  const [sectorCreated, setSectorCreated] = useState(false);
+
   let hasRequiredInfo = false;
 
   function openModal() {
@@ -32,6 +34,9 @@ function CreateSector() {
     }
   }
 
+  function handleSectorCreated() {
+    setSectorCreated(true);
+  }
 
   return (
 
@@ -39,6 +44,7 @@ function CreateSector() {
       <div id="app-modal"></div>
       <NavigatorBar />
       <div className="cs-main">
+        { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now add this sector via the Resume page.</div> : null }
         <div className="title"> Create New Sector </div>
         <div className="cs-input-fields">
 
@@ -122,6 +128,7 @@ function CreateSector() {
         {open && (
           <ConfirmSectorModal
             state={{ openData: [open, setOpen] }}
+            onSuccessfulCreate={handleSectorCreated}
             description={description}
             type={type}
             proposalNum={proposalNum}
