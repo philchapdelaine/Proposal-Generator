@@ -49,6 +49,23 @@ function Admin() {
     history.push("/create-proposal");
   };
 
+  function exportProposal(proposal) {
+    // src: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+    const blob = new Blob([JSON.stringify(proposal, undefined, 2)], { type: "text/json" });
+    const a = document.createElement("a");
+    a.download = proposal.name + ".txt";
+    a.href = window.URL.createObjectURL(blob);
+    a.dataset.downloadurl = ["text/json", a.download, a.href];
+
+    const evt = new MouseEvent("click", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+    });
+
+    a.dispatchEvent(evt);
+    a.remove()
+  }
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -121,7 +138,7 @@ function Admin() {
                     >
                       Edit
                     </Button>
-                    <Button variant="contained">Export</Button>
+                    <Button variant="contained" onClick={() => exportProposal(proposal)}>Export</Button>
                   </Box>
                 </AccordionDetails>
               </Accordion>
