@@ -37,23 +37,23 @@ export default function ResumeSectorDisplay(props) {
   function generateRows(sector, currResume) {
     return (
       <TableRow hover onClick={() => handleSectorClick(sector, currResume)}>
-        <TableCell sx={{ width: "23%" }} align="left">
+        <TableCell sx={{ width: "13%" }} align="left">
           {sector.name}
         </TableCell>
-        <TableCell sx={{ width: "23%" }} align="left">
+        <TableCell sx={{ width: "13%" }} align="left">
           {sector.linkedEmail}
         </TableCell>
-        <TableCell sx={{ width: "23%" }} align="left">
-          {sector.proposalNumber}
+        <TableCell sx={{ width: "13%" }} align="left">
+          {"Proposal # " + sector.proposalNumber}
         </TableCell>
-        <TableCell sx={{ width: "23%" }} align="left">
+        <TableCell sx={{ width: "13%" }} align="left">
           {sector.division}
         </TableCell>
-        <TableCell sx={{ width: "23%" }} align="left">
-          {sector.description}
-        </TableCell>
-        <TableCell sx={{ width: "23%" }} align="left">
+        <TableCell sx={{ width: "13%" }} align="left">
           {sector.imageLoc}
+        </TableCell>
+        <TableCell sx={{ width: "33%" }} align="left">
+          {sector.description}
         </TableCell>
       </TableRow>
     );

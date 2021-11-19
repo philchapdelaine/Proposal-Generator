@@ -45,12 +45,16 @@ function CreateSector() {
       <div id="app-modal"></div>
       <NavigatorBar />
       <div className="cs-main">
-        <div className="title"> Create New Sector </div>
+        <div className="title"> Create New Sector Template </div>
+        <div className="subtitle"> 
+          Employees can fill out additional information (description, etc.) when they add a sector to their resume.
+        </div>
         <div className="cs-input-fields">
 
           <FormControl fullWidth>
-            <InputLabel>Type</InputLabel>
+            <InputLabel >Type</InputLabel>
             <Select
+              label="Type"
               className="cs-input"
               value={type}
               onChange={(event) => setType(event.target.value)}
@@ -94,6 +98,7 @@ function CreateSector() {
           <FormControl fullWidth>
             <InputLabel>Division</InputLabel>
             <Select
+              label="Division"
               className="cs-input"
               value={division}
               onChange={(event) => setDivision(event.target.value)}
