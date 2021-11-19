@@ -8,8 +8,9 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { makeStyles } from '@material-ui/core/styles';
-import Axios from 'axios';
-import { useDispatch } from "react-redux";
+import "./ResumeSectorDisplay.css";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const useStyles = makeStyles(() => ({
@@ -18,6 +19,7 @@ const useStyles = makeStyles(() => ({
     marginRight: "10px"
   },
 }));
+
 
 
 export default function ResumeSectorDisplay(props) {
@@ -33,9 +35,8 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function generateRows(sector, currResume) {
-    
     return (
-      <TableRow hover onClick={() => handleSectorClick(sector, currResume)} >
+      <TableRow hover onClick={() => handleSectorClick(sector, currResume)}>
         <TableCell sx={{ width: "23%" }} align="left">
           {sector.name}
         </TableCell>
@@ -56,15 +57,16 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function generateAccordian(resume) {
-
+    const uid = useSelector((state) => state.loginReducer.uid);
     useEffect(() => {
       const fetchName = async () => {
-        const user = await Axios.get('/api/user/' + resume.resumeID + "/")
+        // Currently resume.resumeID NULL
+        const user = await axios.get(`/api/user/${uid}/`);
         setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
         setResumeOwnerEmail(user.data.emailAddress);
-      }
+      };
       fetchName();
-    }, [])
+    }, []);
 
     return (
       <Accordion
@@ -72,15 +74,21 @@ export default function ResumeSectorDisplay(props) {
         onChange={handleChange("panel" + resume.resumeID)}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon className="rsd-expand-icon"/>}
+          expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
           sx={{ width: '100%', display: 'flex',  justifyContent:'space-between'}}
         >
-          <Typography className={classes.resumeOwnerInfo} sx={{ flexShrink: 0 }}>{resumeOwnerName || "Name not available"}</Typography>
-          <Typography sx={{ color: "text.secondary" }}>{resumeOwnerEmail || " "}</Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>
+            {resumeOwnerName || "Name not available"}
+          </Typography>
+          <Typography sx={{ color: "text.secondary" }}>
+            {resumeOwnerEmail || " "}
+          </Typography>
         </AccordionSummary>
-        <AccordionDetails>{resume.sectors.map((sector) => generateRows(sector, resume))}</AccordionDetails>
+        <AccordionDetails>
+          {resume.sectors.map((sector) => generateRows(sector, resume))}
+        </AccordionDetails>
       </Accordion>
     );
   }

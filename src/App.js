@@ -14,7 +14,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-
 function App() {
   const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn);
 
@@ -27,8 +26,9 @@ function App() {
         <div className="mainstage">
           <span>Resume Generator</span>
         </div>
-        {isLoggedIn ? <UserDropdown/> : <Redirect to="/login" /> }
-        <Navigator/>
+        {isLoggedIn ? <UserDropdown /> : <Redirect to="/login" />}
+        <br />
+        <Navigator />
       </Router>
     </div>
   );

@@ -10,10 +10,15 @@ import { Box } from "@mui/system";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory } from "react-router-dom";
 import "./Admin.css";
-import Axios from 'axios';
+import axios from "axios";
 import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
-import { setProposals as setProposalsRedux } from "../../redux/actions/proposal-actions";
-import { useDispatch } from 'react-redux'
+import {
+  setProposalIndex,
+  setProposals as setProposalsRedux,
+} from "../../redux/actions/proposal-actions";
+import { useDispatch } from "react-redux";
+import ConfirmModal from "../../components/confirmModal/confirmModal";
+import { useSelector } from "react-redux";
 
 const style = {
   width: "75%",
@@ -30,16 +35,17 @@ const sampleStyle = {
   marginTop: "10px",
 };
 
-const handleDelete = () => {
-  // TODO-JC: confirm delete proposal dialog
-};
-
 function Admin() {
   const [proposals, setProposals] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleClickEdit = () => {
+  const uid = useSelector((state) => state.loginReducer.uid);
+
+  const handleClickEdit = (index) => {
+    dispatch(setProposalIndex(index));
     history.push("/create-proposal");
   };
 
@@ -60,11 +66,23 @@ function Admin() {
     a.dispatchEvent(evt);
     a.remove()
   }
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleOpenModal = (id) => {
+    setIdToDelete(id);
+    setModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    await axios.delete(`/api/user/${uid}/proposal/${idToDelete}`);
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const getProposals = async () => {
-      // TODO-JC: use user's id once that is implemented
-      let response = await Axios.get('/api/user/0/proposal');
+      let response = await axios.get(`/api/user/${uid}/proposal`);
       if (response.data) {
         setProposals(response.data);
         dispatch(setProposalsRedux(response.data));
@@ -86,13 +104,17 @@ function Admin() {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary>
-                  <Typography>{proposal.proposalID}</Typography>
+                  <Typography>{proposal.proposalName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Box display="flex">
                     {proposal.resumes?.map((resume, id) => {
                       return (
-                        <ResumeThumbnail name={resume.name} key={id} notClickable />
+                        <ResumeThumbnail
+                          name={resume.name}
+                          key={id}
+                          notClickable
+                        />
                       );
                     })}
                   </Box>
@@ -105,13 +127,14 @@ function Admin() {
                       variant="outlined"
                       color="error"
                       style={{ marginRight: 10 }}
+                      onClick={() => handleOpenModal(id)}
                     >
                       Delete
                     </Button>
                     <Button
                       variant="outlined"
                       style={{ marginRight: 10 }}
-                      onClick={handleClickEdit}
+                      onClick={() => handleClickEdit(id)}
                     >
                       Edit
                     </Button>
@@ -121,6 +144,24 @@ function Admin() {
               </Accordion>
             );
           })}
+          {modalOpen ? (
+            <ConfirmModal
+              confirmTitle="Are you sure you would like to delete this proposal?"
+              confirmMsg="This action cannot be reversed."
+              handleClose={handleCloseModal}
+              open={modalOpen}
+              handleProceed={
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+              }
+            />
+          ) : undefined}
         </Box>
       </div>
     </div>
