@@ -33,14 +33,13 @@ function Login() {
         <Logo />
         <br />
         <br />
-        {loggedin ? <Logout /> : <LoginBox />}
+        {loggedin ? <Welcome /> : <LoginBox />}
       </div>
     </div>
   );
 }
 
 function LoginBox() {
-  // const [username, setUsername] = useState("");
   const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
 
@@ -101,7 +100,6 @@ function LoginBox() {
             ),
           }}
           value={username}
-          // onChange={(event) => setUsername(event.target.value)}
           onChange={(event) =>
             dispatch({
               type: "TRY_LOGIN",
@@ -133,9 +131,6 @@ function LoginBox() {
           >
             Sign-in
           </Button>{" "}
-          {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
-          {/* https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications */}
-          {/* https://www.bezkoder.com/react-redux-jwt-auth/ */}
           <Link to="/signup" style={{ textDecoration: "none" }}>
             <Button color="primary" variant="outlined" className="LoginBtn">
               Sign-Up
@@ -147,20 +142,16 @@ function LoginBox() {
   );
 }
 
-function Logout() {
+function Welcome() {
   // const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   const dispatch = useDispatch();
   // TODO
   return (
     <div>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => dispatch({ type: "LOG_OUT" })}
-      >
-        {/* need a confirmation modal for the logout dispatch fn */}
-        LogOut
-      </Button>
+      <div>Welcome to Associated Engineering Resume Generator</div>
+      <div>
+        To your left is the navigator, and your right account management.{" "}
+      </div>
     </div>
   );
 }
