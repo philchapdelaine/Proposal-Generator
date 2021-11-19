@@ -55,8 +55,12 @@ function ReadingPane(props) {
         let newProposal = {
           proposalName: "Untitled New Proposal",
           resumes: [],
-        };
-        newProposal.resumes.push(currentSector);
+          };
+        // build a new sector with no sectorID
+        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
+            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber }))(currentSector);
+          newProposal.resumes.push(newSector);
+          console.log(newProposal);
 
         const config = { headers: { "Content-Type": "application/json" } };
           let url = `/api/user/${uid}/proposal/`;
