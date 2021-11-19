@@ -81,7 +81,7 @@ export default function ResumeSectorDisplay(props) {
           id={"panel" + resume.resumeID + "bh-header"}
           sx={{ width: '100%', display: 'flex',  justifyContent:'space-between'}}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>
+          <Typography className={classes.resumeOwnerInfo} sx={{ width: "33%", flexShrink: 0 }}>
             {resumeOwnerName || "Name not available"}
           </Typography>
           <Typography sx={{ color: "text.secondary" }}>
