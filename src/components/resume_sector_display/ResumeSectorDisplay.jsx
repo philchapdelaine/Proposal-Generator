@@ -29,7 +29,7 @@ export default function ResumeSectorDisplay(props) {
 
     function handleSectorClick(sector, currResume) {
     dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector })
-    // props.onSectorClick(sector, currResume);
+    props.onSectorClick(sector, currResume);
   }
 
   function generateRows(sector, currResume) {
