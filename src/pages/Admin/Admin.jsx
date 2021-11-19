@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import Logo from "../../components/logo/logo";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import {
   Accordion,
   AccordionDetails,
@@ -11,11 +7,18 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { Delete } from "@mui/icons-material";
-import confirmModal from "../../components/confirmModal/confirmModal";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory } from "react-router-dom";
 import "./Admin.css";
+import axios from "axios";
+import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
+import {
+  setProposalIndex,
+  setProposals as setProposalsRedux,
+} from "../../redux/actions/proposal-actions";
+import { useDispatch } from "react-redux";
+import ConfirmModal from "../../components/confirmModal/confirmModal";
+import { useSelector } from "react-redux";
 
 const style = {
   width: "75%",
@@ -32,21 +35,44 @@ const sampleStyle = {
   marginTop: "10px",
 };
 
-const handleDelete = () => {
-  // TODO-JC: confirm delete proposal dialog
-};
-
 function Admin() {
   const [proposals, setProposals] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handleClickEdit = () => {
+  const uid = useSelector((state) => state.loginReducer.uid);
+
+  const handleClickEdit = (index) => {
+    dispatch(setProposalIndex(index));
     history.push("/create-proposal");
   };
 
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleOpenModal = (id) => {
+    setIdToDelete(id);
+    setModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    await axios.delete(`/api/user/${uid}/proposal/${idToDelete}`);
+    setModalOpen(false);
+  };
+
   useEffect(() => {
-    // TODO-JC: get user's proposals from DB
-    setProposals([{ name: "Proposal 1" }, { name: "Proposal 2" }]);
+    const getProposals = async () => {
+      let response = await axios.get(`/api/user/${uid}/proposal`);
+      if (response.data) {
+        setProposals(response.data);
+        dispatch(setProposalsRedux(response.data));
+      }
+    };
+
+    getProposals();
   }, []);
 
   return (
@@ -61,13 +87,19 @@ function Admin() {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary>
-                  <Typography>{proposal.name}</Typography>
+                  <Typography>{proposal.proposalName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Box display="flex">
-                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
-                    <Box sx={sampleStyle}>Sample Resumes Here</Box>
+                    {proposal.resumes?.map((resume, id) => {
+                      return (
+                        <ResumeThumbnail
+                          name={resume.name}
+                          key={id}
+                          notClickable
+                        />
+                      );
+                    })}
                   </Box>
                   <Box
                     display="flex"
@@ -78,13 +110,14 @@ function Admin() {
                       variant="outlined"
                       color="error"
                       style={{ marginRight: 10 }}
+                      onClick={() => handleOpenModal(id)}
                     >
                       Delete
                     </Button>
                     <Button
                       variant="outlined"
                       style={{ marginRight: 10 }}
-                      onClick={handleClickEdit}
+                      onClick={() => handleClickEdit(id)}
                     >
                       Edit
                     </Button>
@@ -94,6 +127,24 @@ function Admin() {
               </Accordion>
             );
           })}
+          {modalOpen ? (
+            <ConfirmModal
+              confirmTitle="Are you sure you would like to delete this proposal?"
+              confirmMsg="This action cannot be reversed."
+              handleClose={handleCloseModal}
+              open={modalOpen}
+              handleProceed={
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+              }
+            />
+          ) : undefined}
         </Box>
       </div>
     </div>
