@@ -23,10 +23,11 @@ function CreateSector() {
 
   function openModal() {
     const hasType = type !== ""; // add other required fields here
-    const hasEmail = email !== "";
+    const hasProposalNum = proposalNum !== "";
     const hasDivision = division !== "";
-    hasRequiredInfo = hasType && hasEmail && hasDivision;
+    hasRequiredInfo = hasType && hasProposalNum && hasDivision;
     setSubmitAttempted(true);
+    setSectorCreated(false);
 
     if (hasRequiredInfo) {
       setOpen(true);
@@ -44,7 +45,6 @@ function CreateSector() {
       <div id="app-modal"></div>
       <NavigatorBar />
       <div className="cs-main">
-        { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now add this sector via the Resume page.</div> : null }
         <div className="title"> Create New Sector </div>
         <div className="cs-input-fields">
 
@@ -73,7 +73,7 @@ function CreateSector() {
             onChange={(event) => setProposalNum(event.target.value)}
           />
           <br />
-          <TextField
+          {/* <TextField
             label="Employee Email"
             className="cs-input"
             fullWidth={true}
@@ -81,8 +81,8 @@ function CreateSector() {
             variant="outlined"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
+          /> */}
+          {/* <TextField
             label="Image Location"
             className="cs-input"
             fullWidth={true}
@@ -90,7 +90,7 @@ function CreateSector() {
             variant="outlined"
             value={imgLocation}
             onChange={(event) => setImgLocation(event.target.value)}
-          />
+          /> */}
           <FormControl fullWidth>
             <InputLabel>Division</InputLabel>
             <Select
@@ -105,7 +105,7 @@ function CreateSector() {
               <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
             </Select>
           </FormControl>
-          <TextField
+          {/* <TextField
             label="Description"
             className="cs-input"
             fullWidth={true}
@@ -114,11 +114,12 @@ function CreateSector() {
             minRows="8"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-          />
+          /> */}
         </div>
         {!hasRequiredInfo && submitAttempted && (
-          <div className="cs-warning"> Sector type, email, and division are required fields. </div>
+          <div className="cs-warning"> Sector type, proposal number, and division are required fields. </div>
         )}
+        { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now use this sector via the Resume page.</div> : null }
         <button
           className="cs-button"
           onClick={() => openModal()}>

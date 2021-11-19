@@ -17,11 +17,12 @@ function ConfirmSectorModal(props) {
       setOpen(false);
       Axios.post('/api/sector', {
           "name": props.type,
-          "linkedEmail": props.email,
           "division": props.division,
-          "imageLoc": props.imgLocation,
-          "description": props.description,
-          "ProposalNumber": props.proposalNum
+          "ProposalNumber": props.proposalNum,
+          // These properties are not required for sector templates. Submit empty string for data validation
+          "imageLoc": "",
+          "description": "",
+          "linkedEmail": "",
         })
         .then((response) => {
           console.log(response);
@@ -41,10 +42,10 @@ function ConfirmSectorModal(props) {
                 <div className="csm-message"> Sectors can be edited later using the proposals page.</div>
                 <div><span className="csm-header"> Type: </span> <span className="csm-info"> {props.type}</span></div>
                 <div><span className="csm-header"> Proposal Number: </span> <span className="csm-info"> {props.proposalNum}</span></div>
-                <div><span className="csm-header"> Employee Email: </span> <span className="csm-info"> {props.email}</span></div>
-                <div><span className="csm-header"> Image Location: </span> <span className="csm-info"> {props.imgLocation}</span></div>
+                {/* <div><span className="csm-header"> Employee Email: </span> <span className="csm-info"> {props.email}</span></div> */}
+                {/* <div><span className="csm-header"> Image Location: </span> <span className="csm-info"> {props.imgLocation}</span></div> */}
                 <div><span className="csm-header"> Division: </span> <span className="csm-info"> {props.division}</span></div>
-                <div className="csm-header"> Description:</div> <div className="csm-info">{props.description} </div>
+                {/* <div className="csm-header"> Description:</div> <div className="csm-info">{props.description} </div> */}
             </div>
             <div className="modal-footer">
               <button className="csm-button" onClick={() => setOpen(false)}> Edit </button>
