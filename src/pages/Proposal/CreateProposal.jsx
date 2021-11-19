@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import ReadingPane from "../../components/reading_pane/ReadingPane";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ResumeSectorDisplay from "../../components/resume_sector_display/ResumeSectorDisplay";
@@ -6,6 +6,7 @@ import "./CreateProposal.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import Resume from "../Resume/Resume";
 
 
 // dummy data; this will actually come from the search api
@@ -61,10 +62,13 @@ const recentlyViewedSample = [
 const maxLengthRecentlyViewed = 6;
 
 function CreateProposal() {
-  const [resumes, setResumes] = useState([]);
+  const [isSearch, setSearch] = useState(false);
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
+  const [searchedResumes, setSearchedResumes] = useState([]);
+
+  var tests = [];
 
   const getResults = async () => {
     await axios
@@ -81,14 +85,71 @@ function CreateProposal() {
     }
   }
 
-  const handleSubmit = () => {
-    if (searchWord !== "") {
-      axios
-        .get(`/api/user/1/resume`)
-        .then((res) => {})
-        .catch((err) => {});
+  /*const handleSubmit = () => {
+      const url = `/api/search/${searchWord}/smartsearch`
+      axios.get(url)
+          .then((res) => {
+              setSearchedResumes(res.data);
+          })
+    };*/
+
+    const handleSubmit = () => {
+        setSearch(true)
+    };
+
+
+    useEffect(() => {
+        // ⬇ This calls my get request from the server
+        if (isSearch) {
+            getFeedback();
+        }
+    }, [isSearch]);
+
+   /* const getFeedback = () => axios.get("/api/search/${1}/smartsearch")
+        .then((res) => {
+            setSearchedResumes(res.data);
+            setSearch(false);
+        });*/
+
+    const getFeedback = () => {
+        const url = `/api/search/${searchWord}/smartsearch`
+            axios.get(url)
+                .then((res) => {
+                    setSearchedResumes(res.data);
+                    setSearch(false);
+                })
     }
-  };
+
+/*
+    var tests = []
+
+    function handleSubmit() {
+        const url = `/api/search/${searchWord}/smartsearch`
+        axios.get(url)
+            .then((res) => {
+                tests = res.data;
+            })
+    };*/
+
+   /* useEffect(() => {
+            const url = `/api/search/${searchWord}/smartsearch`
+            axios.get(url)
+                .then((res) => {
+                    setSearchedResumes(res.data);
+                })
+        setResumes(false);
+    }, [resumes]);
+*/
+ /*  componentDidMount() {
+       if (searchWord !== "") {
+           const url = `/api/search/${searchWord}/smartsearch`
+           axios.get(url)
+               .then((res) => {
+                   setSearchedResumes(res.data);
+               })
+           setSearchWord("");
+       }
+    }*/
 
   function addToRecentlyViewed(resume) {
     const isMaxLengthReached = recentlyViewedResumes.length > maxLengthRecentlyViewed;
@@ -128,16 +189,19 @@ function CreateProposal() {
           <Button
             variant="contained"
             color="primary"
-            className="LoginBtn"
-            onClick={() => handleSubmit()}
+                      className="LoginBtn"
+                      onClick={() => handleSubmit()}
           >
             Search
           </Button>
         </div>
         <div className="search-results"> Search results: </div> <br/>
-        <ResumeSectorDisplay
-          displayedResumes={recentlyViewedSample}
-          onSectorClick={updateDisplayedSector}
+              <ResumeSectorDisplay
+                  searchWord={searchWord}
+                  onSectorClick={updateDisplayedSector}
+                  isSearch={isSearch}
+                  switchSearch={handleSubmit}
+                  searchedResumes={searchedResumes}
         ></ResumeSectorDisplay>
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>
