@@ -109,6 +109,9 @@ function CreateProposal() {
                     setSearchedResumes(res.data);
                     setSearch(false);
                 })
+                .catch ((err) => {
+                  console.log(err);
+                })
     }
 
 
