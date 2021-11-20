@@ -12,6 +12,8 @@ import { useHistory } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
 import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
+import AddIcon from '@mui/icons-material/Add';
+
 import {
   setProposalIndex,
   setProposals as setProposalsRedux,
@@ -100,11 +102,11 @@ function Admin() {
       <NavigatorBar />
       <div className="admin-main">
         <div className="admin-buttons-container">
-          <Link to="/create-proposal">
-            <Button className="admin-button"> New Proposal </Button>
-          </Link>
-          <Link to="/sector">
-            <Button className="admin-button"> New Sector </Button>
+          <Link to="/create-proposal" style={{ textDecoration: "none" }}>
+            <Button className="admin-button" color="primary" variant="outlined"> New Proposal <AddIcon/></Button>
+          </Link>{" "}
+          <Link to="/sector" style={{ textDecoration: "none" }}>
+            <Button className="admin-button" color="primary" variant="outlined"> New Sector <AddIcon/></Button>
           </Link>
         </div>
         <Box>
