@@ -5,13 +5,15 @@ import ResumeBuilder from "../../components/resume_builder/ResumeBuilder";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import SectorEditor from "../../components/sector_editor/SectorEditor";
 import axios from "axios";
+import { connect } from "react-redux"; // redux
 
 var samplesectors = [
       {
           sectorID: 1,
           name: "Experience",
           linkedEmail: "mc@ae.com",
-          fileType: "txt",
+          proposalNumber: 1,
+          empty: true,
           division: "Water",
           imageLoc: "blah/blah",
           description: "I'm the best so I don't need to have any experience"
@@ -20,9 +22,10 @@ var samplesectors = [
           sectorID: 2,
           name: "Projects",
           linkedEmail: "mc@ae.com",
-          fileType: "txt",
+          proposalNumber: 1,
+          empty: true,
           division: "Air",
-          imageLoc: null,
+          imageLoc: "",
           description: "I'm the best so I don't need to have any projects"
       }
   ]
@@ -35,33 +38,24 @@ var sampleuser = {
     emailAddress: "mc@ae.com",
 }
 
-var curruser = {};
-
 var resume = []; 
 
 var index = 3;
-
-const client = axios.create({
-  baseURL: "localhost:5000/api/"
-});
 
 var noAPI = false;
 
 class Resume extends Component {
   constructor(props) {
     super(props);
-    this.state = { currsector: undefined, sectors: resume, user: sampleuser };
+    this.state = { currsector: undefined, sectors: resume};
   }
 
   componentDidMount() {
     if (noAPI) {
       resume = samplesectors
-      curruser = sampleuser
       this.setState({sectors: resume});
     } else {
-      //curruser = sampleuser;
-      this.setState({user: curruser})
-      const url = `/api/user/${sampleuser.applicationUserId}/resume`
+      const url = `/api/user/${this.props.userID}/resume`
       axios.get(url)
         .then((res) => {
           resume = res.data.sectors;
@@ -74,7 +68,7 @@ class Resume extends Component {
     if (noAPI) {
       this.setState({sectors: resume});
     } else {
-      const url = `/api/user/${sampleuser.applicationUserId}/resume`
+      const url = `/api/user/${this.props.userID}/resume`
       axios.get(url)
         .then((res) => {
           resume = res.data.sectors;
@@ -91,11 +85,12 @@ class Resume extends Component {
     this.setState({ currsector: resume.find((e) => e.sectorID === newID) });
   }
 
-  addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) {
+  addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription) {
     var newsector = {          
       name: sectorname,
-      linkedEmail: sampleuser.emailAddress,
-      fileType: filetype,
+      linkedEmail: this.props.email,
+      empty: false,
+      proposalNumber: propNumber,
       division: sectordivision,
       imageLoc: imageloc,
       description: sectordescription,
@@ -105,7 +100,7 @@ class Resume extends Component {
       resume.push(newsector);
       this.setState({sectors: resume});
     } else {
-      const url = `/api/user/${sampleuser.applicationUserId}/resume/sector`
+      const url = `/api/user/${this.props.userID}/resume/sector`
       axios.post(url, newsector).then((res) => {
         this.handleUpdate()
       })
@@ -118,7 +113,7 @@ class Resume extends Component {
       resume.splice(resume.findIndex((e) => e.sectorID === sector.sectorID),1);
       this.setState({sectors: resume});
     } else {
-      const url = `/api/user/${sampleuser.applicationUserId}/resume/sector/${sector.sectorID}`
+      const url = `/api/user/${this.props.userID}/resume/sector/${sector.sectorID}`
       axios.delete(url).then((res) => {
         this.handleUpdate()
       })
@@ -126,10 +121,12 @@ class Resume extends Component {
     console.log("Deleted " + sector.name);
   }
 
-  saveSector(sectorid, sectorname, sectorcontent) {
+  saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) {
     var oldsector = resume[resume.findIndex(e => e.sectorID === sectorid)]
     oldsector.name = sectorname;
     oldsector.description = sectorcontent;
+    oldsector.division = sectordivision;
+    oldsector.imageLoc = sectorimageLoc;
     if (noAPI) {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
       this.setState({sectors: resume});
@@ -151,8 +148,8 @@ class Resume extends Component {
         <div className = "resume-page">
           <div className = "resume-builder">
             <ResumeBuilder sectors = {this.state.sectors}
-            addSector = {(sectorname, sectordivision, filetype, imageloc, sectordescription) => 
-              {this.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}
+            addSector = {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
+              {this.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
             deleteSector = {(sector) => {this.deleteSector(sector)}}
             selectSector = {(sectorid) => {this.selectSector(sectorid)}}></ResumeBuilder>
           </div>
@@ -160,7 +157,8 @@ class Resume extends Component {
             <div>
             {this.state.currsector &&           
             <SectorEditor sector = {this.state.currsector} 
-            saveSector = {(sectorid, sectorname, sectorcontent) => {this.saveSector(sectorid, sectorname, sectorcontent)}}></SectorEditor>
+            saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
+              {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
             }
             </div>
           </div>
@@ -172,4 +170,23 @@ class Resume extends Component {
 
 Resume.propTypes = {};
 
-export default Resume;
+function mapStateToProps(state) {
+  return {
+    userID: state.loginReducer.uid,
+    email: state.loginReducer.username,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteSector: (sectorID, proposalId) => {
+      dispatch({
+        type: "DELETE_SECTOR",
+        sectorID: sectorID,
+        proposalId: proposalId,
+      });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Resume);

@@ -9,14 +9,13 @@ class SectorSearch extends Component {
         this.state = {searchTerm: ""};
       }
 
-  updateSearchTerm = e => {
-    this.setState({
-      searchTerm: e.target.value
-    });
+  updateSearchTerm = (event) => {
+    this.setState({searchTerm: event.target.value}, () => {
+      this.props.searchSectors(this.state.searchTerm)});
   };
 
-  addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) {
-    this.props.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription);
+  addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription) {
+    this.props.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription);
   }
 
   renderSectors() {
@@ -40,7 +39,7 @@ class SectorSearch extends Component {
 
           <div className = 'addButton'>
             <Button variant="outlined" onClick={() =>
-                {this.addSector(sector.name, sector.division, sector.fileType, sector.imageLoc, sector.description)}}>Add</Button>
+                {this.addSector(sector.name, sector.division, sector.proposalNumber, sector.imageLoc, sector.description)}}>Add</Button>
           </div>
         </li>
       );
@@ -52,9 +51,7 @@ class SectorSearch extends Component {
     <div>
       <div className="sector-search-container">
         <form
-          onSubmit={() => {
-          }}
-        >
+          onSubmit={() => {}}>
           <input
             onChange={this.updateSearchTerm}
             type="text"
@@ -62,7 +59,7 @@ class SectorSearch extends Component {
           />
         </form>
       </div>
-      <div>
+      <div className = "search-list-container">
       {this.props.sectors &&
           this.renderSectors()}  
       </div>
