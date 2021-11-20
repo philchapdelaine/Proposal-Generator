@@ -56,18 +56,23 @@ export default function ResumeSectorDisplay(props) {
         );
     }
 
-    function generateAccordian(resume) {
-        /*const uid = useSelector((state) => state.loginReducer.uid);
-        useEffect(() => {
-            const fetchName = async () => {
-                // Currently resume.resumeID NULL
-                const user = await axios.get(`/api/user/${uid}/`);
-                setResumeOwnerName(user.data.firstName + " " + user.data.lastName);
-                setResumeOwnerEmail(user.data.emailAddress);
-            };
-            fetchName();
-        }, []);*/
 
+   /* useEffect(() => {
+        getFeedback();
+    }, []);
+
+
+    function getFeedback() {
+        var uid = useSelector((state) => state.loginReducer.uid);
+        var url = `/api/user/${uid}/`
+        axios.get(url)
+            .then((res) => {
+                setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
+                setResumeOwnerEmail(res.data.emailAddress);
+            })
+    }*/
+
+    function generateAccordian(resume) {
         return (
             <Accordion
                 expanded={expanded === "panel" + resume.resumeID}
@@ -80,10 +85,10 @@ export default function ResumeSectorDisplay(props) {
                     sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
                 >
                     <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                        {"First Name" || "Name not available"}
+                        {resumeOwnerName || "Name not available"}
                     </Typography>
                     <Typography sx={{ color: "text.secondary" }}>
-                        {"Email" || " "}
+                        {resumeOwnerEmail || " "}
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

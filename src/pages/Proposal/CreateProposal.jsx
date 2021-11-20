@@ -85,31 +85,17 @@ function CreateProposal() {
     }
   }
 
-  /*const handleSubmit = () => {
-      const url = `/api/search/${searchWord}/smartsearch`
-      axios.get(url)
-          .then((res) => {
-              setSearchedResumes(res.data);
-          })
-    };*/
-
     const handleSubmit = () => {
         setSearch(true)
     };
 
 
     useEffect(() => {
-        // ⬇ This calls my get request from the server
         if (isSearch) {
             getFeedback();
         }
     }, [isSearch]);
 
-   /* const getFeedback = () => axios.get("/api/search/${1}/smartsearch")
-        .then((res) => {
-            setSearchedResumes(res.data);
-            setSearch(false);
-        });*/
 
     const getFeedback = () => {
         const url = `/api/search/${searchWord}/smartsearch`
@@ -120,36 +106,6 @@ function CreateProposal() {
                 })
     }
 
-/*
-    var tests = []
-
-    function handleSubmit() {
-        const url = `/api/search/${searchWord}/smartsearch`
-        axios.get(url)
-            .then((res) => {
-                tests = res.data;
-            })
-    };*/
-
-   /* useEffect(() => {
-            const url = `/api/search/${searchWord}/smartsearch`
-            axios.get(url)
-                .then((res) => {
-                    setSearchedResumes(res.data);
-                })
-        setResumes(false);
-    }, [resumes]);
-*/
- /*  componentDidMount() {
-       if (searchWord !== "") {
-           const url = `/api/search/${searchWord}/smartsearch`
-           axios.get(url)
-               .then((res) => {
-                   setSearchedResumes(res.data);
-               })
-           setSearchWord("");
-       }
-    }*/
 
   function addToRecentlyViewed(resume) {
     const isMaxLengthReached = recentlyViewedResumes.length > maxLengthRecentlyViewed;
