@@ -1,13 +1,19 @@
 .editor {
-    padding-top: 100px;
+    padding-top: 50px;
     padding-left: 50px;
 }
 
-.header {
+.name-editor,
+.division-editor,
+.imageloc-editor {
     padding-left: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.header p {
+.name-editor p
+.division-editor p,
+.imageloc-editor p {
     text-transform: uppercase;
     font-size: 20px;
 }
@@ -15,7 +21,8 @@
 .sector-editor-field {
     width: 450px;
     padding-left: 0px;
-    padding-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .save-button {

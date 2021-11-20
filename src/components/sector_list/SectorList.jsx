@@ -62,7 +62,11 @@ class SectorList extends Component {
         <div className = "list-container">
         {this.props.sectors &&
           this.renderSectors()}
+<<<<<<< Updated upstream
           </div>
+=======
+        </div>
+>>>>>>> Stashed changes
       </div>
     );
   }
