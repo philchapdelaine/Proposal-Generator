@@ -24,7 +24,7 @@ export default class RecentlyViewed extends React.Component {
     return (
       <div>
         <div className="recently_viewed_title">
-          <h3>Recently Viewed</h3>
+          <h2>Recently Viewed</h2>
         </div>
         <List component="nav">
           {recentlyViewed.map((resume) => {

@@ -4,7 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import { Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ConfirmSectorModal from "../../components/confirm_sector_modal/ConfirmSectorModal";
-
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
 
 function CreateSector() {
   const [type, setType] = useState("");
@@ -23,10 +26,11 @@ function CreateSector() {
 
   function openModal() {
     const hasType = type !== ""; // add other required fields here
-    const hasEmail = email !== "";
+    const hasProposalNum = proposalNum !== "";
     const hasDivision = division !== "";
-    hasRequiredInfo = hasType && hasEmail && hasDivision;
+    hasRequiredInfo = hasType && hasProposalNum && hasDivision;
     setSubmitAttempted(true);
+    setSectorCreated(false);
 
     if (hasRequiredInfo) {
       setOpen(true);
@@ -44,13 +48,16 @@ function CreateSector() {
       <div id="app-modal"></div>
       <NavigatorBar />
       <div className="cs-main">
-        { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now add this sector via the Resume page.</div> : null }
-        <div className="title"> Create New Sector </div>
+        <div className="title"> Create New Sector Template </div>
+        <div className="subtitle"> 
+          Employees can fill out additional information (description, etc.) when they add a sector to their resume.
+        </div>
         <div className="cs-input-fields">
 
           <FormControl fullWidth>
-            <InputLabel>Type</InputLabel>
+            <InputLabel >Type</InputLabel>
             <Select
+              label="Type"
               className="cs-input"
               value={type}
               onChange={(event) => setType(event.target.value)}
@@ -73,7 +80,7 @@ function CreateSector() {
             onChange={(event) => setProposalNum(event.target.value)}
           />
           <br />
-          <TextField
+          {/* <TextField
             label="Employee Email"
             className="cs-input"
             fullWidth={true}
@@ -81,8 +88,8 @@ function CreateSector() {
             variant="outlined"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
+          /> */}
+          {/* <TextField
             label="Image Location"
             className="cs-input"
             fullWidth={true}
@@ -90,10 +97,11 @@ function CreateSector() {
             variant="outlined"
             value={imgLocation}
             onChange={(event) => setImgLocation(event.target.value)}
-          />
+          /> */}
           <FormControl fullWidth>
             <InputLabel>Division</InputLabel>
             <Select
+              label="Division"
               className="cs-input"
               value={division}
               onChange={(event) => setDivision(event.target.value)}
@@ -105,7 +113,7 @@ function CreateSector() {
               <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
             </Select>
           </FormControl>
-          <TextField
+          {/* <TextField
             label="Description"
             className="cs-input"
             fullWidth={true}
@@ -114,11 +122,15 @@ function CreateSector() {
             minRows="8"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-          />
+          /> */}
         </div>
         {!hasRequiredInfo && submitAttempted && (
-          <div className="cs-warning"> Sector type, email, and division are required fields. </div>
+          <div className="cs-warning"> Sector type, proposal number, and division are required fields. </div>
         )}
+        { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now use this sector via the Resume page.</div> : null }
+        <Link to="/admin">
+          <button className="cs-button"> Back </button>
+        </Link>
         <button
           className="cs-button"
           onClick={() => openModal()}>

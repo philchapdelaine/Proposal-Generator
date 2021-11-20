@@ -1,4 +1,4 @@
-// import "./App.css";
+import "./App.css";
 import Logo from "./components/logo/logo";
 import UserDropdown from "./components/user_dropdown/UserDropdown";
 
@@ -20,13 +20,11 @@ function App() {
   return (
     <div>
       <Router>
-        <header className="App-header">
+        <header className="app-header">
           <Logo />
+          <span className="resume-generator">Resume Generator</span>
+          {isLoggedIn ? <UserDropdown /> : <Redirect to="/login" />}
         </header>
-        <div className="mainstage">
-          <span>Resume Generator</span>
-        </div>
-        {isLoggedIn ? <UserDropdown /> : <Redirect to="/login" />}
         <br />
         <Navigator />
       </Router>
