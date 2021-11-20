@@ -15,7 +15,7 @@ function ConfirmSectorModal(props) {
     
     async function submit() {
       setOpen(false);
-      Axios.post('/api/sector', {
+      axios.post('/api/sector', {
           "name": props.type,
           "division": props.division,
           "ProposalNumber": props.proposalNum,
