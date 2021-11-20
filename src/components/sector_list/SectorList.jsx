@@ -47,6 +47,7 @@ class SectorList extends Component {
     });
   }
 
+
   render() {
     return (
       <div>
@@ -58,8 +59,10 @@ class SectorList extends Component {
             <p>Division</p>
           </div>
         </div>
+        <div className = "list-container">
         {this.props.sectors &&
           this.renderSectors()}
+          </div>
       </div>
     );
   }
@@ -67,9 +70,9 @@ class SectorList extends Component {
 
 SectorList.propTypes = {
   sectorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  sectors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   fetchSectors: PropTypes.func,
   deleteSector: PropTypes.func,
-  sectors: PropTypes.any,
   selectSector: PropTypes.func
 };
 

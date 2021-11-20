@@ -60,13 +60,24 @@ function Signup() {
         LastName: lastName,
         EmailAddress: username,
         Password: password,
-        RoleType: role
+        RoleType: role,
       })
       .then((res) => {
-        alert("Sign up under construction");
+        if (res.status === 200) {
+          alert(res.status + ": Sign up successful!");
+          window.location = "/login"; // uncomment this if you wanna redirect to login after successful registration
+        } else {
+          alert(res);
+        }
       })
       .catch((err) => {
-        alert(err);
+        if (err.response.status == 400) {
+          alert("Error " + err.response.status + ". Try another username");
+        } else if (err.response.status == 404) {
+          alert("Error " + err.response.status + ". Server is down");
+        } else {
+          alert(err);
+        }
       });
   };
 
@@ -179,7 +190,9 @@ function Signup() {
           name="role"
           checked={role !== "Employee"}
           onChange={() =>
-            role === "Employee" ? setRole("Project Administrator") : setRole("Employee")
+            role === "Employee"
+              ? setRole("Project Administrator")
+              : setRole("Employee")
           }
         />
         Admin

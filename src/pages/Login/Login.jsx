@@ -33,14 +33,13 @@ function Login() {
         <Logo />
         <br />
         <br />
-        {loggedin ? <Logout /> : <LoginBox />}
+        {loggedin ? <Welcome /> : <LoginBox />}
       </div>
     </div>
   );
 }
 
 function LoginBox() {
-  // const [username, setUsername] = useState("");
   const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
 
@@ -51,31 +50,29 @@ function LoginBox() {
   // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
   const authUser = async () => {
     const resp = await axios
-      .post(
-        `/api/authenticate/login/`,
-        {
-          emailAddress: username,
-          password: password,
-        }
-        // {
-        //   auth: {
-        //     username: username,
-        //     password: password,
-        //   },
-        // }
-      )
+      .post(`/api/authenticate/login/`, {
+        emailAddress: username,
+        password: password,
+      })
       .then((res) => {
         if (res.status === 200) {
           dispatch({
             type: "SUCCESSFUL_LOGIN",
-            payload: res.data["applicationUserId"],
+            payload: res.data,
           });
         } else {
           alert("Incorrect Username or Password");
         }
       })
-      .catch((error) => {
-        alert(error);
+      .catch((err) => {
+        if (err.response.status === 404) {
+          alert("Error " + err.response.status + ". Server is down");
+        } else if (err.response.status === 500) {
+          // alert("Error " + err.staus + ". Wrong Username or Password");
+          alert("Incorrect Username or Password");
+        } else {
+          alert(err);
+        }
       });
   };
 
@@ -103,7 +100,6 @@ function LoginBox() {
             ),
           }}
           value={username}
-          // onChange={(event) => setUsername(event.target.value)}
           onChange={(event) =>
             dispatch({
               type: "TRY_LOGIN",
@@ -135,9 +131,6 @@ function LoginBox() {
           >
             Sign-in
           </Button>{" "}
-          {/* https://serverless-stack.com/chapters/add-the-session-to-the-state.html */}
-          {/* https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications */}
-          {/* https://www.bezkoder.com/react-redux-jwt-auth/ */}
           <Link to="/signup" style={{ textDecoration: "none" }}>
             <Button color="primary" variant="outlined" className="LoginBtn">
               Sign-Up
@@ -149,20 +142,16 @@ function LoginBox() {
   );
 }
 
-function Logout() {
+function Welcome() {
   // const loggedin = useSelector((state) => state.loginReducer.loggedIn);
   const dispatch = useDispatch();
   // TODO
   return (
     <div>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => dispatch({ type: "LOG_OUT" })}
-      >
-        {/* need a confirmation modal for the logout dispatch fn */}
-        LogOut
-      </Button>
+      <div>Welcome to Associated Engineering Resume Generator</div>
+      <div>
+        To your left is the navigator, and your right account management.{" "}
+      </div>
     </div>
   );
 }
