@@ -33,7 +33,9 @@
     height: 50px;
     font-size: 18px;
     margin-top: 15px;
+    margin-right: 10px;
     border: none;
+    border-radius: 15px;
     cursor: pointer;
 }
 

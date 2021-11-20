@@ -16,9 +16,12 @@ import {
   setProposalIndex,
   setProposals as setProposalsRedux,
 } from "../../redux/actions/proposal-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
-import { useSelector } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
 
 const style = {
   width: "75%",
@@ -96,6 +99,14 @@ function Admin() {
     <div className="admin-page">
       <NavigatorBar />
       <div className="admin-main">
+        <div className="admin-buttons-container">
+          <Link to="/create-proposal">
+            <Button className="admin-button"> New Proposal </Button>
+          </Link>
+          <Link to="/sector">
+            <Button className="admin-button"> New Sector </Button>
+          </Link>
+        </div>
         <Box>
           <Typography variant="h4" margin={3}>
             Your proposals

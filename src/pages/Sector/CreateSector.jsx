@@ -4,7 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import { Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ConfirmSectorModal from "../../components/confirm_sector_modal/ConfirmSectorModal";
-
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
 
 function CreateSector() {
   const [type, setType] = useState("");
@@ -125,6 +128,9 @@ function CreateSector() {
           <div className="cs-warning"> Sector type, proposal number, and division are required fields. </div>
         )}
         { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now use this sector via the Resume page.</div> : null }
+        <Link to="/admin">
+          <button className="cs-button"> Back </button>
+        </Link>
         <button
           className="cs-button"
           onClick={() => openModal()}>
