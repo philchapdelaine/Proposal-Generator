@@ -25,8 +25,8 @@ const useStyles = makeStyles(() => ({
 export default function ResumeSectorDisplay(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
-    const [resumeOwnerName, setResumeOwnerName] = useState("");
-    const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
+    // const [resumeOwnerName, setResumeOwnerName] = useState("");
+    // const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
     const dispatch = useDispatch();
 
     function handleSectorClick(sector, currResume) {
@@ -59,21 +59,27 @@ export default function ResumeSectorDisplay(props) {
         );
     }
 
+    // useEffect(() => {
+    //     getFeedback();
+    // }, []);
 
-   /* useEffect(() => {
-        getFeedback();
-    }, []);
 
-
-    function getFeedback() {
-        var uid = useSelector((state) => state.loginReducer.uid);
-        var url = `/api/user/${uid}/`
+    function getResumeOwnerInfo(resumeID) {
+       // var uid = useSelector((state) => state.loginReducer.uid);
+        var url = `/api/user/${resumeID}/`
+        var infoArray = [];
         axios.get(url)
             .then((res) => {
-                setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
-                setResumeOwnerEmail(res.data.emailAddress);
+                // setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
+                // setResumeOwnerEmail(res.data.emailAddress);
+                infoArray.push(res.data.firstName + " " + res.data.lastName);
+                infoArray.push(res.data.emailAddress);
             })
-    }*/
+            .catch((err) => {
+                console.log(err);
+            })
+        return infoArray;
+    }
 
     function generateAccordian(resume) {
         return (
@@ -88,10 +94,10 @@ export default function ResumeSectorDisplay(props) {
                     sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
                 >
                     <Typography className={classes.resumeOwnerInfo} sx={{ width: "33%", flexShrink: 0 }}>
-                        {resumeOwnerName || "Name not available"}
+                        { getResumeOwnerInfo(resume.resumeID)[0] || "Name not available"}
                     </Typography>
                     <Typography sx={{ color: "text.secondary" }}>
-                        {resumeOwnerEmail || " "}
+                        { getResumeOwnerInfo(resume.resumeID)[1] || " "}
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
