@@ -11,6 +11,7 @@ import {
   Link,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import Resume from "../Resume/Resume";
 
 
 // dummy data; this will actually come from the search api
@@ -19,48 +20,43 @@ const recentlyViewedSample = [
     "resumeID": 1,
     "sectors": [
         {
-            "sectorID": 4,
+            "sectorID": 1,
             "name": "Experience",
             "linkedEmail": "mc@ae.com",
-            "division": "New Division",
-            "empty": true,
-            "proposalNumber": "1",
-            "imageLoc": null,
+            "fileType": "txt",
+            "division": "Water",
+            "imageLoc": "blah/blah",
             "description": "I'm the best so I don't need to have any experience"
         },
         {
             "sectorID": 2,
             "name": "Projects",
             "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
             "division": "Air",
-            "empty": true,
-            "proposalNumber": "1",
             "imageLoc": null,
             "description": "I'm the best so I don't need to have any projects"
         }
-
     ]
   },
   {
-    "resumeID": 1,
+    "resumeID": 2,
     "sectors": [
         {
-            "sectorID": 6,
-            "name": "Experience",
+            "sectorID": 3,
+            "name": "Education",
             "linkedEmail": "mc@ae.com",
-            "division": "New Division",
-            "empty": true,
-            "proposalNumber": "1",
-            "imageLoc": null,
+            "fileType": "txt",
+            "division": "Water",
+            "imageLoc": "blah/blah",
             "description": "I'm the best so I don't need to have any experience"
         },
         {
-            "sectorID": 8,
-            "name": "Projects",
+            "sectorID": 4,
+            "name": "Skills",
             "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
             "division": "Air",
-            "empty": true,
-            "proposalNumber": "1",
             "imageLoc": null,
             "description": "I'm the best so I don't need to have any projects"
         }
@@ -71,11 +67,13 @@ const recentlyViewedSample = [
 const maxLengthRecentlyViewed = 6;
 
 function CreateProposal() {
-  const [resumes, setResumes] = useState([]);
+  const [isSearch, setSearch] = useState(false);
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
-  const dispatch = useDispatch();
+  const [searchedResumes, setSearchedResumes] = useState([]);
+
+  var tests = [];
 
   const getResults = async () => {
     await axios
@@ -92,14 +90,27 @@ function CreateProposal() {
     }
   }
 
-  const handleSubmit = () => {
-    if (searchWord !== "") {
-      axios
-        .get(`/api/user/1/resume`)
-        .then((res) => {})
-        .catch((err) => {});
+    const handleSubmit = () => {
+        setSearch(true)
+    };
+
+
+    useEffect(() => {
+        if (isSearch) {
+            getFeedback();
+        }
+    }, [isSearch]);
+
+
+    const getFeedback = () => {
+        const url = `/api/search/${searchWord}/smartsearch`
+            axios.get(url)
+                .then((res) => {
+                    setSearchedResumes(res.data);
+                    setSearch(false);
+                })
     }
-  };
+
 
   function addToRecentlyViewed(resume) {
     const isMaxLengthReached = recentlyViewedResumes.length > maxLengthRecentlyViewed;
@@ -142,16 +153,19 @@ function CreateProposal() {
           <Button
             variant="contained"
             color="primary"
-            className="LoginBtn"
-            onClick={() => handleSubmit()}
+                      className="LoginBtn"
+                      onClick={() => handleSubmit()}
           >
             Search
           </Button>
         </div>
         <div className="search-results"> Search results: </div> <br/>
-        <ResumeSectorDisplay
-          displayedResumes={recentlyViewedSample}
-          onSectorClick={updateDisplayedSector}
+              <ResumeSectorDisplay
+                  searchWord={searchWord}
+                  onSectorClick={updateDisplayedSector}
+                  isSearch={isSearch}
+                  switchSearch={handleSubmit}
+                  searchedResumes={searchedResumes}
         ></ResumeSectorDisplay>
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>
