@@ -37,21 +37,24 @@ export default function ResumeSectorDisplay(props) {
     function generateRows(sector, currResume) {
         return (
             <TableRow hover onClick={() => handleSectorClick(sector, currResume)}>
-                <TableCell sx={{ width: "23%" }} align="left">
-                    {sector.name}
-                </TableCell>
-                <TableCell sx={{ width: "23%" }} align="left">
-                    {sector.division}
-                </TableCell>
-                <TableCell sx={{ width: "23%" }} align="left">
-                    {sector.description}
-                </TableCell>
-                <TableCell sx={{ width: "23%" }} align="left">
-                    {/* TODO: decide which sector properties to display here*/}
-                </TableCell>
-                <TableCell sx={{ width: "23%" }} align="left">
-                    {sector[4]}
-                </TableCell>
+              <TableCell sx={{ width: "13%" }} align="left">
+                {sector.name}
+              </TableCell>
+              <TableCell sx={{ width: "13%" }} align="left">
+                {sector.linkedEmail}
+              </TableCell>
+              <TableCell sx={{ width: "13%" }} align="left">
+                {"Proposal # " + sector.proposalNumber}
+              </TableCell>
+              <TableCell sx={{ width: "13%" }} align="left">
+                {sector.division}
+              </TableCell>
+              <TableCell sx={{ width: "13%" }} align="left">
+                {sector.imageLoc}
+              </TableCell>
+              <TableCell sx={{ width: "33%" }} align="left">
+                {sector.description}
+              </TableCell>
             </TableRow>
         );
     }
@@ -84,7 +87,7 @@ export default function ResumeSectorDisplay(props) {
                     id={"panel" + resume.resumeID + "bh-header"}
                     sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
                 >
-                    <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                    <Typography className={classes.resumeOwnerInfo} sx={{ width: "33%", flexShrink: 0 }}>
                         {resumeOwnerName || "Name not available"}
                     </Typography>
                     <Typography sx={{ color: "text.secondary" }}>

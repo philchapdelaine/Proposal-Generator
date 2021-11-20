@@ -6,6 +6,11 @@ import "./CreateProposal.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Resume from "../Resume/Resume";
 
 
@@ -133,6 +138,9 @@ function CreateProposal() {
       >
       </NavigatorBar>
       <div className="cp-center-pane">
+      <Link to="/admin">
+        <Button variant="contained" color="primary" style={{ marginLeft: "10px" }}> Back </Button>
+      </Link>
         <div className="cp-center-header">
           <div className="title"> Create Proposal </div>
           <TextField
