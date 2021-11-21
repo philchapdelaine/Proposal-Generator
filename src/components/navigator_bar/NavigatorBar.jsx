@@ -35,12 +35,13 @@ function NavigatorBar(props) {
           </Link>
         ) : null}
       </nav>
-      <div className="recently-viewed">
+      <div>
         {" "}
         {props.isCreateProposal ? (
           <RecentlyViewed
             onSectorClick={props.onSectorClick}
             resumes={props.recentlyViewed}
+            className="recently-viewed"
           >
             {props.recentlyViewed}
           </RecentlyViewed>
