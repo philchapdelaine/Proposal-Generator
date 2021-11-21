@@ -8,7 +8,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Logo from "../../components/logo/logo";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 

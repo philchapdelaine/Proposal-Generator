@@ -45,22 +45,30 @@ class SectorEditor extends Component {
         <div className="name-editor">
             <TextField
             value={this.state.name}
-            onChange={this.handleChangeName} fullWidth id="fullWidth" />
+            onChange={this.handleChangeName} fullWidth id="fullWidth" 
+            label="Sector Name"
+            />
         </div>
         <div className="division-editor">
             <TextField
             value={this.state.division}
-            onChange={this.handleChangeDivision} fullWidth id="fullWidth" />
+            onChange={this.handleChangeDivision} fullWidth id="fullWidth" 
+            label="Sector Division"
+            />
         </div>
         <div className = 'sector-editor-field'>
             <TextField multiline minRows = {10} maxRows = {40} 
             value={this.state.content}
-            onChange={this.handleChange} fullWidth id="fullWidth" />
+            onChange={this.handleChange} fullWidth id="fullWidth" 
+            label="Sector Field"
+            />
         </div>
         <div className="imageloc-editor">
             <TextField
             value={this.state.imageLoc}
-            onChange={this.handleChangeimageLoc} fullWidth id="fullWidth" />
+            onChange={this.handleChangeimageLoc} fullWidth id="fullWidth" 
+            label="Image URL"
+            />
         </div>
         <div className = 'save-button'>
             <Button variant="contained" onClick={() => {this.saveSector()}}>Save</Button>
