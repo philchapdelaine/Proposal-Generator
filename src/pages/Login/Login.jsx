@@ -152,7 +152,7 @@ function Welcome() {
         To your left is the navigator. 
       </div>
       <div>
-        To your right is the account management.{" "}
+        To your top right is the account management.{" "}
       </div>
     </div>
   );
