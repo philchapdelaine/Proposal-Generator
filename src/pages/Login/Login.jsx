@@ -149,7 +149,10 @@ function Welcome() {
     <div>
       <div>Welcome to Associated Engineering Resume Generator</div>
       <div>
-        To your left is the navigator, and your right account management.{" "}
+        To your left is the navigator. 
+      </div>
+      <div>
+        To your top right is the account management.{" "}
       </div>
     </div>
   );
