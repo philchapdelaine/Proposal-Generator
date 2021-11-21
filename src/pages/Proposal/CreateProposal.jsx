@@ -19,47 +19,47 @@ const recentlyViewedSample = [
   {
     "resumeID": 1,
     "sectors": [
-        {
-            "sectorID": 1,
-            "name": "Experience",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Water",
-            "imageLoc": "blah/blah",
-            "description": "I'm the best so I don't need to have any experience"
-        },
-        {
-            "sectorID": 2,
-            "name": "Projects",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Air",
-            "imageLoc": null,
-            "description": "I'm the best so I don't need to have any projects"
-        }
+      {
+        "sectorID": 1,
+        "name": "Experience",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Water",
+        "imageLoc": "blah/blah",
+        "description": "I'm the best so I don't need to have any experience"
+      },
+      {
+        "sectorID": 2,
+        "name": "Projects",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Air",
+        "imageLoc": null,
+        "description": "I'm the best so I don't need to have any projects"
+      }
     ]
   },
   {
     "resumeID": 2,
     "sectors": [
-        {
-            "sectorID": 3,
-            "name": "Education",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Water",
-            "imageLoc": "blah/blah",
-            "description": "I'm the best so I don't need to have any experience"
-        },
-        {
-            "sectorID": 4,
-            "name": "Skills",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Air",
-            "imageLoc": null,
-            "description": "I'm the best so I don't need to have any projects"
-        }
+      {
+        "sectorID": 3,
+        "name": "Education",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Water",
+        "imageLoc": "blah/blah",
+        "description": "I'm the best so I don't need to have any experience"
+      },
+      {
+        "sectorID": 4,
+        "name": "Skills",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Air",
+        "imageLoc": null,
+        "description": "I'm the best so I don't need to have any projects"
+      }
     ]
   },
 ]
@@ -78,8 +78,8 @@ function CreateProposal() {
   const getResults = async () => {
     await axios
       .get(`/api/user/1/`)
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => { })
+      .catch((err) => { });
   };
 
   function resumePush() {
@@ -90,30 +90,30 @@ function CreateProposal() {
     }
   }
 
-    const handleSubmit = () => {
-        setSearch(true)
-    };
+  const handleSubmit = () => {
+    setSearch(true)
+  };
 
 
-    useEffect(() => {
-        if (isSearch) {
-            getFeedback();
-        }
-    }, [isSearch]);
-
-
-    const getFeedback = () => {
-        const url = `/api/search/${searchWord}/smartsearch`
-            axios.get(url)
-                .then((res) => {
-                    setSearchedResumes(res.data);
-                    console.log(res.data)
-                    setSearch(false);
-                })
-                .catch ((err) => {
-                  console.log(err);
-                })
+  useEffect(() => {
+    if (isSearch) {
+      getFeedback();
     }
+  }, [isSearch]);
+
+
+  const getFeedback = () => {
+    const url = `/api/search/${searchWord}/smartsearch`
+    axios.get(url)
+      .then((res) => {
+        setSearchedResumes(res.data);
+        console.log(res.data)
+        setSearch(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
 
   function addToRecentlyViewed(resume) {
@@ -135,16 +135,16 @@ function CreateProposal() {
 
   return (
     <div className="create-proposal">
-      <NavigatorBar 
+      <NavigatorBar
         isCreateProposal={true}
         recentlyViewed={recentlyViewedResumes}
         onSectorClick={updateDisplayedSector}
       >
       </NavigatorBar>
       <div className="cp-center-pane">
-      <Link to="/admin">
-        <Button variant="contained" color="primary" style={{ marginLeft: "10px" }}> Back </Button>
-      </Link>
+        <Link to="/admin">
+          <Button variant="contained" color="primary" style={{ marginLeft: "10px" }}> Back </Button>
+        </Link>
         <div className="cp-center-header">
           <div className="title"> Create Proposal </div>
           <TextField
@@ -157,17 +157,19 @@ function CreateProposal() {
           <Button
             variant="contained"
             color="primary"
-                      className="LoginBtn"
-                      onClick={() => handleSubmit()}
+            className="LoginBtn"
+            onClick={() => handleSubmit()}
           >
             Search
           </Button>
         </div>
-        <div className="search-results"> Search results: </div> <br/>
-              <ResumeSectorDisplay
-                  onSectorClick={updateDisplayedSector}
-                  searchedResumes={searchedResumes}
-        ></ResumeSectorDisplay>
+        <div className="search-results"> Search results: </div> <br />
+        { searchedResumes.length !== 0
+          ? <ResumeSectorDisplay
+              onSectorClick={updateDisplayedSector}
+              searchedResumes={searchedResumes}
+            ></ResumeSectorDisplay> 
+          : <div className="no-search-results"> No search results </div> }
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>
     </div>
