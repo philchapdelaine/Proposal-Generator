@@ -104,7 +104,7 @@ function ReadingPane(props) {
           variant="fullWidth"
         >
           <Tab label="Sector Preview" index={0} />
-          <Tab label="Proposal Draft" index={1} />
+          <Tab label="Save Proposal" index={1} />
         </Tabs>
         <TabPanel value={selectedTab} index={0}>
           <div>
