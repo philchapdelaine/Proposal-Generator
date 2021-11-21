@@ -34,22 +34,22 @@ export default function ResumeSectorDisplay(props) {
     return (
       <TableRow hover onClick={() => handleSectorClick(sector, currResume)}>
         <TableCell sx={{ width: "13%" }} align="left">
-          {sector.name}
+                {sector.name || "Name not available"}
         </TableCell>
         <TableCell sx={{ width: "13%" }} align="left">
-          {sector.linkedEmail}
+                {sector.linkedEmail || "Email not available"}
         </TableCell>
         <TableCell sx={{ width: "13%" }} align="left">
-          {"Proposal # " + sector.proposalNumber}
+                {"Proposal # " + (sector.proposalNumber || " not available")}
         </TableCell>
         <TableCell sx={{ width: "13%" }} align="left">
-          {sector.division}
+                {sector.division || "Division not available"}
         </TableCell>
         <TableCell sx={{ width: "13%" }} align="left">
-          {sector.imageLoc}
+                {sector.imageLoc || "Image Location not available"}
         </TableCell>
         <TableCell sx={{ width: "33%" }} align="left">
-          {sector.description}
+                {sector.description || "Description not available"}
         </TableCell>
       </TableRow>
     );

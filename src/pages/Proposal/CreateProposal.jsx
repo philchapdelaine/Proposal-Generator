@@ -107,6 +107,7 @@ function CreateProposal() {
             axios.get(url)
                 .then((res) => {
                     setSearchedResumes(res.data);
+                    console.log(res.data)
                     setSearch(false);
                 })
                 .catch ((err) => {
@@ -164,10 +165,7 @@ function CreateProposal() {
         </div>
         <div className="search-results"> Search results: </div> <br/>
               <ResumeSectorDisplay
-                  searchWord={searchWord}
                   onSectorClick={updateDisplayedSector}
-                  isSearch={isSearch}
-                  switchSearch={handleSubmit}
                   searchedResumes={searchedResumes}
         ></ResumeSectorDisplay>
       </div>
