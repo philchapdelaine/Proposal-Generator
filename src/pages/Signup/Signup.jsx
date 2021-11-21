@@ -43,7 +43,9 @@ function Signup() {
     return (
       password === password2 &&
       emailAddressFormatValidator() &&
-      password.length > 7
+      password.length > 7 &&
+      firstName !== "" &&
+      lastName !== ""
     );
   }
 
@@ -82,10 +84,20 @@ function Signup() {
   };
 
   const handleSubmit = () => {
-    if (validated()) {
-      register();
+    if (!validated()){
+      if (!isEmail(username)){
+        alert("Check username format");
+      } else if (password.length < 8) {
+        alert("Passwords must be minimum of 8 characters");
+      } else if (password !==password2){
+        alert("Check both passwords are identical");
+      } else if (firstName ===""){
+        alert("Please enter your first name");
+      } else if (lastName === ""){
+        alert("Please enter your last name");
+      } 
     } else {
-      alert("one field is incorrect or incomplete");
+      register();
     }
   };
 
@@ -101,7 +113,7 @@ function Signup() {
         <TextField
           required
           label="Username (email)"
-          // error={}
+          error={!isEmail(username)}
           helperText={
             emailAddressFormatValidator()
               ? ""
