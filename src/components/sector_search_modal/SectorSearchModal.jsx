@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SectorSearch from "../../components/sector_search/SectorSearch";
 import axios from "axios";
+import { IconButton } from "@mui/material";
+import CloseIcon from '@material-ui/icons/Close'
 import "./SectorSearchModal.css";
 
 var samplesectors = [
@@ -41,6 +43,8 @@ boxShadow: 24,
 p: 4,
 };
 
+
+// Toggles noAPI mode, which uses sample data and doesn't call the API.
 var noAPI = false;
 
 class SectorSearchModal extends Component {
@@ -100,6 +104,9 @@ class SectorSearchModal extends Component {
             aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                <IconButton aria-label="Close" className="close-button" onClick={this.closeModal}>
+                  <CloseIcon />
+                </IconButton>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     Add Sector
                     </Typography>
