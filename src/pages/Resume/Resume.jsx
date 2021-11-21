@@ -8,25 +8,27 @@ import axios from "axios";
 import { connect } from "react-redux"; // redux
 
 var samplesectors = [
-  {
-    sectorID: 1,
-    name: "Experience",
-    linkedEmail: "mc@ae.com",
-    fileType: "txt",
-    division: "Water",
-    imageLoc: "blah/blah",
-    description: "I'm the best so I don't need to have any experience"
-  },
-  {
-    sectorID: 2,
-    name: "Projects",
-    linkedEmail: "mc@ae.com",
-    fileType: "txt",
-    division: "Air",
-    imageLoc: null,
-    description: "I'm the best so I don't need to have any projects"
-  }
-]
+      {
+          sectorID: 1,
+          name: "Experience",
+          linkedEmail: "mc@ae.com",
+          proposalNumber: 1,
+          empty: true,
+          division: "Water",
+          imageLoc: "blah/blah",
+          description: "I'm the best so I don't need to have any experience"
+      },
+      {
+          sectorID: 2,
+          name: "Projects",
+          linkedEmail: "mc@ae.com",
+          proposalNumber: 1,
+          empty: true,
+          division: "Air",
+          imageLoc: "",
+          description: "I'm the best so I don't need to have any projects"
+      }
+  ]
 
 
 var sampleuser = {
@@ -36,32 +38,23 @@ var sampleuser = {
   emailAddress: "mc@ae.com",
 }
 
-var curruser = {};
-
-var resume = [];
+var resume = []; 
 
 var index = 3;
-
-const client = axios.create({
-  baseURL: "localhost:5000/api/"
-});
 
 var noAPI = false;
 
 class Resume extends Component {
   constructor(props) {
     super(props);
-    this.state = { currsector: undefined, sectors: resume, user: sampleuser };
+    this.state = { currsector: undefined, sectors: resume};
   }
 
   componentDidMount() {
     if (noAPI) {
       resume = samplesectors
-      curruser = sampleuser
-      this.setState({ sectors: resume });
+      this.setState({sectors: resume});
     } else {
-      //curruser = sampleuser;
-      this.setState({ user: curruser })
       const url = `/api/user/${this.props.userID}/resume`
       axios.get(url)
         .then((res) => {
@@ -92,11 +85,12 @@ class Resume extends Component {
     this.setState({ currsector: resume.find((e) => e.sectorID === newID) });
   }
 
-  addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) {
-    var newsector = {
+  addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription) {
+    var newsector = {          
       name: sectorname,
-      linkedEmail: sampleuser.emailAddress,
-      fileType: filetype,
+      linkedEmail: this.props.email,
+      empty: false,
+      proposalNumber: propNumber,
       division: sectordivision,
       imageLoc: imageloc,
       description: sectordescription,
@@ -127,10 +121,12 @@ class Resume extends Component {
     console.log("Deleted " + sector.name);
   }
 
-  saveSector(sectorid, sectorname, sectorcontent) {
+  saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) {
     var oldsector = resume[resume.findIndex(e => e.sectorID === sectorid)]
     oldsector.name = sectorname;
     oldsector.description = sectorcontent;
+    oldsector.division = sectordivision;
+    oldsector.imageLoc = sectorimageLoc;
     if (noAPI) {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
       this.setState({ sectors: resume });
@@ -149,19 +145,21 @@ class Resume extends Component {
         <div className="nav-bar">
           <NavigatorBar></NavigatorBar>
         </div>
-        <div className="resume-page">
-          <div className="resume-builder">
-            <ResumeBuilder sectors={this.state.sectors}
-              addSector={(sectorname, sectordivision, filetype, imageloc, sectordescription) => { this.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription) }}
-              deleteSector={(sector) => { this.deleteSector(sector) }}
-              selectSector={(sectorid) => { this.selectSector(sectorid) }}></ResumeBuilder>
+        <div className = "resume-page">
+          <div className = "resume-builder">
+            <ResumeBuilder sectors = {this.state.sectors}
+            addSector = {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
+              {this.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
+            deleteSector = {(sector) => {this.deleteSector(sector)}}
+            selectSector = {(sectorid) => {this.selectSector(sectorid)}}></ResumeBuilder>
           </div>
           <div className="sector-editor">
             <div>
-              {this.state.currsector &&
-                <SectorEditor sector={this.state.currsector}
-                  saveSector={(sectorid, sectorname, sectorcontent) => { this.saveSector(sectorid, sectorname, sectorcontent) }}></SectorEditor>
-              }
+            {this.state.currsector &&           
+            <SectorEditor sector = {this.state.currsector} 
+            saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
+              {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
+            }
             </div>
           </div>
         </div>

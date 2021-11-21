@@ -1,4 +1,6 @@
-
+.nav-bar {
+  min-width: 15%;
+}
 .nav-button {
   display: flex;
   background-color: #00569c;
@@ -14,6 +16,9 @@
 }
 .nav-button:hover {
   background-color: #142e44;
+}
+.nav-buttons-hide-container {
+  visibility: hidden;
 }
 .recently-viewed {
   height: 400px;

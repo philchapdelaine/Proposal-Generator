@@ -24,7 +24,7 @@ var samplesectors = [
     linkedEmail: "mc@ae.com",
     fileType: "txt",
     division: "Air",
-    imageLoc: null,
+    imageLoc: "",
     description: "I'm the best so I don't need to have any projects"
 }
 ];
@@ -71,6 +71,23 @@ class SectorSearchModal extends Component {
     closeModal() {
         this.setState({open: false})
     }
+
+    searchSector(searchterm) {
+      console.log(searchterm)
+      if (searchterm === "") {
+        const url = `/api/sector`
+        axios.get(url)
+          .then((res) => {
+            this.setState({sectors: res.data});
+          })
+      } else {
+        const url = `api/search/${searchterm}/sector`
+        axios.get(url)
+          .then((res) => {
+            this.setState({sectors: res.data});
+          })
+      }
+    }
   
     render() {
       return (
@@ -86,8 +103,10 @@ class SectorSearchModal extends Component {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     Add Sector
                     </Typography>
-                    <SectorSearch sectors = {this.state.sectors} addSector = {(sectorname, sectordivision, filetype, imageloc, sectordescription) => 
-                      {this.props.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}/>
+                    <SectorSearch sectors = {this.state.sectors} addSector = 
+                    {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
+                      {this.props.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
+                      searchSectors = {(searchterm) => {this.searchSector(searchterm)}}/>
                 </Box>
             </Modal>
         </div>
