@@ -42,7 +42,8 @@ var resume = [];
 
 var index = 3;
 
-var noAPI = true;
+// Toggles noAPI mode, which uses sample data and doesn't call the API.
+var noAPI = false;
 
 class Resume extends Component {
   constructor(props) {
