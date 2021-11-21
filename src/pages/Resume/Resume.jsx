@@ -42,7 +42,7 @@ var resume = [];
 
 var index = 3;
 
-var noAPI = false;
+var noAPI = true;
 
 class Resume extends Component {
   constructor(props) {
@@ -154,12 +154,15 @@ class Resume extends Component {
             selectSector = {(sectorid) => {this.selectSector(sectorid)}}></ResumeBuilder>
           </div>
           <div className="sector-editor">
+            <div className = "sector-editor-header">Sector Editor</div>           
             <div>
-            {this.state.currsector &&           
-            <SectorEditor sector = {this.state.currsector} 
-            saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
-              {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
-            }
+            {this.state.currsector
+              ? <SectorEditor sector = {this.state.currsector} 
+              saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
+                {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
+              
+              :  <div className="no-sector-text">No Sector Selected</div>        
+              }
             </div>
           </div>
         </div>
