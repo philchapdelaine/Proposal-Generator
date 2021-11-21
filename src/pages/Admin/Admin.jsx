@@ -82,18 +82,19 @@ function Admin() {
 
   const handleDelete = async () => {
     await axios.delete(`/api/user/${uid}/proposal/${idToDelete}`);
+    await getProposals();
     setModalOpen(false);
   };
 
-  useEffect(() => {
-    const getProposals = async () => {
-      let response = await axios.get(`/api/user/${uid}/proposal`);
-      if (response.data) {
-        setProposals(response.data);
-        dispatch(setProposalsRedux(response.data));
-      }
-    };
+  const getProposals = async () => {
+    let response = await axios.get(`/api/user/${uid}/proposal`);
+    if (response.data) {
+      setProposals(response.data);
+      dispatch(setProposalsRedux(response.data));
+    }
+  };
 
+  useEffect(() => {
     getProposals();
   }, []);
 
