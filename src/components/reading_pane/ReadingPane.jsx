@@ -59,11 +59,12 @@ function ReadingPane(props) {
         // build a new sector with no sectorID
         let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
             { description, division, empty, imageLoc, linkedEmail, name, proposalNumber }))(currentSector);
-          newProposal.resumes.push(newSector);
-          console.log(newProposal);
+        // add to new sector
+        newProposal.resumes.push(newSector);
+        console.log(newProposal);
 
         const config = { headers: { "Content-Type": "application/json" } };
-          let url = `/api/user/${uid}/proposal/`;
+        let url = `/api/user/${uid}/proposal/`;
         axios
           .post(url, newProposal, config)
           .then((response) => {
