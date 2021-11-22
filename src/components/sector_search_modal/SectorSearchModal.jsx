@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SectorSearch from "../../components/sector_search/SectorSearch";
 import axios from "axios";
+import { IconButton } from "@mui/material";
+import CloseIcon from '@material-ui/icons/Close'
 import "./SectorSearchModal.css";
 
 var samplesectors = [
@@ -24,7 +26,7 @@ var samplesectors = [
     linkedEmail: "mc@ae.com",
     fileType: "txt",
     division: "Air",
-    imageLoc: null,
+    imageLoc: "",
     description: "I'm the best so I don't need to have any projects"
 }
 ];
@@ -41,6 +43,8 @@ boxShadow: 24,
 p: 4,
 };
 
+
+// Toggles noAPI mode, which uses sample data and doesn't call the API.
 var noAPI = false;
 
 class SectorSearchModal extends Component {
@@ -71,6 +75,23 @@ class SectorSearchModal extends Component {
     closeModal() {
         this.setState({open: false})
     }
+
+    searchSector(searchterm) {
+      console.log(searchterm)
+      if (searchterm === "") {
+        const url = `/api/sector`
+        axios.get(url)
+          .then((res) => {
+            this.setState({sectors: res.data});
+          })
+      } else {
+        const url = `api/search/${searchterm}/sector`
+        axios.get(url)
+          .then((res) => {
+            this.setState({sectors: res.data});
+          })
+      }
+    }
   
     render() {
       return (
@@ -83,11 +104,16 @@ class SectorSearchModal extends Component {
             aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                <IconButton aria-label="Close" className="close-button" onClick={this.closeModal}>
+                  <CloseIcon />
+                </IconButton>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     Add Sector
                     </Typography>
-                    <SectorSearch sectors = {this.state.sectors} addSector = {(sectorname, sectordivision, filetype, imageloc, sectordescription) => 
-                      {this.props.addSector(sectorname, sectordivision, filetype, imageloc, sectordescription)}}/>
+                    <SectorSearch sectors = {this.state.sectors} addSector = 
+                    {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
+                      {this.props.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
+                      searchSectors = {(searchterm) => {this.searchSector(searchterm)}}/>
                 </Box>
             </Modal>
         </div>

@@ -22,20 +22,23 @@ export default class RecentlyViewed extends React.Component {
   render() {
     const recentlyViewed = this.props.resumes;
     return (
-      <div>
+      <div className="recently-viewed">
         <div className="recently_viewed_title">
-          <h3>Recently Viewed</h3>
+          <h2>Recently Viewed</h2>
         </div>
         <List component="nav">
-          {recentlyViewed.map((resume) => {
+          { recentlyViewed.length !== 0
+          ? (recentlyViewed.map((resume) => {
             return (
               <ViewedItem
                 key={resume.resumeID}
                 doc={resume}
                 onSectorUpdate={this.updateClickedSector}
               />
-            );
-          })}
+              );
+            }))
+          : <div className="no-recently-viewed"> No sectors viewed yet! </div>
+        }
         </List>
       </div>
     );

@@ -8,7 +8,8 @@ class SectorEditor extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {name: this.props.sector.name, content: this.props.sector.description, id: this.props.sector.sectorID};
+    this.state = {name: this.props.sector.name, content: this.props.sector.description, id: this.props.sector.sectorID,
+                  division: this.props.sector.division, imageLoc: this.props.sector.imageLoc};
   }
 
   handleChange = (event) => {
@@ -19,28 +20,55 @@ class SectorEditor extends Component {
     this.setState({name: event.target.value});
   };
 
+  handleChangeDivision = (event) => {
+    this.setState({division: event.target.value});
+  };
+
+  handleChangeimageLoc = (event) => {
+    this.setState({imageLoc: event.target.value});
+  };
+
   saveSector() {
-    this.props.saveSector(this.state.id, this.state.name, this.state.content);
+    this.props.saveSector(this.state.id, this.state.name, this.state.content, this.state.division, this.state.imageLoc);
   }
 
   componentDidUpdate() {
     if (this.state.id != this.props.sector.sectorID) {
-      this.setState({id: this.props.sector.sectorID, content: this.props.sector.description, name: this.props.sector.name})
+      this.setState({id: this.props.sector.sectorID, content: this.props.sector.description, name: this.props.sector.name,
+                      division: this.props.sector.division, imageLoc: this.props.sector.imageLoc})
     }
   }
 
   render() {
     return (
       <div className = 'editor'>
-        <div className="header">
+        <div className="name-editor">
             <TextField
             value={this.state.name}
-            onChange={this.handleChangeName} fullWidth id="fullWidth" />
+            onChange={this.handleChangeName} fullWidth id="fullWidth" 
+            label="Sector Name"
+            />
+        </div>
+        <div className="division-editor">
+            <TextField
+            value={this.state.division}
+            onChange={this.handleChangeDivision} fullWidth id="fullWidth" 
+            label="Sector Division"
+            />
         </div>
         <div className = 'sector-editor-field'>
             <TextField multiline minRows = {10} maxRows = {40} 
             value={this.state.content}
-            onChange={this.handleChange} fullWidth id="fullWidth" />
+            onChange={this.handleChange} fullWidth id="fullWidth" 
+            label="Sector Field"
+            />
+        </div>
+        <div className="imageloc-editor">
+            <TextField
+            value={this.state.imageLoc}
+            onChange={this.handleChangeimageLoc} fullWidth id="fullWidth" 
+            label="Image URL"
+            />
         </div>
         <div className = 'save-button'>
             <Button variant="contained" onClick={() => {this.saveSector()}}>Save</Button>

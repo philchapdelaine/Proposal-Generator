@@ -8,3 +8,10 @@
   margin-left: 20px;
   margin-top: 25px;
 }
+.admin-buttons-container {
+  float: right;
+}
+.no-proposals-msg {
+  margin-left: 20px;
+  font-style: italic;
+}

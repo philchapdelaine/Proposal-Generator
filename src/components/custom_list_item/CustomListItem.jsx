@@ -25,6 +25,7 @@ class CustomListItem extends React.Component {
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
       loading: false, // will be true when axios request is running
+      proposalSavedMessage: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
@@ -55,7 +56,8 @@ class CustomListItem extends React.Component {
       .put(url, this.state.currentProposal, config)
       .then((response) => {
         console.log(response);
-        this.setState({ loading: false });
+        this.setState({ loading: false, proposalSavedMessage: true });
+        setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
       })
       .catch((error) => {
         console.log(error);
@@ -119,6 +121,7 @@ class CustomListItem extends React.Component {
             <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
           </ButtonGroup>
         </div>
+        { this.state.proposalSavedMessage ? <div className="proposal-saved-msg"> Proposal saved successfully! Return to the Admin page to view or edit. </div> : null }
       </div>
     );
   }

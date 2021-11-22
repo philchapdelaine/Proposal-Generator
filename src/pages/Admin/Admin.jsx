@@ -12,13 +12,18 @@ import { useHistory } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
 import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
+import AddIcon from '@mui/icons-material/Add';
+
 import {
   setProposalIndex,
   setProposals as setProposalsRedux,
 } from "../../redux/actions/proposal-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
-import { useSelector } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
 
 const style = {
   width: "75%",
@@ -77,18 +82,19 @@ function Admin() {
 
   const handleDelete = async () => {
     await axios.delete(`/api/user/${uid}/proposal/${idToDelete}`);
+    await getProposals();
     setModalOpen(false);
   };
 
-  useEffect(() => {
-    const getProposals = async () => {
-      let response = await axios.get(`/api/user/${uid}/proposal`);
-      if (response.data) {
-        setProposals(response.data);
-        dispatch(setProposalsRedux(response.data));
-      }
-    };
+  const getProposals = async () => {
+    let response = await axios.get(`/api/user/${uid}/proposal`);
+    if (response.data) {
+      setProposals(response.data);
+      dispatch(setProposalsRedux(response.data));
+    }
+  };
 
+  useEffect(() => {
     getProposals();
   }, []);
 
@@ -96,11 +102,20 @@ function Admin() {
     <div className="admin-page">
       <NavigatorBar />
       <div className="admin-main">
+        <div className="admin-buttons-container">
+          <Link to="/create-proposal" style={{ textDecoration: "none" }}>
+            <Button className="admin-button" color="primary" variant="outlined"> New Proposal <AddIcon/></Button>
+          </Link>{" "}
+          <Link to="/sector" style={{ textDecoration: "none" }}>
+            <Button className="admin-button" color="primary" variant="outlined"> New Sector <AddIcon/></Button>
+          </Link>
+        </div>
         <Box>
           <Typography variant="h4" margin={3}>
             Your proposals
           </Typography>
-          {proposals.map((proposal, id) => {
+          { proposals.length !== 0 
+            ? (proposals.map((proposal, id) => {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary>
@@ -143,7 +158,8 @@ function Admin() {
                 </AccordionDetails>
               </Accordion>
             );
-          })}
+          }))
+          : <div className="no-proposals-msg"> No proposals to show. </div>}
           {modalOpen ? (
             <ConfirmModal
               confirmTitle="Are you sure you would like to delete this proposal?"
