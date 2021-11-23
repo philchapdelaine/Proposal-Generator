@@ -16,17 +16,11 @@ function ReadingPane(props) {
   const [displayedSector, setDisplayedSector] = useState("");
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
+  const handleChange = (event, newValue) => {setSelectedTab(newValue);};
 
-  const handleChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
-
-  const currentSector = useSelector(
-    (state) => state.proposalReducer.currentSector
-  );
-  let currentProposalIndex = useSelector(
-    (state) => state.proposalReducer.currentProposalIndex
-    );
+  const currentSector = useSelector((state) => state.proposalReducer.currentSector);
+  let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
+  let reduxProposals = useSelector((state) => state.proposalReducer.proposals);
   const uid = useSelector((state) => state.loginReducer.uid);
 
   const dispatch = useDispatch();
@@ -57,13 +51,13 @@ function ReadingPane(props) {
           resumes: [],
           };
         // build a new sector with no sectorID
-        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
-            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber }))(currentSector);
-          newProposal.resumes.push(newSector);
-          console.log(newProposal);
-
+        // TODO proposalNumber
+        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name }) => (
+            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber: "1" }))(currentSector);
+        // add to new sector
+        newProposal.resumes.push(newSector);
         const config = { headers: { "Content-Type": "application/json" } };
-          let url = `/api/user/${uid}/proposal/`;
+        let url = `/api/user/${uid}/proposal/`;
         axios
           .post(url, newProposal, config)
           .then((response) => {
@@ -76,8 +70,27 @@ function ReadingPane(props) {
             console.log(error);
           });
       } else {
-        // case where sector is added to existing proposal
-        dispatch({ type: "ADD_SECTOR", proposalId: 1 });
+          // case where sector is added to existing proposal
+          const config = { headers: { "Content-Type": "application/json" } };
+          let currentProposalID = reduxProposals[currentProposalIndex].proposalID;
+          let url = `/api/user/${uid}/proposal/${currentProposalID}`;
+          reduxProposals[currentProposalIndex].resumes.push(currentSector);
+          console.log(reduxProposals[currentProposalIndex]);
+          axios
+              .put(url, reduxProposals[currentProposalIndex], config)
+              .then((response) => {
+                  console.log(response.data);
+                  dispatch({
+                      type: "ADD_SECTOR",
+                      newProposal: response.data,
+                      proposalID: reduxProposals[currentProposalIndex].proposalID
+                  });
+                  this.setState({ loading: false, proposalSavedMessage: true });
+                  setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+              })
+              .catch((error) => {
+                  console.log(error);
+              });
       }
       setSelectedTab(1);
     }
@@ -104,7 +117,7 @@ function ReadingPane(props) {
           variant="fullWidth"
         >
           <Tab label="Sector Preview" index={0} />
-          <Tab label="Proposal Draft" index={1} />
+          <Tab label="Save Proposal" index={1} />
         </Tabs>
         <TabPanel value={selectedTab} index={0}>
           <div>
@@ -117,17 +130,17 @@ function ReadingPane(props) {
             {sectorFieldDisplay("Description", currentSector.description)}
           </div>
 
-          <div className="button-group">
+          {currentSector.name ? <div className="button-group">
             <ButtonGroup variant="contained" size="large">
               <Button onClick={openModal}>Edit Sector</Button>
               <Button onClick={() => handleAddSector()}>Add Sector</Button>
             </ButtonGroup>
-          </div>
+          </div> : undefined}
         </TabPanel>
         <EditSectorModal
           open={open}
           onClose={closeModal}
-          sectorName={"Sector 1"}
+          sector={currentSector}
         ></EditSectorModal>
 
         <TabPanel value={selectedTab} index={1}>

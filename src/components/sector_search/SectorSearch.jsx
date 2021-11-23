@@ -50,8 +50,7 @@ class SectorSearch extends Component {
     return (
     <div>
       <div className="sector-search-container">
-        <form
-          onSubmit={() => {}}>
+        <form onSubmit={(e) => {e.preventDefault()}}>
           <input
             onChange={this.updateSearchTerm}
             type="text"

@@ -1,6 +1,6 @@
 // used for testing
 const initialProposal = {
-	"proposalId": 1,
+	"proposalID": 1,
 	"proposalName": "dummy proposal",
 	"resumes" : 
 		[
@@ -70,9 +70,9 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: state.currentSector,
 			proposals: [...state.proposals]
 		};
-		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
-		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
-		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
+		// const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
+		let updatedSectors = newState.proposals[state.currentProposalIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
+		newState.proposals[state.currentProposalIndex].resumes = updatedSectors;
 		return newState;
 	}
 	if (action.type === 'ADD_SECTOR') {
@@ -82,7 +82,8 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			proposals: [...state.proposals]
 		};
 		let proposaltoUpdateIndex = state.currentProposalIndex;
-		newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+		// newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+		newState.proposals[proposaltoUpdateIndex] = action.newProposal;
 		return newState;
 	}
 	// This will only get called when a user adds the first sector to new proposal
@@ -94,6 +95,7 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		};
 		let newProposal = action.newProposal;
 		newState.currentProposalIndex = newState.proposals.push(newProposal) - 1;
+		console.log(newState);
 		return newState;
 	}
 	if (action.type === 'SET_PROPOSAL_INDEX') {

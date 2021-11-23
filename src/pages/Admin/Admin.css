@@ -11,3 +11,7 @@
 .admin-buttons-container {
   float: right;
 }
+.no-proposals-msg {
+  margin-left: 20px;
+  font-style: italic;
+}

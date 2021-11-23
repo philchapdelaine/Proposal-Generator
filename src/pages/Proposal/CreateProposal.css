@@ -10,6 +10,12 @@
 }
 .search-results {
     margin-left: 10px;
+    font-size: x-large;
+}
+.no-search-results {
+    display: flex;
+    font-size: xx-large;
+    justify-content: center;
 }
 .cp-center-pane {
     width: 75%;

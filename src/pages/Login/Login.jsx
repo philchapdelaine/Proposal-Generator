@@ -25,6 +25,7 @@ import {
 
 function Login() {
   const loggedin = useSelector((state) => state.loginReducer.loggedIn);
+  const imadmin = useSelector((state) => state.loginReducer["admin"]);
   return (
     <div style={{ display: "flex" }}>
       {loggedin ? <NavigatorBar /> : null}
@@ -32,7 +33,7 @@ function Login() {
         <Logo />
         <br />
         <br />
-        {loggedin ? <Welcome /> : <LoginBox />}
+        {loggedin ? (imadmin ? <Redirect to="/admin"/> : <Redirect to="/resume"/>): <LoginBox /> }
       </div>
     </div>
   );
@@ -142,14 +143,15 @@ function LoginBox() {
 }
 
 function Welcome() {
-  // const loggedin = useSelector((state) => state.loginReducer.loggedIn);
-  const dispatch = useDispatch();
   // TODO
   return (
     <div>
       <div>Welcome to Associated Engineering Resume Generator</div>
       <div>
-        To your left is the navigator, and your right account management.{" "}
+        To your left is the navigator. 
+      </div>
+      <div>
+        To your top right is the account management.{" "}
       </div>
     </div>
   );

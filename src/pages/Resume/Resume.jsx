@@ -32,16 +32,17 @@ var samplesectors = [
 
 
 var sampleuser = {
-	applicationUserId: 1,
-    firstName: "Michael",
-    lastName: "Chung",
-    emailAddress: "mc@ae.com",
+  applicationUserId: 1,
+  firstName: "Michael",
+  lastName: "Chung",
+  emailAddress: "mc@ae.com",
 }
 
 var resume = []; 
 
 var index = 3;
 
+// Toggles noAPI mode, which uses sample data and doesn't call the API.
 var noAPI = false;
 
 class Resume extends Component {
@@ -59,20 +60,20 @@ class Resume extends Component {
       axios.get(url)
         .then((res) => {
           resume = res.data.sectors;
-          this.setState({sectors: resume})
+          this.setState({ sectors: resume })
         })
     }
   }
 
   handleUpdate() {
     if (noAPI) {
-      this.setState({sectors: resume});
+      this.setState({ sectors: resume });
     } else {
       const url = `/api/user/${this.props.userID}/resume`
       axios.get(url)
         .then((res) => {
           resume = res.data.sectors;
-          this.setState({sectors: resume});
+          this.setState({ sectors: resume });
         })
     }
   }
@@ -98,7 +99,7 @@ class Resume extends Component {
 
     if (noAPI) {
       resume.push(newsector);
-      this.setState({sectors: resume});
+      this.setState({ sectors: resume });
     } else {
       const url = `/api/user/${this.props.userID}/resume/sector`
       axios.post(url, newsector).then((res) => {
@@ -110,8 +111,8 @@ class Resume extends Component {
 
   deleteSector(sector) {
     if (noAPI) {
-      resume.splice(resume.findIndex((e) => e.sectorID === sector.sectorID),1);
-      this.setState({sectors: resume});
+      resume.splice(resume.findIndex((e) => e.sectorID === sector.sectorID), 1);
+      this.setState({ sectors: resume });
     } else {
       const url = `/api/user/${this.props.userID}/resume/sector/${sector.sectorID}`
       axios.delete(url).then((res) => {
@@ -129,7 +130,7 @@ class Resume extends Component {
     oldsector.imageLoc = sectorimageLoc;
     if (noAPI) {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
-      this.setState({sectors: resume});
+      this.setState({ sectors: resume });
     } else {
       const url = `/api/sector/${oldsector.sectorID}`
       axios.put(url, oldsector).then((res) => {
@@ -141,8 +142,8 @@ class Resume extends Component {
 
   render() {
     return (
-      <div className = "page">
-        <div className = "nav-bar">
+      <div className="page">
+        <div className="nav-bar">
           <NavigatorBar></NavigatorBar>
         </div>
         <div className = "resume-page">
@@ -153,13 +154,16 @@ class Resume extends Component {
             deleteSector = {(sector) => {this.deleteSector(sector)}}
             selectSector = {(sectorid) => {this.selectSector(sectorid)}}></ResumeBuilder>
           </div>
-          <div className = "sector-editor">
+          <div className="sector-editor">
+            <div className = "sector-editor-header">Sector Editor</div>           
             <div>
-            {this.state.currsector &&           
-            <SectorEditor sector = {this.state.currsector} 
-            saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
-              {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
-            }
+            {this.state.currsector
+              ? <SectorEditor sector = {this.state.currsector} 
+              saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
+                {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
+              
+              :  <div className="no-sector-text">No Sector Selected</div>        
+              }
             </div>
           </div>
         </div>

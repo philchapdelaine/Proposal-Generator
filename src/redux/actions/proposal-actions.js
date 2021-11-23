@@ -26,10 +26,11 @@ export const deleteSector = (sectorID, proposalId) => {
   }
 };
 
-export const addSector = (proposalId) => {
+export const addSector = (proposalID, newProposal) => {
   return {
-    type: "ADD_SECTOR",
-      proposalId: proposalId
+      type: "ADD_SECTOR",
+      proposalID: proposalID,
+      newProposal: newProposal
   }
 };
 
