@@ -1,6 +1,6 @@
 // used for testing
 const initialProposal = {
-	"proposalId": 1,
+	"proposalID": 1,
 	"proposalName": "dummy proposal",
 	"resumes" : 
 		[
@@ -82,7 +82,8 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			proposals: [...state.proposals]
 		};
 		let proposaltoUpdateIndex = state.currentProposalIndex;
-		newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+		// newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
+		newState.proposals[proposaltoUpdateIndex] = action.newProposal;
 		return newState;
 	}
 	// This will only get called when a user adds the first sector to new proposal
@@ -93,8 +94,6 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			proposals: [...state.proposals]
 		};
 		let newProposal = action.newProposal;
-		console.log(newState);
-		console.log(newProposal);
 		newState.currentProposalIndex = newState.proposals.push(newProposal) - 1;
 		console.log(newState);
 		return newState;

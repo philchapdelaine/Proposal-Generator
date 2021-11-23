@@ -16,20 +16,11 @@ function ReadingPane(props) {
   const [displayedSector, setDisplayedSector] = useState("");
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
+  const handleChange = (event, newValue) => {setSelectedTab(newValue);};
 
-  const handleChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
-
-  const currentSector = useSelector(
-    (state) => state.proposalReducer.currentSector
-  );
-  let currentProposalIndex = useSelector(
-    (state) => state.proposalReducer.currentProposalIndex
-    );
-  let reduxProposals = useSelector(
-      (state) => state.proposalReducer.proposals
-   );
+  const currentSector = useSelector((state) => state.proposalReducer.currentSector);
+  let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
+  let reduxProposals = useSelector((state) => state.proposalReducer.proposals);
   const uid = useSelector((state) => state.loginReducer.uid);
 
   const dispatch = useDispatch();
@@ -60,12 +51,10 @@ function ReadingPane(props) {
           resumes: [],
           };
         // build a new sector with no sectorID
-        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
-            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber }))(currentSector);
+        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name }) => (
+            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber: "1" }))(currentSector);
         // add to new sector
         newProposal.resumes.push(newSector);
-        console.log(newProposal);
-
         const config = { headers: { "Content-Type": "application/json" } };
         let url = `/api/user/${uid}/proposal/`;
         axios
@@ -81,7 +70,26 @@ function ReadingPane(props) {
           });
       } else {
           // case where sector is added to existing proposal
-          dispatch({ type: "ADD_SECTOR", proposalId: reduxProposals[currentProposalIndex].proposalId });
+          const config = { headers: { "Content-Type": "application/json" } };
+          let currentProposalID = reduxProposals[currentProposalIndex].proposalID;
+          let url = `/api/user/${uid}/proposal/${currentProposalID}`;
+          reduxProposals[currentProposalIndex].resumes.push(currentSector);
+          console.log(reduxProposals[currentProposalIndex]);
+          axios
+              .put(url, reduxProposals[currentProposalIndex], config)
+              .then((response) => {
+                  console.log(response.data);
+                  dispatch({
+                      type: "ADD_SECTOR",
+                      newProposal: response.data,
+                      proposalID: reduxProposals[currentProposalIndex].proposalID
+                  });
+                  this.setState({ loading: false, proposalSavedMessage: true });
+                  setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+              })
+              .catch((error) => {
+                  console.log(error);
+              });
       }
       setSelectedTab(1);
     }
