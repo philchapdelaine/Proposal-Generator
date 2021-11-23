@@ -4,6 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentSector } from "../../redux/actions/proposal-actions";
+import isEmail from "validator/lib/isEmail";
 
 const style = {
   position: 'absolute',
@@ -34,17 +35,19 @@ function EditSectorModal(props) {
   const dispatch = useDispatch();
 
   const handleSave = async () => {
-    const updatedSector = {
-      sectorID: sectorID,
-      name: newName,
-      description: newDescription,
-      division: newDivision,
-      imageLoc: newImageLoc,
-      linkedEmail: newLinkedEmail,
+    if (validateEmail()) {
+      const updatedSector = {
+        sectorID: sectorID,
+        name: newName,
+        description: newDescription,
+        division: newDivision,
+        imageLoc: newImageLoc,
+        linkedEmail: newLinkedEmail,
+      }
+      // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
+      dispatch(setCurrentSector(updatedSector));
+      props.onClose();
     }
-    // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
-    dispatch(setCurrentSector(updatedSector));
-    props.onClose();
   };
 
   const onTextChange = (e, label) => {
@@ -67,6 +70,14 @@ function EditSectorModal(props) {
     }
   };
 
+  const validateEmail = () => {
+    if (!newLinkedEmail) {
+      return false;
+    } else if (!isEmail(newLinkedEmail)) {
+      return false;
+    } else return true;
+  };
+
   return (
     <Modal 
       open={props.open}
@@ -79,7 +90,14 @@ function EditSectorModal(props) {
           <Box display="flex" flexDirection="column">
             <TextField label="Name" size="small" defaultValue={name} onChange={(e) => onTextChange(e, "Name")} style={{marginBottom: 10}}/>
             <TextField label="Division" size="small" defaultValue={division} onChange={(e) => onTextChange(e, "Division")} style={{marginBottom: 10}}/>
-            <TextField label="Employee email" size="small" defaultValue={linkedEmail} onChange={(e) => onTextChange(e, "LinkedEmail")} style={{marginBottom: 10}}/>
+            <TextField 
+              label="Employee email" size="small"
+              defaultValue={linkedEmail}  
+              onChange={(e) => onTextChange(e, "LinkedEmail")} 
+              error={!validateEmail()} 
+              helperText={"Employee email must be a valid email format"} 
+              style={{marginBottom: 10}}
+            />
             <TextField label="Image location" size="small" defaultValue={imageLoc} onChange={(e) => onTextChange(e, "ImageLoc")} style={{marginBottom: 10}}/>
             <TextField label="Description" size="small" defaultValue={description} onChange={(e) => onTextChange(e, "Description")} multiline maxRows={4}/>
           </Box>
