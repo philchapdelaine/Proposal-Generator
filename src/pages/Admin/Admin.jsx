@@ -150,8 +150,7 @@ function Admin() {
           <Typography variant="h4" margin={3}>
             Your proposals
           </Typography>
-          { proposals.length !== 0 
-            ? (proposals.map((proposal, id) => {
+          {proposals.map((proposal, id) => {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary>
@@ -198,8 +197,7 @@ function Admin() {
                 </AccordionDetails>
               </Accordion>
             );
-          }))
-          : <div className="no-proposals-msg"> No proposals to show. </div>}
+          })}
           {modalOpen ? (
             <ConfirmModal
               confirmTitle="Are you sure you would like to delete this proposal?"
