@@ -18,7 +18,7 @@
   background-color: #142e44;
 }
 .nav-buttons-hide-container {
-  visibility: hidden;
+  display: none;
 }
 .recently-viewed {
   height: 400px;
