@@ -121,17 +121,17 @@ function ReadingPane(props) {
             {sectorFieldDisplay("Description", currentSector.description)}
           </div>
 
-          <div className="button-group">
+          {currentSector.name ? <div className="button-group">
             <ButtonGroup variant="contained" size="large">
               <Button onClick={openModal}>Edit Sector</Button>
               <Button onClick={() => handleAddSector()}>Add Sector</Button>
             </ButtonGroup>
-          </div>
+          </div> : undefined}
         </TabPanel>
         <EditSectorModal
           open={open}
           onClose={closeModal}
-          sectorName={"Sector 1"}
+          sector={currentSector}
         ></EditSectorModal>
 
         <TabPanel value={selectedTab} index={1}>
