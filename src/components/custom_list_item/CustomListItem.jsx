@@ -68,6 +68,8 @@ class CustomListItem extends React.Component {
   render() {
     return (
       <div>
+        <div>
+        </div>
         <List>
           {this.state.currentProposal === undefined ? (
             <div></div>

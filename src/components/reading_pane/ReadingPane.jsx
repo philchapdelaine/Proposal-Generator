@@ -51,6 +51,7 @@ function ReadingPane(props) {
           resumes: [],
           };
         // build a new sector with no sectorID
+        // TODO proposalNumber
         let newSector = (({ description, division, empty, imageLoc, linkedEmail, name }) => (
             { description, division, empty, imageLoc, linkedEmail, name, proposalNumber: "1" }))(currentSector);
         // add to new sector
