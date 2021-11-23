@@ -5,10 +5,11 @@ import {
   AccordionSummary,
   Button,
   Typography,
+  Tooltip
 } from "@mui/material";
 import { Box } from "@mui/system";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
-import { useHistory } from "react-router-dom";
+import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
 import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
@@ -20,10 +21,6 @@ import {
 } from "../../redux/actions/proposal-actions";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
-import {
-  BrowserRouter as Router,
-  Link,
-} from "react-router-dom";
 
 const style = {
   width: "75%",
@@ -54,11 +51,51 @@ function Admin() {
     history.push("/create-proposal");
   };
 
+  function sortSectors(sectorArray) {
+    var sortedResumes = {};
+    for (const sector of sectorArray) {
+      const existingResume = sortedResumes[sector.linkedEmail] || [];
+      sortedResumes[sector.linkedEmail] = existingResume.concat([sector]);
+    }
+    return sortedResumes;
+  }
+
+  function OBJtoXML(obj) {
+    // adapted from: https://stackoverflow.com/questions/48788722/json-to-xml-using-javascript
+    var xml = '';
+    for (var prop in obj) {
+      xml += obj[prop] instanceof Array ? '' : "<" + prop + ">";
+      if (prop == "resumes") {
+        const resumes = sortSectors(obj.resumes);
+
+        for (var linkedEmail in resumes) {
+          const username = linkedEmail.replace(/@.*$/,"");
+          xml += "\n";
+          xml += "<resume-" + username + "> ";
+
+          for (var sector of resumes[linkedEmail]) {
+            xml += "\n<" + "sector" + ">\n";
+            xml += OBJtoXML(new Object(sector));
+            xml += "</" + "sector" + ">\n";
+          }
+          xml += "</resume-" + username + ">";
+        }
+      } else if (typeof obj[prop] == "object") {
+        xml += OBJtoXML(new Object(obj[prop]));
+      } else {
+        xml += obj[prop];
+      }
+      xml += obj[prop] instanceof Array ? '' : "</" + prop + ">\n";
+    }
+    var xml = xml.replace(/<\/?[0-9]{1,}>/g, '');
+    return xml
+  }
+
   function exportProposal(proposal) {
     // src: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
-    const blob = new Blob([JSON.stringify(proposal, undefined, 2)], { type: "text/json" });
+    const blob = new Blob([OBJtoXML(proposal)], { type: "text/xml" })
     const a = document.createElement("a");
-    a.download = proposal.name + ".txt";
+    a.download = proposal.name + ".xml";
     a.href = window.URL.createObjectURL(blob);
     a.dataset.downloadurl = ["text/json", a.download, a.href];
 
@@ -145,13 +182,17 @@ function Admin() {
                     >
                       Delete
                     </Button>
-                    <Button
-                      variant="outlined"
-                      style={{ marginRight: 10 }}
-                      onClick={() => handleClickEdit(id)}
-                    >
-                      Edit
-                    </Button>
+                    <Tooltip 
+                      title="Go to Create Proposal page to edit your proposal in the Reading Pane." 
+                      followCursor>
+                      <Button
+                        variant="outlined"
+                        style={{ marginRight: 10 }}
+                        onClick={() => handleClickEdit(id)}
+                      >
+                        Edit
+                      </Button>
+                    </Tooltip>
                     <Button variant="contained" onClick={() => exportProposal(proposal)}>Export</Button>
                   </Box>
                 </AccordionDetails>
