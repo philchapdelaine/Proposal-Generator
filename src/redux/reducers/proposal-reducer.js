@@ -70,9 +70,9 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: state.currentSector,
 			proposals: [...state.proposals]
 		};
-		const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
-		let updatedSectors = newState.proposals[proposaltoUpdateIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
-		newState.proposals[proposaltoUpdateIndex].resumes = updatedSectors;
+		// const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
+		let updatedSectors = newState.proposals[state.currentProposalIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
+		newState.proposals[state.currentProposalIndex].resumes = updatedSectors;
 		return newState;
 	}
 	if (action.type === 'ADD_SECTOR') {
