@@ -94,6 +94,10 @@ function Admin() {
     }
   };
 
+  const createNewProposal = () => {
+      dispatch(setProposalIndex(-1));
+  }
+
   useEffect(() => {
     getProposals();
   }, []);
@@ -104,7 +108,7 @@ function Admin() {
       <div className="admin-main">
         <div className="admin-buttons-container">
           <Link to="/create-proposal" style={{ textDecoration: "none" }}>
-            <Button className="admin-button" color="primary" variant="outlined"> New Proposal <AddIcon/></Button>
+                      <Button className="admin-button" color="primary" variant="outlined" onClick={() => createNewProposal()}> New Proposal <AddIcon/></Button>
           </Link>{" "}
           <Link to="/sector" style={{ textDecoration: "none" }}>
             <Button className="admin-button" color="primary" variant="outlined"> New Sector <AddIcon/></Button>

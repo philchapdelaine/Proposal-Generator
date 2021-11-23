@@ -27,6 +27,9 @@ function ReadingPane(props) {
   let currentProposalIndex = useSelector(
     (state) => state.proposalReducer.currentProposalIndex
     );
+  let reduxProposals = useSelector(
+      (state) => state.proposalReducer.proposals
+   );
   const uid = useSelector((state) => state.loginReducer.uid);
 
   const dispatch = useDispatch();
@@ -77,8 +80,8 @@ function ReadingPane(props) {
             console.log(error);
           });
       } else {
-        // case where sector is added to existing proposal
-        dispatch({ type: "ADD_SECTOR", proposalId: 1 });
+          // case where sector is added to existing proposal
+          dispatch({ type: "ADD_SECTOR", proposalId: reduxProposals[currentProposalIndex].proposalId });
       }
       setSelectedTab(1);
     }

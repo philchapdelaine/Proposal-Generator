@@ -50,8 +50,9 @@ class CustomListItem extends React.Component {
 
   handleSubmit() {
     this.setState({ loading: true });
-    const config = { headers: { "Content-Type": "application/json" } };
-    let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+      const config = { headers: { "Content-Type": "application/json" } };
+      console.log(this.state.currentProposal);
+      let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
     axios
       .put(url, this.state.currentProposal, config)
       .then((response) => {
