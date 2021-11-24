@@ -183,7 +183,7 @@ function Admin() {
                       variant="outlined"
                       color="error"
                       style={{ marginRight: 10 }}
-                      onClick={() => handleOpenModal(id)}
+                      onClick={() => handleOpenModal(proposal.proposalID)}
                     >
                       Delete
                     </Button>
