@@ -24,12 +24,21 @@ class CustomListItem extends React.Component {
       openItemID: null,
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
+      proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
       loading: false, // will be true when axios request is running
       proposalSavedMessage: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
   }
+
+/*  getProposalName() {
+      if (this.props.proposals[this.props.currentProposalIndex] === undefined) {
+          return "Untitled New Proposal";
+      } else {
+          return this.props.proposals[this.props.currentProposalIndex].proposalName;
+      }
+  }*/
 
   handleClick(id) {
     // const oldResumeClicked = this.state.openItemID === id;
@@ -45,30 +54,41 @@ class CustomListItem extends React.Component {
   }
 
   handleDeleteSector(sectorID) {
-    this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+      this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
   }
 
-  handleSubmit() {
-    this.setState({ loading: true });
-      const config = { headers: { "Content-Type": "application/json" } };
-      console.log(this.state.currentProposal);
-      let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-    axios
-      .put(url, this.state.currentProposal, config)
-      .then((response) => {
-        console.log(response);
-        this.setState({ loading: false, proposalSavedMessage: true });
-        setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+    handleSubmit() {
+        if (this.state.currentProposal !== undefined) {
+        this.setState({ loading: true });
+          const config = { headers: { "Content-Type": "application/json" } };
+          this.state.currentProposal.proposalName = this.state.proposalName;
+          let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+        axios
+          .put(url, this.state.currentProposal, config)
+          .then((response) => {
+            console.log(response);
+            this.setState({ loading: false, proposalSavedMessage: true });
+            setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }
+  }
+
+  handleTextChange(event) {
+      this.setState({
+          proposalName: event.target.value
       })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   render() {
     return (
       <div>
         <div>
+            <form>
+                Proposal Name: <input type="text" onChange={this.handleTextChange.bind(this)} value={this.state.proposalName}></input>
+           </form>
         </div>
         <List>
           {this.state.currentProposal === undefined ? (
@@ -121,7 +141,7 @@ class CustomListItem extends React.Component {
         </List>
         <div className="button-group">
           <ButtonGroup variant="contained" size="large">
-            <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
+            <Button onClick={() => this.handleSubmit()}>Update Proposal</Button>
           </ButtonGroup>
         </div>
         { this.state.proposalSavedMessage ? <div className="proposal-saved-msg"> Proposal saved successfully! Return to the Admin page to view or edit. </div> : null }

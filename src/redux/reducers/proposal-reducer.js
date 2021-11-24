@@ -95,7 +95,6 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		};
 		let newProposal = action.newProposal;
 		newState.currentProposalIndex = newState.proposals.push(newProposal) - 1;
-		console.log(newState);
 		return newState;
 	}
 	if (action.type === 'SET_PROPOSAL_INDEX') {
