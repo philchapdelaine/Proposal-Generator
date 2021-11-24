@@ -16,13 +16,13 @@
 
 .resume-builder {
   padding-left: 20px;
-  width: 500px;
+  width: 600px;
 };
 
 .sector-editor {
   padding-left: 50px;
   flex-grow: 1;
-  width: 700px;
+  width: 600px;
 }
 
 .sector-editor-header {
