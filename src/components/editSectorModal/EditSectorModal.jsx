@@ -2,7 +2,7 @@ import { Button, Modal, TextField, Typography, Select, MenuItem, InputLabel, For
 import { Box } from "@mui/system";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentSector } from "../../redux/actions/proposal-actions";
 import isEmail from "validator/lib/isEmail";
 
@@ -25,7 +25,11 @@ const buttonStyle = {
 
 function EditSectorModal(props) {
   const { sectorID, name, description, division, imageLoc, linkedEmail } = props.sector;
-  const [newSector, setNewSector] = useState(props.sector); 
+  const currSector = props.sector;
+  const currentSector = useSelector((state) => state.proposalReducer.currentSector);
+
+  const [newSector, setNewSector] = useState(currentSector); 
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -37,11 +41,13 @@ function EditSectorModal(props) {
       }
   };
   useEffect( () => {
+    console.log(newSector);
   }, [newSector])
  
 
   const onTextChange = e => {
     setNewSector({ ...newSector, [e.target.name]: e.target.value });
+    setSaveButtonDisabled(false);
   };
 
   const validateEmail = () => {
@@ -109,7 +115,7 @@ function EditSectorModal(props) {
           </Box>
           <Box display="flex" justifyContent="center" style={{marginTop: 10}}>
             <Button style={buttonStyle} variant="outlined" onClick={props.onClose}>Cancel</Button>
-            <Button style={buttonStyle} variant="contained" onClick={handleSave}>Save</Button>
+            <Button disabled={saveButtonDisabled} style={buttonStyle} variant="contained" onClick={handleSave}>Save</Button>
           </Box>
         </Box>
     </Modal>
