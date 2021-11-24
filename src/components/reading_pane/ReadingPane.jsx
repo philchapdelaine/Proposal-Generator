@@ -61,6 +61,7 @@ function ReadingPane(props) {
         axios
           .post(url, newProposal, config)
           .then((response) => {
+            console.log(response);
             dispatch({
               type: "ADD_SECTOR_NEW_PROPOSAL",
               newProposal: response.data,
