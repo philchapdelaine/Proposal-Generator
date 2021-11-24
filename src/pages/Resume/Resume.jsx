@@ -107,9 +107,8 @@ class Resume extends Component {
     } else {
       const url = `/api/user/${this.props.userID}/resume/sector`
       axios.post(url, newsector).then((res) => {
-        const sectName = res.data.name;
         this.handleUpdate()
-        this.setState({snacktext: "Added " + sectName})
+        this.setState({snacktext: "Added Sector"})
         this.openSnackbar()
       })
     }
@@ -125,9 +124,8 @@ class Resume extends Component {
     } else {
       const url = `/api/user/${this.props.userID}/resume/sector/${sector.sectorID}`
       axios.delete(url).then((res) => {
-        const sectName = res.data.name;
         this.handleUpdate()
-        this.setState({snacktext: "Deleted " + sectName})
+        this.setState({snacktext: "Deleted Sector"})
         this.openSnackbar()
       })
     }
@@ -149,9 +147,8 @@ class Resume extends Component {
     } else {
       const url = `/api/sector/${oldsector.sectorID}`
       axios.put(url, oldsector).then((res) => {
-        const sectName = res.data.name;
         this.handleUpdate()
-        this.setState({snacktext: "Saved " + sectName})
+        this.setState({snacktext: "Saved Sector"})
         this.openSnackbar()
       })
     }
