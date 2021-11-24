@@ -46,15 +46,29 @@ class CustomListItem extends React.Component {
   }
 
   handleDeleteSector(sectorID) {
-      this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+      this.setState({ loading: true });
+      let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}/sector/${sectorID}`;
+      console.log(this.state.currentProposal);
+      axios
+          .delete(url)
+          .then((response) => {
+              console.log(response);
+              this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+              this.setState({ loading: false, proposalSavedMessage: true });
+              setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+          })
+          .catch((error) => {
+              console.log(error);
+          });
   }
 
     handleSubmit() {
         if (this.state.currentProposal !== undefined) {
             this.setState({ loading: true });
-              const config = { headers: { "Content-Type": "application/json" } };
-              this.state.currentProposal.proposalName = this.state.proposalName;
-              let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+            const config = { headers: { "Content-Type": "application/json" } };
+            this.state.currentProposal.proposalName = this.state.proposalName;
+            let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+            console.log(this.state.currentProposal)
             axios
               .put(url, this.state.currentProposal, config)
               .then((response) => {
