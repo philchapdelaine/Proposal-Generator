@@ -8,6 +8,7 @@ import SectorSearch from "../../components/sector_search/SectorSearch";
 import axios from "axios";
 import { IconButton } from "@mui/material";
 import CloseIcon from '@material-ui/icons/Close'
+import AddIcon from '@mui/icons-material/Add';
 import "./SectorSearchModal.css";
 
 var samplesectors = [
@@ -60,7 +61,7 @@ class SectorSearchModal extends Component {
       if (noAPI) {
         this.setState({sectors: samplesectors});
       } else {
-        const url = `/api/sector`
+        const url = `/api/sector/empty`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});
@@ -79,7 +80,7 @@ class SectorSearchModal extends Component {
     searchSector(searchterm) {
       console.log(searchterm)
       if (searchterm === "") {
-        const url = `/api/sector`
+        const url = `/api/sector/empty`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});
@@ -96,7 +97,7 @@ class SectorSearchModal extends Component {
     render() {
       return (
         <div className = "search-button">
-            <Button variant="contained" onClick={this.openModal}>Add Sector</Button>
+            <Button variant="contained" onClick={this.openModal}>Add Sector <AddIcon/></Button>
             <Modal
             open={this.state.open}
             onClose={this.closeModal}

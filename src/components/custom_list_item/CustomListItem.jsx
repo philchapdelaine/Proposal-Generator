@@ -16,6 +16,7 @@ import "../reading_pane/ReadingPane.css";
 import axios from "axios";
 
 import { connect } from "react-redux";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class CustomListItem extends React.Component {
   constructor(props) {
@@ -26,7 +27,6 @@ class CustomListItem extends React.Component {
       proposals: this.props.proposals,
       proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
       loading: false, // will be true when axios request is running
-      proposalSavedMessage: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
@@ -147,10 +147,11 @@ class CustomListItem extends React.Component {
         </List>
         <div className="button-group">
           <ButtonGroup variant="contained" size="large">
-            <Button onClick={() => this.handleSubmit()}>Update Proposal</Button>
+            <Link to="/admin">
+              <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
+            </Link>
           </ButtonGroup>
         </div>
-        { this.state.proposalSavedMessage ? <div className="proposal-saved-msg"> Proposal saved successfully! Return to the Admin page to view or edit. </div> : null }
       </div>
     );
   }
