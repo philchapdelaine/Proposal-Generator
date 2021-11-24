@@ -86,7 +86,7 @@ class SectorSearchModal extends Component {
             this.setState({sectors: res.data});
           })
       } else {
-        const url = `api/search/${searchterm}/sector`
+        const url = `/api/search/sector/${searchterm}`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});

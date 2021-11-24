@@ -103,7 +103,7 @@ function CreateProposal() {
 
 
   const getFeedback = () => {
-    const url = `/api/search/${searchWord}/smartsearch`
+    const url = `/api/search/resume/${searchWord}`
     axios.get(url)
       .then((res) => {
         setSearchedResumes(res.data);
