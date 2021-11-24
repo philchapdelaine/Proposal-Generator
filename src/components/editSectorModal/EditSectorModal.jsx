@@ -23,12 +23,10 @@ const buttonStyle = {
   margin: '5px'
 }
 
-function EditSectorModal(props) {
+function EditSectorModal(props = {}) {
   const { sectorID, name, description, division, imageLoc, linkedEmail } = props.sector;
-  const currSector = props.sector;
-  const currentSector = useSelector((state) => state.proposalReducer.currentSector);
 
-  const [newSector, setNewSector] = useState(currentSector); 
+  const [newSector, setNewSector] = useState(props.sector); 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
   const dispatch = useDispatch();
@@ -41,11 +39,13 @@ function EditSectorModal(props) {
       }
   };
   useEffect( () => {
-    console.log(newSector);
-  }, [newSector])
+    console.log(props.sector);
+    setSaveButtonDisabled(true);
+  }, [props.sector])
  
 
   const onTextChange = e => {
+    console.log(saveButtonDisabled);
     setNewSector({ ...newSector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
   };
@@ -123,3 +123,4 @@ function EditSectorModal(props) {
 }
 
 export default EditSectorModal;
+
