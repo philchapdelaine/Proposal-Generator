@@ -122,12 +122,13 @@ class Resume extends Component {
     console.log("Deleted " + sector.name);
   }
 
-  saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) {
+  saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc, sectorProposalNum) {
     var oldsector = resume[resume.findIndex(e => e.sectorID === sectorid)]
     oldsector.name = sectorname;
     oldsector.description = sectorcontent;
     oldsector.division = sectordivision;
     oldsector.imageLoc = sectorimageLoc;
+    oldsector.proposalNumber = sectorProposalNum;
     if (noAPI) {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
       this.setState({ sectors: resume });
@@ -159,8 +160,8 @@ class Resume extends Component {
             <div>
             {this.state.currsector
               ? <SectorEditor sector = {this.state.currsector} 
-              saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc) => 
-                {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc)}}></SectorEditor>
+              saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc, sectorProposalNum) => 
+                {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc, sectorProposalNum)}}></SectorEditor>
               
               :  <div className="no-sector-text">No Sector Selected</div>        
               }
