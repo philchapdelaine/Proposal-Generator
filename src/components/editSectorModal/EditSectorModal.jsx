@@ -45,8 +45,8 @@ function EditSectorModal(props = {}) {
  
 
   const onTextChange = e => {
-    console.log(saveButtonDisabled);
-    setNewSector({ ...newSector, [e.target.name]: e.target.value });
+    console.log(newSector);
+    setNewSector({ ...props.sector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
   };
 
