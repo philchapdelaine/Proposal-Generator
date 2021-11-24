@@ -52,8 +52,8 @@ function ReadingPane(props) {
           };
         // build a new sector with no sectorID
         // TODO proposalNumber
-        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name }) => (
-            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber: "1" }))(currentSector);
+        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
+            { description, division, empty: false, imageLoc, linkedEmail, name, proposalNumber}))(currentSector);
         // add to new sector
         newProposal.resumes.push(newSector);
         const config = { headers: { "Content-Type": "application/json" } };
