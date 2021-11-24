@@ -5,7 +5,8 @@
 
 .name-editor,
 .division-editor,
-.imageloc-editor {
+.imageloc-editor,
+.proposal-num-editor {
     padding-left: 0px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -13,7 +14,8 @@
 
 .name-editor p
 .division-editor p,
-.imageloc-editor p {
+.imageloc-editor p,
+.proposal-num-editor p {
     text-transform: uppercase;
     font-size: 20px;
 }
