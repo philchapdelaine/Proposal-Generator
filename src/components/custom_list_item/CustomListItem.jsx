@@ -32,14 +32,6 @@ class CustomListItem extends React.Component {
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
   }
 
-/*  getProposalName() {
-      if (this.props.proposals[this.props.currentProposalIndex] === undefined) {
-          return "Untitled New Proposal";
-      } else {
-          return this.props.proposals[this.props.currentProposalIndex].proposalName;
-      }
-  }*/
-
   handleClick(id) {
     // const oldResumeClicked = this.state.openItemID === id;
     // console.log(newResumeClicked)
@@ -59,20 +51,20 @@ class CustomListItem extends React.Component {
 
     handleSubmit() {
         if (this.state.currentProposal !== undefined) {
-        this.setState({ loading: true });
-          const config = { headers: { "Content-Type": "application/json" } };
-          this.state.currentProposal.proposalName = this.state.proposalName;
-          let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-        axios
-          .put(url, this.state.currentProposal, config)
-          .then((response) => {
-            console.log(response);
-            this.setState({ loading: false, proposalSavedMessage: true });
-            setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+            this.setState({ loading: true });
+              const config = { headers: { "Content-Type": "application/json" } };
+              this.state.currentProposal.proposalName = this.state.proposalName;
+              let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+            axios
+              .put(url, this.state.currentProposal, config)
+              .then((response) => {
+                console.log(response);
+                this.setState({ loading: false, proposalSavedMessage: true });
+                setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
         }
   }
 
