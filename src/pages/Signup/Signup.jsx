@@ -92,6 +92,7 @@ function Signup() {
           setSignupFailSeverity("error");
           setSignupFailMsg("Try another username")
         } else if (err.response.status == 404) {
+          setSignupFailSeverity("error");
           setSignupFailMsg("Error " + err.response.status + ". Server is down")
         } else {
           setSignupFailMsg(err.message)
@@ -104,19 +105,19 @@ function Signup() {
       setAlertSignupFail(true)
       if (!isEmail(username)) {
         setSignupFailMsg("Check username format")
-        setSignupFailSeverity("error")
+        setSignupFailSeverity("warning")
       } else if (password.length < 8) {
         setSignupFailMsg("Passwords must be minimum of 8 characters")
-        setSignupFailSeverity("error")
+        setSignupFailSeverity("warning")
       } else if (password !== password2) {
         setSignupFailMsg("Check both passwords are identical")
-        setSignupFailSeverity("error")
+        setSignupFailSeverity("warning")
       } else if (firstName === "") {
         setSignupFailMsg("Please enter your first name")
         setSignupFailSeverity("warning")
       } else if (lastName === "") {
         setSignupFailMsg("Please enter your last name")
-        setSignupFailSeverity("error")
+        setSignupFailSeverity("warning")
       }
     } else {
       register();
@@ -259,7 +260,7 @@ function Signup() {
         // key={{ vertical: "top", horizontal: "center" }}
         autoHideDuration={6000}
       >
-        <MuiAlert onClose={handleClose} severity={signupFailSeverity} sx={{ width: '100%' }} variant="filled">
+        <MuiAlert onClose={() => setAlertSignupFail(false)} severity={signupFailSeverity} sx={{ width: '100%' }} variant="filled">
           {signupFailMsg}
         </MuiAlert>
       </Snackbar>
