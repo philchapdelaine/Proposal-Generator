@@ -73,6 +73,8 @@ class CustomListItem extends React.Component {
               .put(url, this.state.currentProposal, config)
               .then((response) => {
                 console.log(response);
+                this.props.updateProposal(this.state.currentProposal);
+                console.log(this.props.proposals);
                 this.setState({ loading: false, proposalSavedMessage: true });
                 setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
               })
@@ -172,6 +174,12 @@ function mapDispatchToProps(dispatch) {
         type: "DELETE_SECTOR",
         sectorID: sectorID,
         proposalId: proposalId,
+      });
+    },
+    updateProposal: (newProposal) => {
+      dispatch({
+        type: "UPDATE_PROPOSAL",
+        newProposal: newProposal
       });
     },
   };
