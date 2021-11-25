@@ -91,7 +91,7 @@ class SectorEditor extends Component {
           </FormControl>
         </div>
         <div className = 'sector-editor-field'>
-            <TextField multiline minRows = {10} maxRows = {40} 
+            <TextField multiline minRows = {10} maxRows = {10} 
             value={this.state.content}
             onChange={this.handleChange} fullWidth id="fullWidth" 
             label="Description"

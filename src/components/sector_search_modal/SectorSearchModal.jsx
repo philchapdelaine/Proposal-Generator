@@ -13,20 +13,22 @@ import "./SectorSearchModal.css";
 
 var samplesectors = [
   {
-    sectorID: 3,
+    sectorID: 1,
     name: "Experience",
     linkedEmail: "mc@ae.com",
-    fileType: "txt",
+    proposalNumber: 1,
+    empty: true,
     division: "Water",
     imageLoc: "blah/blah",
     description: "I'm the best so I don't need to have any experience"
 },
 {
-    sectorID: 4,
-    name: "Projects",
+    sectorID: 2,
+    name: "Role",
     linkedEmail: "mc@ae.com",
-    fileType: "txt",
-    division: "Air",
+    proposalNumber: 1,
+    empty: true,
+    division: "Civil",
     imageLoc: "",
     description: "I'm the best so I don't need to have any projects"
 }

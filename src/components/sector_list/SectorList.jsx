@@ -31,9 +31,10 @@ class SectorList extends Component {
           }
           key={i}
         >
-          <div className="sector-property">
+          <div className="sector-name">
             <p>{sector.name}</p>
           </div>
+          
           <div className="sector-property">
             <p>{sector.proposalNumber}</p>
           </div>
@@ -55,7 +56,7 @@ class SectorList extends Component {
     return (
       <div>
         <div className="sector-header-container">
-          <div className="sector-property-header">
+          <div className="sector-name-header">
             <p>Name</p>
           </div>
           <div className="sector-property-header">

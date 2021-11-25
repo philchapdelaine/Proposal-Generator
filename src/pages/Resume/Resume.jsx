@@ -15,18 +15,18 @@ var samplesectors = [
           name: "Experience",
           linkedEmail: "mc@ae.com",
           proposalNumber: 1,
-          empty: true,
+          empty: false,
           division: "Water",
           imageLoc: "blah/blah",
           description: "I'm the best so I don't need to have any experience"
       },
       {
           sectorID: 2,
-          name: "Projects",
+          name: "Role",
           linkedEmail: "mc@ae.com",
           proposalNumber: 1,
-          empty: true,
-          division: "Air",
+          empty: false,
+          division: "Civil",
           imageLoc: "",
           description: "I'm the best so I don't need to have any projects"
       }
@@ -45,7 +45,7 @@ var resume = [];
 var index = 3;
 
 // Toggles noAPI mode, which uses sample data and doesn't call the API.
-var noAPI = false;
+var noAPI = true;
 
 class Resume extends Component {
   constructor(props) {
@@ -100,6 +100,7 @@ class Resume extends Component {
     }
 
     if (noAPI) {
+      newsector.sectorID = index++;
       resume.push(newsector);
       this.setState({ sectors: resume });
       this.setState({snacktext: "Added " + sectorname})
@@ -179,7 +180,8 @@ class Resume extends Component {
             {this.state.currsector
               ? <SectorEditor sector = {this.state.currsector} 
               saveSector = {(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc, sectorProposalNum) => 
-                {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc, sectorProposalNum)}}></SectorEditor>
+                {this.saveSector(sectorid, sectorname, sectorcontent, sectordivision, sectorimageLoc, sectorProposalNum)}}
+                key = {this.state.currsector.sectorID}></SectorEditor>
               
               :  <div className="no-sector-text">No Sector Selected</div>        
               }
