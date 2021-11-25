@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import ReadingPane from "../../components/reading_pane/ReadingPane";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ResumeSectorDisplay from "../../components/resume_sector_display/ResumeSectorDisplay";
@@ -6,7 +6,11 @@ import "./CreateProposal.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import Resume from "../Resume/Resume";
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 
 // dummy data; this will actually come from the search api
@@ -144,13 +148,16 @@ function CreateProposal() {
 
   return (
     <div className="create-proposal">
-      <NavigatorBar 
+      <NavigatorBar
         isCreateProposal={true}
         recentlyViewed={recentlyViewedResumes}
         onSectorClick={updateDisplayedSector}
       >
       </NavigatorBar>
       <div className="cp-center-pane">
+        <Link to="/admin">
+          <Button variant="contained" color="primary" style={{ marginLeft: "10px" }}> Back </Button>
+        </Link>
         <div className="cp-center-header">
           <div className="title"> Create Proposal </div>
           <TextField
@@ -163,20 +170,19 @@ function CreateProposal() {
           <Button
             variant="contained"
             color="primary"
-                      className="LoginBtn"
-                      onClick={() => handleSubmit()}
+            className="LoginBtn"
+            onClick={() => handleSubmit()}
           >
             Search
           </Button>
         </div>
-        <div className="search-results"> Search results: </div> <br/>
-              <ResumeSectorDisplay
-                  searchWord={searchWord}
-                  onSectorClick={updateDisplayedSector}
-                  isSearch={isSearch}
-                  switchSearch={handleSubmit}
-                  searchedResumes={searchedResumes}
-        ></ResumeSectorDisplay>
+        <div className="search-results"> Search results: </div> <br />
+        { searchedResumes.length !== 0
+          ? <ResumeSectorDisplay
+              onSectorClick={updateDisplayedSector}
+              searchedResumes={searchedResumes}
+            ></ResumeSectorDisplay> 
+          : <div className="no-search-results"> No search results </div> }
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>
     </div>
