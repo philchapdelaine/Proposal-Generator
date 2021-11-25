@@ -9,6 +9,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import Switch from "@mui/material/Switch";
 import Checkbox from "@mui/material/Checkbox";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import { Link, Redirect } from "react-router-dom";
 
@@ -30,14 +32,26 @@ function Signup() {
   const [role, setRole] = useState("Employee");
 
   const [open, setOpen] = useState(false);
+
+
+  const [signinSuccess, setSigninSuccess] = useState(false);
+
+
+  const [alertSignupFail, setAlertSignupFail] = useState(false);
+  const [signupFailMsg, setSignupFailMsg] = useState("");
+  const [signupFailSeverity, setSignupFailSeverity] = useState("error");
+
+  const handleValidator = () => {
+    setvalidator({...validator_init_state, })
+  }
+
   const handleOpen = () => {
     setOpen(true);
-    console.log(open);
   };
   const handleClose = () => {
     setOpen(false);
-    console.log(open);
   };
+
 
   function validated() {
     return (
@@ -66,36 +80,45 @@ function Signup() {
       })
       .then((res) => {
         if (res.status === 200) {
-          alert(res.status + ": Sign up successful!");
-          window.location = "/login"; // uncomment this if you wanna redirect to login after successful registration
+          setSigninSuccess(true);
+          window.location = "/login";
         } else {
           alert(res);
         }
       })
       .catch((err) => {
+        setAlertSignupFail(true);
         if (err.response.status == 400) {
-          alert("Error " + err.response.status + ". Try another username");
+          setSignupFailSeverity("error");
+          setSignupFailMsg("Try another username")
         } else if (err.response.status == 404) {
-          alert("Error " + err.response.status + ". Server is down");
+          setSignupFailSeverity("error");
+          setSignupFailMsg("Error " + err.response.status + ". Server is down")
         } else {
-          alert(err);
+          setSignupFailMsg(err.message)
         }
       });
   };
 
   const handleSubmit = () => {
-    if (!validated()){
-      if (!isEmail(username)){
-        alert("Check username format");
+    if (!validated()) {
+      setAlertSignupFail(true)
+      if (!isEmail(username)) {
+        setSignupFailMsg("Check username format")
+        setSignupFailSeverity("warning")
       } else if (password.length < 8) {
-        alert("Passwords must be minimum of 8 characters");
-      } else if (password !==password2){
-        alert("Check both passwords are identical");
-      } else if (firstName ===""){
-        alert("Please enter your first name");
-      } else if (lastName === ""){
-        alert("Please enter your last name");
-      } 
+        setSignupFailMsg("Passwords must be minimum of 8 characters")
+        setSignupFailSeverity("warning")
+      } else if (password !== password2) {
+        setSignupFailMsg("Check both passwords are identical")
+        setSignupFailSeverity("warning")
+      } else if (firstName === "") {
+        setSignupFailMsg("Please enter your first name")
+        setSignupFailSeverity("warning")
+      } else if (lastName === "") {
+        setSignupFailMsg("Please enter your last name")
+        setSignupFailSeverity("warning")
+      }
     } else {
       register();
     }
@@ -183,20 +206,6 @@ function Signup() {
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
         />
-        {/* <TextField
-          required
-          label="Email"
-          variant="outlined"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        /> */}
         <br />
         <Checkbox
           name="role"
@@ -243,6 +252,31 @@ function Signup() {
           </Link>
         }
       ></ConfirmModal>
+
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={alertSignupFail}
+        onClose={() => setAlertSignupFail(false)}
+        // key={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+      >
+        <MuiAlert onClose={() => setAlertSignupFail(false)} severity={signupFailSeverity} sx={{ width: '100%' }} variant="filled">
+          {signupFailMsg}
+        </MuiAlert>
+      </Snackbar>
+
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={signinSuccess }
+        onClose={() => setSigninSuccess(false)}
+        // key={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+      >
+        <MuiAlert onClose={() => setSigninSuccess(false)} severity="success" sx={{ width: '100%' }} variant="filled">
+        Sign up Successful! Redirecting to Login.
+        </MuiAlert>
+      </Snackbar>
+
     </div>
   );
 }

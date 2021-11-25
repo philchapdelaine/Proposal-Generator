@@ -11,6 +11,9 @@ import Logo from "../../components/logo/logo";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 import { useSelector, useDispatch } from "react-redux";
 
 import axios from "axios";
@@ -42,12 +45,11 @@ function Login() {
 function LoginBox() {
   const username = useSelector((state) => state.loginReducer.username);
   const [password, setPassword] = useState("");
-
-  const uid = useSelector((state) => state.loginReducer.uid);
+  const [alertWrongUserpass, setAlertWrongUserpass] = useState(false);
+  const [wrongUserPassMsg, setWrongUserPassMsg] = useState("");
 
   const dispatch = useDispatch();
 
-  // help: https://stackoverflow.com/questions/44072750/how-to-send-basic-auth-with-axios
   const authUser = async () => {
     const resp = await axios
       .post(`/api/authenticate/login/`, {
@@ -66,12 +68,14 @@ function LoginBox() {
       })
       .catch((err) => {
         if (err.response.status === 404) {
-          alert("Error " + err.response.status + ". Server is down");
-        } else if (err.response.status === 500) {
-          // alert("Error " + err.staus + ". Wrong Username or Password");
-          alert("Incorrect Username or Password");
+          setAlertWrongUserpass(true);
+          setWrongUserPassMsg("Error " + err.response.status + ". Server is down")
+        } else if (err.response.status === 401) {
+          setAlertWrongUserpass(true);
+          setWrongUserPassMsg("Incorrect Username or Password")
         } else {
-          alert(err);
+          setAlertWrongUserpass(true);
+          setWrongUserPassMsg(err.message)
         }
       });
   };
@@ -137,13 +141,24 @@ function LoginBox() {
             </Button>
           </Link>
         </div>
+
+        <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={alertWrongUserpass}
+        onClose={() => setAlertWrongUserpass(false)}
+        // key={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+      >
+        <MuiAlert onClose={() => setAlertWrongUserpass(false)} severity="error" sx={{ width: '100%' }} variant="filled">
+          {wrongUserPassMsg}
+        </MuiAlert>
+      </Snackbar>
       </div>
     </Box>
   );
 }
 
 function Welcome() {
-  // TODO
   return (
     <div>
       <div>Welcome to Associated Engineering Resume Generator</div>
