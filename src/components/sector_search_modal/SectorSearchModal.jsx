@@ -8,24 +8,27 @@ import SectorSearch from "../../components/sector_search/SectorSearch";
 import axios from "axios";
 import { IconButton } from "@mui/material";
 import CloseIcon from '@material-ui/icons/Close'
+import AddIcon from '@mui/icons-material/Add';
 import "./SectorSearchModal.css";
 
 var samplesectors = [
   {
-    sectorID: 3,
+    sectorID: 1,
     name: "Experience",
     linkedEmail: "mc@ae.com",
-    fileType: "txt",
+    proposalNumber: 1,
+    empty: true,
     division: "Water",
     imageLoc: "blah/blah",
     description: "I'm the best so I don't need to have any experience"
 },
 {
-    sectorID: 4,
-    name: "Projects",
+    sectorID: 2,
+    name: "Role",
     linkedEmail: "mc@ae.com",
-    fileType: "txt",
-    division: "Air",
+    proposalNumber: 1,
+    empty: true,
+    division: "Civil",
     imageLoc: "",
     description: "I'm the best so I don't need to have any projects"
 }
@@ -60,7 +63,7 @@ class SectorSearchModal extends Component {
       if (noAPI) {
         this.setState({sectors: samplesectors});
       } else {
-        const url = `/api/sector`
+        const url = `/api/sector/empty`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});
@@ -79,13 +82,13 @@ class SectorSearchModal extends Component {
     searchSector(searchterm) {
       console.log(searchterm)
       if (searchterm === "") {
-        const url = `/api/sector`
+        const url = `/api/sector/empty`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});
           })
       } else {
-        const url = `api/search/${searchterm}/sector`
+        const url = `/api/search/sector/${searchterm}`
         axios.get(url)
           .then((res) => {
             this.setState({sectors: res.data});
@@ -96,7 +99,7 @@ class SectorSearchModal extends Component {
     render() {
       return (
         <div className = "search-button">
-            <Button variant="contained" onClick={this.openModal}>Add Sector</Button>
+            <Button variant="contained" onClick={this.openModal}>Add Sector <AddIcon/></Button>
             <Modal
             open={this.state.open}
             onClose={this.closeModal}

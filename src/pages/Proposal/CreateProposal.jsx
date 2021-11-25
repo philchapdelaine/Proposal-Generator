@@ -11,7 +11,6 @@ import {
   Link,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Resume from "../Resume/Resume";
 
 
 // dummy data; this will actually come from the search api
@@ -19,47 +18,47 @@ const recentlyViewedSample = [
   {
     "resumeID": 1,
     "sectors": [
-      {
-        "sectorID": 1,
-        "name": "Experience",
-        "linkedEmail": "mc@ae.com",
-        "fileType": "txt",
-        "division": "Water",
-        "imageLoc": "blah/blah",
-        "description": "I'm the best so I don't need to have any experience"
-      },
-      {
-        "sectorID": 2,
-        "name": "Projects",
-        "linkedEmail": "mc@ae.com",
-        "fileType": "txt",
-        "division": "Air",
-        "imageLoc": null,
-        "description": "I'm the best so I don't need to have any projects"
-      }
+        {
+            "sectorID": 1,
+            "name": "Experience",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Water",
+            "imageLoc": "blah/blah",
+            "description": "I'm the best so I don't need to have any experience"
+        },
+        {
+            "sectorID": 2,
+            "name": "Projects",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Air",
+            "imageLoc": null,
+            "description": "I'm the best so I don't need to have any projects"
+        }
     ]
   },
   {
     "resumeID": 2,
     "sectors": [
-      {
-        "sectorID": 3,
-        "name": "Education",
-        "linkedEmail": "mc@ae.com",
-        "fileType": "txt",
-        "division": "Water",
-        "imageLoc": "blah/blah",
-        "description": "I'm the best so I don't need to have any experience"
-      },
-      {
-        "sectorID": 4,
-        "name": "Skills",
-        "linkedEmail": "mc@ae.com",
-        "fileType": "txt",
-        "division": "Air",
-        "imageLoc": null,
-        "description": "I'm the best so I don't need to have any projects"
-      }
+        {
+            "sectorID": 3,
+            "name": "Education",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Water",
+            "imageLoc": "blah/blah",
+            "description": "I'm the best so I don't need to have any experience"
+        },
+        {
+            "sectorID": 4,
+            "name": "Skills",
+            "linkedEmail": "mc@ae.com",
+            "fileType": "txt",
+            "division": "Air",
+            "imageLoc": null,
+            "description": "I'm the best so I don't need to have any projects"
+        }
     ]
   },
 ]
@@ -67,7 +66,7 @@ const recentlyViewedSample = [
 const maxLengthRecentlyViewed = 6;
 
 function CreateProposal() {
-  const [isSearch, setSearch] = useState(false);
+  const [isSearch, setSearch] = useState(false)
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
@@ -78,8 +77,8 @@ function CreateProposal() {
   const getResults = async () => {
     await axios
       .get(`/api/user/1/`)
-      .then((res) => { })
-      .catch((err) => { });
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   function resumePush() {
@@ -90,25 +89,39 @@ function CreateProposal() {
     }
   }
 
-  const handleSubmit = () => {
-    setSearch(true)
-  };
+    const handleSubmit = () => {
+        setSearch(true)
+    };
 
+
+  useEffect(() => {
+      getFeedback2();
+  }, []);
 
   useEffect(() => {
     if (isSearch) {
       getFeedback();
-    }
+    } 
   }, [isSearch]);
 
 
   const getFeedback = () => {
-    const url = `/api/search/${searchWord}/smartsearch`
+    const url = `/api/search/resume/${searchWord}`
     axios.get(url)
       .then((res) => {
         setSearchedResumes(res.data);
-        console.log(res.data)
         setSearch(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  const getFeedback2 = () => {
+    const url = `/api/search/resume/${"all"}`
+    axios.get(url)
+      .then((res) => {
+        setSearchedResumes(res.data);
       })
       .catch((err) => {
         console.log(err);

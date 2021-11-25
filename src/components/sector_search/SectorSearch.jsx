@@ -33,6 +33,10 @@ class SectorSearch extends Component {
             <p>{sector.name}</p>
           </div>
 
+          <div className="sector-proposalNumber">
+            <p>{sector.proposalNumber}</p>
+          </div>
+
           <div className="sector-division">
             <p>{sector.division}</p>
           </div>

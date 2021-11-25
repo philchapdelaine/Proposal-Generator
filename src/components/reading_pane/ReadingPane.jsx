@@ -52,8 +52,8 @@ function ReadingPane(props) {
           };
         // build a new sector with no sectorID
         // TODO proposalNumber
-        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name }) => (
-            { description, division, empty, imageLoc, linkedEmail, name, proposalNumber: "1" }))(currentSector);
+        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
+            { description, division, empty: false, imageLoc, linkedEmail, name, proposalNumber}))(currentSector);
         // add to new sector
         newProposal.resumes.push(newSector);
         const config = { headers: { "Content-Type": "application/json" } };
@@ -61,6 +61,7 @@ function ReadingPane(props) {
         axios
           .post(url, newProposal, config)
           .then((response) => {
+            console.log(response);
             dispatch({
               type: "ADD_SECTOR_NEW_PROPOSAL",
               newProposal: response.data,
@@ -117,7 +118,7 @@ function ReadingPane(props) {
           variant="fullWidth"
         >
           <Tab label="Sector Preview" index={0} />
-          <Tab label="Save Proposal" index={1} />
+          <Tab label="Current Proposal" index={1} />
         </Tabs>
         <TabPanel value={selectedTab} index={0}>
           <div>

@@ -25,6 +25,7 @@ class CustomListItem extends React.Component {
       openItemID: null,
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
+      proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
@@ -45,29 +46,55 @@ class CustomListItem extends React.Component {
   }
 
   handleDeleteSector(sectorID) {
-    this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+      this.setState({ loading: true });
+      let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}/sector/${sectorID}`;
+      console.log(this.state.currentProposal);
+      axios
+          .delete(url)
+          .then((response) => {
+              console.log(response);
+              this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+              this.setState({ loading: false, proposalSavedMessage: true });
+              setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+          })
+          .catch((error) => {
+              console.log(error);
+          });
   }
 
-  handleSubmit() {
-    this.setState({ loading: true });
-      const config = { headers: { "Content-Type": "application/json" } };
-      console.log(this.state.currentProposal);
-      let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-    axios
-      .put(url, this.state.currentProposal, config)
-      .then((response) => {
-        console.log(response);
-        this.setState({ loading: false });
+    handleSubmit() {
+        if (this.state.currentProposal !== undefined) {
+            this.setState({ loading: true });
+            const config = { headers: { "Content-Type": "application/json" } };
+            this.state.currentProposal.proposalName = this.state.proposalName;
+            let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+            console.log(this.state.currentProposal)
+            axios
+              .put(url, this.state.currentProposal, config)
+              .then((response) => {
+                console.log(response);
+                this.setState({ loading: false, proposalSavedMessage: true });
+                setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+        }
+  }
+
+  handleTextChange(event) {
+      this.setState({
+          proposalName: event.target.value
       })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   render() {
     return (
       <div>
         <div>
+            <form>
+                Proposal Name: <input type="text" onChange={this.handleTextChange.bind(this)} value={this.state.proposalName}></input>
+           </form>
         </div>
         <List>
           {this.state.currentProposal === undefined ? (

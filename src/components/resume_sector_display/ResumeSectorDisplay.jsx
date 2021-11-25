@@ -4,8 +4,11 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
+import TableHead from '@mui/material/TableHead';
 import { makeStyles } from '@material-ui/core/styles';
 import "./ResumeSectorDisplay.css";
 import axios from "axios";
@@ -70,7 +73,25 @@ export default function ResumeSectorDisplay(props) {
           <ResumeOwnerDisplay ownerID={resume.resumeID}></ResumeOwnerDisplay>
         </AccordionSummary>
         <AccordionDetails>
+          {/* {resume.sectors.map((sector) => generateRows(sector, resume))} */
+          
+          <Table sx={{ minWidth: 650 }} aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
+        <TableHead>
+          <TableRow>
+            <TableCell>Type</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Proposal Number</TableCell>
+            <TableCell>Division</TableCell>
+            <TableCell>Image Location</TableCell>
+            <TableCell>Description </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody >
           {resume.sectors.map((sector) => generateRows(sector, resume))}
+        </TableBody>
+      </Table>
+          
+          }
         </AccordionDetails>
       </Accordion>
     );
@@ -89,15 +110,19 @@ export function ResumeOwnerDisplay(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    axios
-      .get("/api/user/" + props.ownerID + "/")
-      .then((res) => {
-        setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
-        setResumeOwnerEmail(res.data.emailAddress);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      if (props.ownerID != -1) {
+          axios
+            .get("/api/user/" + props.ownerID + "/")
+            .then((res) => {
+              setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
+              setResumeOwnerEmail(res.data.emailAddress);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+      } else {
+        setResumeOwnerName("Template Sectors");
+      }
   })
   return (
     <>
