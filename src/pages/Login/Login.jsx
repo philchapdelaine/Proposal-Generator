@@ -70,7 +70,7 @@ function LoginBox() {
         if (err.response.status === 404) {
           setAlertWrongUserpass(true);
           setWrongUserPassMsg("Error " + err.response.status + ". Server is down")
-        } else if (err.response.status === 500) {
+        } else if (err.response.status === 401) {
           setAlertWrongUserpass(true);
           setWrongUserPassMsg("Incorrect Username or Password")
         } else {
