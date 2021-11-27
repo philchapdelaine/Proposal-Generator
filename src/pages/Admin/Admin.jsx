@@ -12,7 +12,6 @@ import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
-import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
 import AddIcon from '@mui/icons-material/Add';
 
 import {
@@ -21,6 +20,7 @@ import {
 } from "../../redux/actions/proposal-actions";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
+import ExpandSections from "../../components/expand_sections/ExpandSections";
 
 const style = {
   width: "75%",
@@ -163,17 +163,7 @@ function Admin() {
                   <Typography>{proposal.proposalName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Box display="flex">
-                    {proposal.resumes?.map((resume, id) => {
-                      return (
-                        <ResumeThumbnail
-                          name={resume.name}
-                          key={id}
-                          notClickable
-                        />
-                      );
-                    })}
-                  </Box>
+                  <ExpandSections resumes={proposal.resumes} />
                   <Box
                     display="flex"
                     justifyContent="center"
