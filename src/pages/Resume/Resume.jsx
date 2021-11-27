@@ -50,7 +50,7 @@ var noAPI = false;
 class Resume extends Component {
   constructor(props) {
     super(props);
-    this.state = { currsector: undefined, sectors: resume, snacktext: "Success!"};
+    this.state = { currsector: undefined, sectors: resume, snacktext: "Success!", snackbarKey: 0};
   }
 
   componentDidMount() {
@@ -109,7 +109,10 @@ class Resume extends Component {
       const url = `/api/user/${this.props.userID}/resume/sector`
       axios.post(url, newsector).then((res) => {
         this.handleUpdate()
-        this.setState({snacktext: "Added Sector"})
+        this.setState((prevState, props) => ({
+          snacktext: "Added Sector",
+          snackbarKey: prevState.snackbarKey + 1
+        })); 
         this.openSnackbar()
       })
     }
@@ -121,13 +124,22 @@ class Resume extends Component {
       resume.splice(resume.findIndex((e) => e.sectorID === sector.sectorID), 1);
       this.setState({ sectors: resume });
       this.setState({snacktext: "Deleted " + sector.name})
+      if (sector.sectorID == this.state.currsector.sectorID) {
+        this.setState({currsector: undefined});
+      }
       this.openSnackbar()
     } else {
       const url = `/api/user/${this.props.userID}/resume/sector/${sector.sectorID}`
       axios.delete(url).then((res) => {
         this.handleUpdate()
-        this.setState({snacktext: "Deleted Sector"})
+        this.setState((prevState, props) => ({
+          snacktext: "Deleted Sector",
+          snackbarKey: prevState.snackbarKey + 1
+        })); 
         this.openSnackbar()
+        if (sector.sectorID == this.state.currsector.sectorID) {
+          this.setState({currsector: undefined});
+        }
       })
     }
     console.log("Deleted " + sector.name);
@@ -149,15 +161,18 @@ class Resume extends Component {
       const url = `/api/sector/${oldsector.sectorID}`
       axios.put(url, oldsector).then((res) => {
         this.handleUpdate()
-        this.setState({snacktext: "Saved Sector"})
+        this.setState((prevState, props) => ({
+          snacktext: "Saved Sector",
+          snackbarKey: prevState.snackbarKey + 1
+        })); 
         this.openSnackbar()
       })
     }
     console.log("Saved" + sectorid);
   }
 
-  openSnackbar(text) {
-    openSnack(text);
+  openSnackbar() {
+    openSnack();
   }
 
   render() {
@@ -188,7 +203,7 @@ class Resume extends Component {
             </div>
           </div>
         </div>
-        <SuccessSnackbar text = {this.state.snacktext}></SuccessSnackbar>
+        <SuccessSnackbar text = {this.state.snacktext} key = {this.state.snackbarKey}></SuccessSnackbar>
       </div>
     );
   }
@@ -220,26 +235,31 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function openSnack(){
-  this.setState({open: false}, () => {
-    this.setState({open: true});
-  });
+  this.openSnackBar()
 }
 
 class SuccessSnackbar extends Component{
   constructor(props) {
     super(props);
-    this.state = {open: false, text: "Success!"};
+    this.state = {open: false};
     openSnack = openSnack.bind(this);
+    this.openSnackBar = this.openSnackBar.bind(this);
     this.closeSnack = this.closeSnack.bind(this);
+  }
+
+  openSnackBar() {
+    console.log("bruh")
+    this.setState({open: true}, () => {
+      console.log(this.state)
+    });
   }
 
   closeSnack(reason) {
     if (reason === 'clickaway') {
       return;
     }
-    this.setState({open: false})
+    this.setState({open: true})
   }
-
 
   render() {
     return (

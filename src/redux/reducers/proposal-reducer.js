@@ -113,6 +113,15 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 		};
 		return newState;
 	}
+	if (action.type === 'UPDATE_PROPOSAL') {
+		let newState = {
+			currentProposalIndex: state.currentProposalIndex,
+			currentSector: state.currentSector,
+			proposals: [...state.proposals]
+		};
+		newState.proposals[state.currentProposalIndex] = action.newProposal;
+		return newState;
+	}
   return state;
 };
 
