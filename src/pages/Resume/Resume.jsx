@@ -50,7 +50,7 @@ var noAPI = false;
 class Resume extends Component {
   constructor(props) {
     super(props);
-    this.state = { currsector: undefined, sectors: resume, snacktext: "Success!", snackbarKey: 0};
+    this.state = { currsector: undefined, sectors: resume, snacktext: "Success!", snackbarKey: 0, snackbarOpen: false};
   }
 
   componentDidMount() {
@@ -172,7 +172,7 @@ class Resume extends Component {
   }
 
   openSnackbar() {
-    openSnack();
+    this.setState({snackbarOpen: true})
   }
 
   render() {
@@ -203,7 +203,19 @@ class Resume extends Component {
             </div>
           </div>
         </div>
-        <SuccessSnackbar text = {this.state.snacktext} key = {this.state.snackbarKey}></SuccessSnackbar>
+
+        <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={this.state.snackbarOpen}
+        onClose={() => this.setState({snackbarOpen :false})}
+        // key={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+      >
+        <MuiAlert onClose={() => this.setState({snackbarOpen: false})} severity={"success"} sx={{ width: '100%' }} variant="filled">
+          {this.state.snacktext}
+        </MuiAlert>
+      </Snackbar>
+      
       </div>
     );
   }
@@ -229,51 +241,5 @@ function mapDispatchToProps(dispatch) {
     },
   };
 }
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-function openSnack(){
-  this.openSnackBar()
-}
-
-class SuccessSnackbar extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {open: false};
-    openSnack = openSnack.bind(this);
-    this.openSnackBar = this.openSnackBar.bind(this);
-    this.closeSnack = this.closeSnack.bind(this);
-  }
-
-  openSnackBar() {
-    console.log("bruh")
-    this.setState({open: true}, () => {
-      console.log(this.state)
-    });
-  }
-
-  closeSnack(reason) {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({open: true})
-  }
-
-  render() {
-    return (
-        <Snackbar open={this.state.open} autoHideDuration={1200} onClose={(e, r) => {this.closeSnack(r)}}>
-        <Alert onClose={this.closeSnack} severity="success" sx={{ width: '100%' }}>
-            {this.props.text}
-        </Alert>
-        </Snackbar>
-      );
-  }
-}
-
-SuccessSnackbar.proptypes = {
-    text: PropTypes.string,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Resume);
