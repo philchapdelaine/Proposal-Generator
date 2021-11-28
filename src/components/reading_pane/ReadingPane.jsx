@@ -4,6 +4,9 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import CustomListItem from "../custom_list_item/CustomListItem";
 import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
@@ -13,6 +16,7 @@ import axios from "axios";
 function ReadingPane(props) {
   const [selectedTab, setSelectedTab] = useState(0);
   const [open, setOpen] = useState(false);
+  const [warning, setWarning] = useState(false);
   const [displayedSector, setDisplayedSector] = useState("");
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
@@ -51,10 +55,9 @@ function ReadingPane(props) {
           resumes: [],
           };
         // build a new sector with no sectorID
-        // TODO proposalNumber
         let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
             { description, division, empty: false, imageLoc, linkedEmail, name, proposalNumber}))(currentSector);
-        // add to new sector
+        // add to new proposal
         newProposal.resumes.push(newSector);
         const config = { headers: { "Content-Type": "application/json" } };
         let url = `/api/user/${uid}/proposal/`;
@@ -72,30 +75,55 @@ function ReadingPane(props) {
           });
       } else {
           // case where sector is added to existing proposal
-          const config = { headers: { "Content-Type": "application/json" } };
-          let currentProposalID = reduxProposals[currentProposalIndex].proposalID;
-          let url = `/api/user/${uid}/proposal/${currentProposalID}`;
-          reduxProposals[currentProposalIndex].resumes.push(currentSector);
-          console.log(reduxProposals[currentProposalIndex]);
-          axios
-              .put(url, reduxProposals[currentProposalIndex], config)
-              .then((response) => {
-                  console.log(response.data);
-                  dispatch({
-                      type: "ADD_SECTOR",
-                      newProposal: response.data,
-                      proposalID: reduxProposals[currentProposalIndex].proposalID
+          let duplicateSector = reduxProposals[currentProposalIndex].resumes.some(sector => sector.sectorID === currentSector.sectorID);
+          if (duplicateSector) {
+              setWarning(true);
+          } else {
+              const config = { headers: { "Content-Type": "application/json" } };
+              let currentProposalID = reduxProposals[currentProposalIndex].proposalID;
+              let url = `/api/user/${uid}/proposal/${currentProposalID}`;
+              reduxProposals[currentProposalIndex].resumes.push(currentSector);
+              console.log(reduxProposals[currentProposalIndex]);
+              axios
+                  .put(url, reduxProposals[currentProposalIndex], config)
+                  .then((response) => {
+                      console.log(response.data);
+                      dispatch({
+                          type: "ADD_SECTOR",
+                          newProposal: response.data,
+                          proposalID: reduxProposals[currentProposalIndex].proposalID
+                      });
+                      this.setState({ loading: false, proposalSavedMessage: true });
+                      setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+                  })
+                  .catch((error) => {
+                      console.log(error);
                   });
-                  this.setState({ loading: false, proposalSavedMessage: true });
-                  setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
-              })
-              .catch((error) => {
-                  console.log(error);
-              });
+          }
       }
-      setSelectedTab(1);
+        setSelectedTab(1);
     }
   }
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setWarning(false);
+  };
+
+  const action = (
+      <React.Fragment>
+          <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleClose}
+          >
+              <CloseIcon fontSize="small" />
+          </IconButton>
+      </React.Fragment>
+    );
 
   function sectorFieldDisplay(title, content) {
     if (!content) return null;
@@ -143,6 +171,15 @@ function ReadingPane(props) {
           onClose={closeModal}
           sector={currentSector}
         ></EditSectorModal>
+
+        <Snackbar
+            open={warning}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            message="Sector already exists in this proposal"
+            action={action}
+        >
+        </Snackbar>
 
         <TabPanel value={selectedTab} index={1}>
           <div>
