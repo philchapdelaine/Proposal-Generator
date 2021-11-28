@@ -78,7 +78,7 @@ function Admin() {
             xml += OBJtoXML(new Object(sector));
             xml += "</" + "sector" + ">\n";
           }
-          xml += "</resume-" + username + ">";
+          xml += "</resume-" + username + ">\n";
         }
       } else if (typeof obj[prop] == "object") {
         xml += OBJtoXML(new Object(obj[prop]));
@@ -88,12 +88,12 @@ function Admin() {
       xml += obj[prop] instanceof Array ? '' : "</" + prop + ">\n";
     }
     var xml = xml.replace(/<\/?[0-9]{1,}>/g, '');
-    return xml
+    return xml;
   }
 
   function exportProposal(proposal) {
     // src: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
-    const blob = new Blob([OBJtoXML(proposal)], { type: "text/xml" })
+    const blob = new Blob(["<proposal>\n" + OBJtoXML(proposal) + "\n</proposal>"], { type: "text/xml" })
     const a = document.createElement("a");
     a.download = proposal.name + ".xml";
     a.href = window.URL.createObjectURL(blob);
