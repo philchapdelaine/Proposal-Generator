@@ -49,10 +49,10 @@ class DeleteSectorDialog extends Component {
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={() => {this.handleClickClose()}}>Cancel</Button>
                 <Button onClick={() => {this.deleteSector()}} autoFocus>
                     Confirm
                 </Button>
+                <Button onClick={() => {this.handleClickClose()}}>Cancel</Button>
                 </DialogActions>
             </Dialog>
             </div>
