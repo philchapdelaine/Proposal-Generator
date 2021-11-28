@@ -22,7 +22,7 @@ class CustomListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openItemID: null,
+      openItemIDs: [],
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
       proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
@@ -42,7 +42,12 @@ class CustomListItem extends React.Component {
     // } else {
     //   this.setState({ openItemId : null });
     // }
-    this.setState({ openItemID: id });
+    if (this.state.openItemIDs.includes(id)) {
+      const newIDs = this.state.openItemIDs.filter((thisID) => thisID !== id);
+      this.setState({ openItemIDs: newIDs });
+    } else {
+      this.setState({ openItemIDs: [...this.state.openItemIDs, id] });
+    }
   }
 
   handleDeleteSector(sectorID) {
@@ -113,7 +118,7 @@ class CustomListItem extends React.Component {
                     primary={`${sector.name} for ${sector.linkedEmail}`}
                     secondary={`Division : ${sector.division}`}
                   />
-                  {this.state.openItemID === sector.sectorID ? (
+                  {this.state.openItemIDs.includes(sector.sectorID) ? (
                     <ExpandLess />
                   ) : (
                     <ExpandMore />
@@ -127,7 +132,7 @@ class CustomListItem extends React.Component {
                 </ListItem>
                 <Collapse
                   key={i}
-                  in={this.state.openItemID === sector.sectorID}
+                  in={this.state.openItemIDs.includes(sector.sectorID)}
                   timeout="auto"
                   unmountOnExit
                 >

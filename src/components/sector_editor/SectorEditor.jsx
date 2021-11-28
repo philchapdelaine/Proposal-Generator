@@ -49,11 +49,13 @@ class SectorEditor extends Component {
           <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Type</InputLabel>
             <Select
+              disabled
               label="Type"
               defaultValue={this.state.name}
               className="name-editor"
               onChange={this.handleChangeName}
               sx={{ marginBottom: "10px" }}
+              variant="filled"
             >
               <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
               <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
@@ -66,21 +68,26 @@ class SectorEditor extends Component {
         </div>
         <div className="proposal-num-editor">
             <TextField
+            disabled
             value={this.state.proposalNum}
-            onChange={this.handleChangeProposalNum} fullWidth id="fullWidth" 
+            // onChange={this.handleChangeProposalNum} 
+            fullWidth id="fullWidth" 
             label="Proposal Number"
+            variant="filled"
             />
         </div>
         <div>
           <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Division</InputLabel>
             <Select
+              disabled
               label="Division"
               defaultValue={this.state.division}
               className="division-editor"
               onChange={this.handleChangeDivision}
               sx={{ marginBottom: "10px", marginTop: "10px" }}
               margin='normal'
+              variant="filled"
             >
               <MenuItem className="cs-menuitem" value="Water">Water</MenuItem>
               <MenuItem className="cs-menuitem" value="Bridge">Bridge</MenuItem>
