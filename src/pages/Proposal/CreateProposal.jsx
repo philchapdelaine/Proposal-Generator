@@ -5,6 +5,7 @@ import ResumeSectorDisplay from "../../components/resume_sector_display/ResumeSe
 import "./CreateProposal.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -18,47 +19,47 @@ const recentlyViewedSample = [
   {
     "resumeID": 1,
     "sectors": [
-        {
-            "sectorID": 1,
-            "name": "Experience",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Water",
-            "imageLoc": "blah/blah",
-            "description": "I'm the best so I don't need to have any experience"
-        },
-        {
-            "sectorID": 2,
-            "name": "Projects",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Air",
-            "imageLoc": null,
-            "description": "I'm the best so I don't need to have any projects"
-        }
+      {
+        "sectorID": 1,
+        "name": "Experience",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Water",
+        "imageLoc": "blah/blah",
+        "description": "I'm the best so I don't need to have any experience"
+      },
+      {
+        "sectorID": 2,
+        "name": "Projects",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Air",
+        "imageLoc": null,
+        "description": "I'm the best so I don't need to have any projects"
+      }
     ]
   },
   {
     "resumeID": 2,
     "sectors": [
-        {
-            "sectorID": 3,
-            "name": "Education",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Water",
-            "imageLoc": "blah/blah",
-            "description": "I'm the best so I don't need to have any experience"
-        },
-        {
-            "sectorID": 4,
-            "name": "Skills",
-            "linkedEmail": "mc@ae.com",
-            "fileType": "txt",
-            "division": "Air",
-            "imageLoc": null,
-            "description": "I'm the best so I don't need to have any projects"
-        }
+      {
+        "sectorID": 3,
+        "name": "Education",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Water",
+        "imageLoc": "blah/blah",
+        "description": "I'm the best so I don't need to have any experience"
+      },
+      {
+        "sectorID": 4,
+        "name": "Skills",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Air",
+        "imageLoc": null,
+        "description": "I'm the best so I don't need to have any projects"
+      }
     ]
   },
 ]
@@ -77,8 +78,8 @@ function CreateProposal() {
   const getResults = async () => {
     await axios
       .get(`/api/user/1/`)
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => { })
+      .catch((err) => { });
   };
 
   function resumePush() {
@@ -89,19 +90,19 @@ function CreateProposal() {
     }
   }
 
-    const handleSubmit = () => {
-        setSearch(true)
-    };
+  const handleSubmit = () => {
+    setSearch(true)
+  };
 
 
   useEffect(() => {
-      getFeedback2();
+    getFeedback2();
   }, []);
 
   useEffect(() => {
     if (isSearch) {
       getFeedback();
-    } 
+    }
   }, [isSearch]);
 
 
@@ -156,10 +157,22 @@ function CreateProposal() {
       </NavigatorBar>
       <div className="cp-center-pane">
         <Link to="/admin">
-          <Button variant="contained" color="primary" style={{ marginLeft: "10px" }}> Back </Button>
+          <ArrowBackIcon 
+            fontSize="large"
+            htmlColor="#00569c"
+            sx={{ 
+              display: "inline-flex", 
+              float: "left", 
+              justifyContent: "flex-start", 
+              marginLeft: "15px",
+              marginTop: "15px"
+              }}> 
+          </ArrowBackIcon>
         </Link>
         <div className="cp-center-header">
-          <div className="title"> Create Proposal </div>
+          <div className="title">
+            Create Proposal
+          </div>
           <TextField
             variant="outlined"
             size="small"
@@ -177,12 +190,12 @@ function CreateProposal() {
           </Button>
         </div>
         <div className="search-results"> Search results: </div> <br />
-        { searchedResumes.length !== 0
+        {searchedResumes.length !== 0
           ? <ResumeSectorDisplay
-              onSectorClick={updateDisplayedSector}
-              searchedResumes={searchedResumes}
-            ></ResumeSectorDisplay> 
-          : <div className="no-search-results"> No search results </div> }
+            onSectorClick={updateDisplayedSector}
+            searchedResumes={searchedResumes}
+          ></ResumeSectorDisplay>
+          : <div className="no-search-results"> No search results </div>}
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>
     </div>
