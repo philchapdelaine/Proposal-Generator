@@ -22,6 +22,7 @@ function ReadingPane(props) {
   const closeModal = () => setOpen(false);
   const handleChange = (event, newValue) => {setSelectedTab(newValue);};
 
+  let currentTab = useSelector((state) => state.tabReducer);
   const currentSector = useSelector((state) => state.proposalReducer.currentSector);
   let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
   let reduxProposals = useSelector((state) => state.proposalReducer.proposals);
