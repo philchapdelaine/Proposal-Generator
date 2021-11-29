@@ -40,6 +40,10 @@ function CreateSector() {
 
   function handleSectorCreated() {
     setSectorCreated(true);
+    // reset fields
+    setType("");
+    setProposalNum("");
+    setDivision("");
   }
 
   return (
