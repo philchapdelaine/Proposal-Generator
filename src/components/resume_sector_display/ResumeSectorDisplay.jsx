@@ -23,13 +23,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-
 export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
   const dispatch = useDispatch();
 
   function handleSectorClick(sector, currResume) {
-    dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector })
+    dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector });
+    dispatch({ type: "SET_TAB", tab: 0 });
+    window.scrollTo(0, 0);
     props.onSectorClick(sector, currResume);
   }
 
