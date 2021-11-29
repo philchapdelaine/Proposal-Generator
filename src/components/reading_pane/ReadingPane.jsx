@@ -14,21 +14,19 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 function ReadingPane(props) {
-  const [selectedTab, setSelectedTab] = useState(0);
   const [open, setOpen] = useState(false);
   const [warning, setWarning] = useState(false);
   const [displayedSector, setDisplayedSector] = useState("");
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
-  const handleChange = (event, newValue) => {setSelectedTab(newValue);};
+  const handleChange = (event, newValue) => dispatch({ type: "SET_TAB", tab: newValue });
+  const dispatch = useDispatch();
 
-  let currentTab = useSelector((state) => state.tabReducer);
+  const uid = useSelector((state) => state.loginReducer.uid);
   const currentSector = useSelector((state) => state.proposalReducer.currentSector);
+  let currentTab = useSelector((state) => state.tabReducer);
   let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
   let reduxProposals = useSelector((state) => state.proposalReducer.proposals);
-  const uid = useSelector((state) => state.loginReducer.uid);
-
-  const dispatch = useDispatch();
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -76,7 +74,10 @@ function ReadingPane(props) {
           });
       } else {
           // case where sector is added to existing proposal
-          let duplicateSector = reduxProposals[currentProposalIndex].resumes.some(sector => sector.sectorID === currentSector.sectorID);
+          let duplicateSector = reduxProposals[currentProposalIndex].resumes.some(sector => sector.name === currentSector.name) &&
+              reduxProposals[currentProposalIndex].resumes.some(sector => sector.linkedEmail === currentSector.linkedEmail) &&
+              reduxProposals[currentProposalIndex].resumes.some(sector => sector.division === currentSector.division) &&
+              reduxProposals[currentProposalIndex].resumes.some(sector => sector.description === currentSector.description);
           if (duplicateSector) {
               setWarning(true);
           } else {
@@ -102,7 +103,7 @@ function ReadingPane(props) {
                   });
           }
       }
-        setSelectedTab(1);
+        dispatch({ type: "SET_TAB", tab: 1 });
     }
   }
 
@@ -142,14 +143,14 @@ function ReadingPane(props) {
       <div className="preview">
         <Tabs
           TabIndicatorProps={{ style: { background: "#5F9EA0" } }}
-          value={selectedTab}
+          value={currentTab}
           onChange={handleChange}
           variant="fullWidth"
         >
           <Tab label="Sector Preview" index={0} />
           <Tab label="Current Proposal" index={1} />
         </Tabs>
-        <TabPanel value={selectedTab} index={0}>
+        <TabPanel value={currentTab} index={0}>
           <div>
             <h1 className="reading-pane-title">
               {currentSector.name || "Click a sector to preview..."}
@@ -182,7 +183,7 @@ function ReadingPane(props) {
         >
         </Snackbar>
 
-        <TabPanel value={selectedTab} index={1}>
+        <TabPanel value={currentTab} index={1}>
           <div>
             <h1 className="reading-pane-title">Proposal Draft</h1>
           </div>

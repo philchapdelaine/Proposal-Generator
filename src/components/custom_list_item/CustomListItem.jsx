@@ -79,7 +79,6 @@ class CustomListItem extends React.Component {
               .then((response) => {
                 console.log(response);
                 this.props.updateProposal(this.state.currentProposal);
-                console.log(this.props.proposals);
                 this.setState({ loading: false, proposalSavedMessage: true });
                 setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
               })
