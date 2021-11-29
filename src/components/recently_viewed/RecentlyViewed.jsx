@@ -6,19 +6,21 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Divider from "@material-ui/core/Divider";
+import { connect } from "react-redux";
 import "./RecentlyViewed.css";
 import axios from "axios";
 
-export default class RecentlyViewed extends React.Component {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleSectorClick: (sector) => dispatch({type: 'SET_CURRENT_SECTOR', currentSector: sector})
+  }
+}
+
+class RecentlyViewed extends React.Component {
   constructor(props) {
     super(props);
-    this.updateClickedSector = this.updateClickedSector.bind(this);
   }
-
-  updateClickedSector(sector) {
-    this.props.onSectorClick(sector);
-  }
-
+  
   render() {
     const recentlyViewed = this.props.resumes;
     return (
@@ -33,7 +35,7 @@ export default class RecentlyViewed extends React.Component {
               <ViewedItem
                 key={resume.resumeID}
                 doc={resume}
-                onSectorUpdate={this.updateClickedSector}
+                onSectorUpdate={(sector) => this.props.handleSectorClick(sector)}
               />
               );
             }))
@@ -53,7 +55,6 @@ class ViewedItem extends React.Component {
       resumeOwnerName: "Name not available",
     };
     this.handleClick = this.handleClick.bind(this);
-    this.updateClickedSector = this.updateClickedSector.bind(this);
   }
 
   handleClick() {
@@ -61,10 +62,6 @@ class ViewedItem extends React.Component {
     this.setState((prevState) => ({
       open: !prevState.open,
     }));
-  }
-
-  updateClickedSector(sector) {
-    this.props.onSectorUpdate(sector);
   }
 
   componentDidMount() {
@@ -101,7 +98,7 @@ class ViewedItem extends React.Component {
                   button
                   key={sector.sectorID}
                   value={sector}
-                  onClick={() => this.updateClickedSector(sector)}
+                  onClick={() => this.props.onSectorUpdate(sector)}
                 >
                   <ListItemText key={sector.sectorID} primary={sector.name} />
                 </ListItem>
@@ -114,3 +111,5 @@ class ViewedItem extends React.Component {
     );
   }
 }
+
+export default connect(null, mapDispatchToProps)(RecentlyViewed);
