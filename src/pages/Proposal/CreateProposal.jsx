@@ -70,22 +70,8 @@ function CreateProposal() {
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
   const [searchedResumes, setSearchedResumes] = useState([]);
-  var tests = [];
-
-  const getResults = async () => {
-    await axios
-      .get(`/api/user/1/`)
-      .then((res) => { })
-      .catch((err) => { });
-  };
-
-  function resumePush() {
-    for (const resume of dummyResumes) {
-      resumes.push(
-        <ResumeThumbnail name={resume["name"]} addable={true}></ResumeThumbnail>
-      );
-    }
-  }
+  const [searchedProposals, setsearchedProposals] = useState([]);
+  const uid = useSelector((state) => state.loginReducer.uid);
 
   const handleSubmit = () => {
     setSearch(true)
@@ -104,9 +90,10 @@ function CreateProposal() {
 
 
   const getFeedback = () => {
-    const url = `/api/search/resume/${searchWord}`
+    const url = `/api/search/resume/${searchWord}/userid/0`
     axios.get(url)
       .then((res) => {
+        console.log(res.data);
         setSearchedResumes(res.data);
         setSearch(false);
       })
@@ -116,7 +103,7 @@ function CreateProposal() {
   }
 
   const getFeedback2 = () => {
-    const url = `/api/search/resume/${"all"}`
+    const url = `/api/search/resume/all/userid/${uid}`
     axios.get(url)
       .then((res) => {
         setSearchedResumes(res.data);
@@ -192,6 +179,7 @@ function CreateProposal() {
           ? <ResumeSectorDisplay
             onSectorClick={updateDisplayedSector}
             searchedResumes={searchedResumes}
+            searchedProposals={searchedProposals}
           ></ResumeSectorDisplay>
           : <div className="no-search-results"> No search results </div>}
       </div>
