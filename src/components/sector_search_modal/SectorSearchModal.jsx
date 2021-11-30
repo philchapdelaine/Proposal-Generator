@@ -116,7 +116,8 @@ class SectorSearchModal extends Component {
                     <SectorSearch sectors = {this.state.sectors} addSector = 
                     {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
                       {this.props.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
-                      searchSectors = {(searchterm) => {this.searchSector(searchterm)}}/>
+                      searchSectors = {(searchterm) => {this.searchSector(searchterm)}}
+                      open = {this.state.open}/>
                 </Box>
             </Modal>
         </div>

@@ -4,15 +4,20 @@ import "./SectorSearch.css";
 import Button from '@mui/material/Button';
 
 class SectorSearch extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {searchTerm: ""};
-      }
+  constructor(props) {
+      super(props);
+      this.state = {searchTerm: ""};
+    }
 
   updateSearchTerm = (event) => {
-    this.setState({searchTerm: event.target.value}, () => {
-      this.props.searchSectors(this.state.searchTerm)});
+    this.setState({searchTerm: event.target.value});
   };
+
+  componentDidUpdate() {
+    if (!open) {
+      this.setState({searchTerm: ""});
+    }
+  }
 
   addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription) {
     this.props.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription);
@@ -54,7 +59,8 @@ class SectorSearch extends Component {
     return (
     <div>
       <div className="sector-search-container">
-        <form onSubmit={(e) => {e.preventDefault()}}>
+        <form onSubmit={(e) => {e.preventDefault()
+        this.props.searchSectors(this.state.searchTerm)}}>
           <input
             onChange={this.updateSearchTerm}
             type="text"
@@ -77,6 +83,7 @@ SectorSearch.propTypes = {
   sectors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   searchSectors: PropTypes.func,
   addSector: PropTypes.func,
+  open: PropTypes.bool,
 };
 
 export default SectorSearch;

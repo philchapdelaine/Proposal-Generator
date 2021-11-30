@@ -183,6 +183,7 @@ class Resume extends Component {
         </div>
         <div className = "resume-page">
           <div className = "resume-builder">
+          <div className = "resume-header">Your Resume</div> 
             <ResumeBuilder sectors = {this.state.sectors}
             addSector = {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
               {this.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
@@ -209,7 +210,7 @@ class Resume extends Component {
         open={this.state.snackbarOpen}
         onClose={() => this.setState({snackbarOpen :false})}
         // key={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={6000}
+        autoHideDuration={1200}
       >
         <MuiAlert onClose={() => this.setState({snackbarOpen: false})} severity={"success"} sx={{ width: '100%' }} variant="filled">
           {this.state.snacktext}
