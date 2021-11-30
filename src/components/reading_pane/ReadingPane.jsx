@@ -54,8 +54,8 @@ function ReadingPane(props) {
           resumes: [],
           };
         // build a new sector with no sectorID
-        let newSector = (({ description, division, empty, imageLoc, linkedEmail, name, proposalNumber }) => (
-            { description, division, empty: false, imageLoc, linkedEmail, name, proposalNumber}))(currentSector);
+        let newSector = (({ description, division, empty, edited, imageLoc, linkedEmail, name, proposalNumber }) => (
+            { description, division, empty: false, imageLoc, edited, linkedEmail, name, proposalNumber}))(currentSector);
         // add to new proposal
         newProposal.resumes.push(newSector);
         const config = { headers: { "Content-Type": "application/json" } };
@@ -84,7 +84,9 @@ function ReadingPane(props) {
               const config = { headers: { "Content-Type": "application/json" } };
               let currentProposalID = reduxProposals[currentProposalIndex].proposalID;
               let url = `/api/user/${uid}/proposal/${currentProposalID}`;
-              reduxProposals[currentProposalIndex].resumes.push(currentSector);
+              let newSector = (({ description, division, empty, edited, imageLoc, linkedEmail, name, proposalNumber }) => (
+                { description, division, empty: false, imageLoc, edited, linkedEmail, name, proposalNumber}))(currentSector);
+              reduxProposals[currentProposalIndex].resumes.push(newSector);
               console.log(reduxProposals[currentProposalIndex]);
               axios
                   .put(url, reduxProposals[currentProposalIndex], config)
