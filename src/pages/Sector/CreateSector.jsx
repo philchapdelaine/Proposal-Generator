@@ -40,6 +40,10 @@ function CreateSector() {
 
   function handleSectorCreated() {
     setSectorCreated(true);
+    // reset fields
+    setType("");
+    setProposalNum("");
+    setDivision("");
   }
 
   return (
@@ -111,6 +115,7 @@ function CreateSector() {
               <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
               <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
               <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
+              <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
             </Select>
           </FormControl>
           {/* <TextField

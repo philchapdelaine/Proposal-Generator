@@ -24,28 +24,32 @@ const buttonStyle = {
 }
 
 function EditSectorModal(props = {}) {
-  const { sectorID, name, description, division, imageLoc, linkedEmail } = props.sector;
+  const { sectorID, name, description, division, imageLoc, linkedEmail, edited } = props.sector;
 
   const [newSector, setNewSector] = useState(props.sector); 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSave = async () => {
     if (validateEmail()) {
       // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
+      newSector.edited = true;
+      console.log(newSector);
       dispatch(setCurrentSector(newSector));
       props.onClose();
       }
   };
   useEffect( () => {
-    console.log(props.sector);
     setSaveButtonDisabled(true);
   }, [props.sector])
  
+  useEffect(() => {
+    setIsValidEmail(validateEmail());
+  }, [newSector.linkedEmail])
 
   const onTextChange = e => {
-    console.log(newSector);
     setNewSector({ ...props.sector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
   };
@@ -100,14 +104,15 @@ function EditSectorModal(props = {}) {
                 <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
                 <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
                 <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
+                <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
               </Select>
             </FormControl>
             <TextField 
               label="Employee email" size="small" name="linkedEmail"
               defaultValue={linkedEmail}  
               onChange={onTextChange} 
-              error={!validateEmail()} 
-              helperText={"Employee email must be a valid email format"} 
+              error={!isValidEmail} 
+              helperText={isValidEmail ? "" : "Employee email must be a valid email format"} 
               style={{marginBottom: 10}}
             />
             <TextField label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>

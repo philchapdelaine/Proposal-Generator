@@ -9,7 +9,8 @@ class SectorEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {name: this.props.sector.name, content: this.props.sector.description, id: this.props.sector.sectorID,
-                  division: this.props.sector.division, imageLoc: this.props.sector.imageLoc, proposalNum: this.props.sector.proposalNumber};
+                  division: this.props.sector.division, imageLoc: this.props.sector.imageLoc, proposalNum: this.props.sector.proposalNumber,
+                modifiedDate: this.props.sector.modifiedDate};
   }
 
   handleChange = (event) => {
@@ -31,8 +32,14 @@ class SectorEditor extends Component {
     this.setState({proposalNum: event.target.value});
   };
 
+  handleChangeDate = (event) => {
+    this.setState({modifiedDate: event.target.value});
+  };
+
+
   saveSector() {
     this.props.saveSector(this.state.id, this.state.name, this.state.content, this.state.division, this.state.imageLoc, this.state.proposalNum);
+    this.setState({modifiedDate: this.props.sector.modifiedDate});
   }
 
   componentDidUpdate() {
@@ -45,16 +52,26 @@ class SectorEditor extends Component {
   render() {
     return (
       <div className = 'editor'>
-        <div> 
-          <FormControl fullWidth>
+        <div>
+          <div className = "type-header"> 
+          Type:
+          </div>
+          <div className = "type-text">
+            {this.state.name}
+          </div>
+        </div>
+        
+          {/* <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Type</InputLabel>
-            <Select
+             <Select
+              disabled
               label="Type"
               defaultValue={this.state.name}
               className="name-editor"
               onChange={this.handleChangeName}
               sx={{ marginBottom: "10px" }}
-            >
+              variant="filled"
+            > 
               <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
               <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
               <MenuItem className="cs-menuitem" value="Experience">Experience</MenuItem>
@@ -62,33 +79,59 @@ class SectorEditor extends Component {
               <MenuItem className="cs-menuitem" value="Justification">Justification</MenuItem>
               <MenuItem className="cs-menuitem" value="Publications">Publications</MenuItem>
             </Select>
-          </FormControl>
-        </div>
-        <div className="proposal-num-editor">
-            <TextField
-            value={this.state.proposalNum}
-            onChange={this.handleChangeProposalNum} fullWidth id="fullWidth" 
-            label="Proposal Number"
-            />
-        </div>
+          </FormControl> */}
         <div>
-          <FormControl fullWidth>
+          <div className="proposal-num-editor">
+          Proposal #:
+          </div>
+          <div className = "propnum-text">
+          {this.state.proposalNum}
+          </div>
+        </div>
+        
+            {/* <TextField
+            disabled
+            value={this.state.proposalNum}
+            // onChange={this.handleChangeProposalNum} 
+            fullWidth id="fullWidth" 
+            label="Proposal Number"
+            variant="filled"
+            /> */}
+        <div>
+          <div className="division-header">
+          Division:
+          </div>
+          <div className = "division-text">
+          {this.state.division}
+          </div>
+        </div>
+          {/* <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Division</InputLabel>
             <Select
+              disabled
               label="Division"
               defaultValue={this.state.division}
               className="division-editor"
               onChange={this.handleChangeDivision}
               sx={{ marginBottom: "10px", marginTop: "10px" }}
               margin='normal'
+              variant="filled"
             >
               <MenuItem className="cs-menuitem" value="Water">Water</MenuItem>
               <MenuItem className="cs-menuitem" value="Bridge">Bridge</MenuItem>
               <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
               <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
               <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
+              <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
+        <div>
+          <div className="date-header">
+          Last Modified:
+          </div>
+          <div className = "date-text">
+          {this.state.modifiedDate}
+          </div>
         </div>
         <div className = 'sector-editor-field'>
             <TextField multiline minRows = {10} maxRows = {10} 

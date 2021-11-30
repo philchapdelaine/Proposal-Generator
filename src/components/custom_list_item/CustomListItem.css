@@ -1,0 +1,19 @@
+.proposal-name-form {
+    display: flex;
+    justify-content: center;
+}
+
+.button-container {
+    display: flex;
+    margin: auto;
+    width: 50%;
+    border: none;
+    padding: 2rem;
+}
+
+.save-button {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+

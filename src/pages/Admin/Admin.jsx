@@ -12,15 +12,15 @@ import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
-import ResumeThumbnail from "../../components/resume_thumbnail/ResumeThumbnail";
 import AddIcon from '@mui/icons-material/Add';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   setProposalIndex,
   setProposals as setProposalsRedux,
 } from "../../redux/actions/proposal-actions";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
+import ExpandSections from "../../components/expand_sections/ExpandSections";
 
 const style = {
   width: "75%",
@@ -78,7 +78,7 @@ function Admin() {
             xml += OBJtoXML(new Object(sector));
             xml += "</" + "sector" + ">\n";
           }
-          xml += "</resume-" + username + ">";
+          xml += "</resume-" + username + ">\n";
         }
       } else if (typeof obj[prop] == "object") {
         xml += OBJtoXML(new Object(obj[prop]));
@@ -88,12 +88,12 @@ function Admin() {
       xml += obj[prop] instanceof Array ? '' : "</" + prop + ">\n";
     }
     var xml = xml.replace(/<\/?[0-9]{1,}>/g, '');
-    return xml
+    return xml;
   }
 
   function exportProposal(proposal) {
     // src: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
-    const blob = new Blob([OBJtoXML(proposal)], { type: "text/xml" })
+    const blob = new Blob(["<proposal>\n" + OBJtoXML(proposal) + "\n</proposal>"], { type: "text/xml" })
     const a = document.createElement("a");
     a.download = proposal.name + ".xml";
     a.href = window.URL.createObjectURL(blob);
@@ -152,28 +152,20 @@ function Admin() {
           </Link>
         </div>
         <Box>
-          <Typography variant="h4" margin={3}>
-            Your proposals
-          </Typography>
+          <Box display="flex" flexDirection="row">
+            <div className = "admin-header">Your Proposals</div>
+            <Box width={15} />
+            <div className = "admin-hint">Expand to delete, edit, and export proposals</div> 
+          </Box>
           { proposals.length !== 0 
             ? (proposals.map((proposal, id) => {
             return (
               <Accordion key={id} style={style}>
-                <AccordionSummary>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>{proposal.proposalName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Box display="flex">
-                    {proposal.resumes?.map((resume, id) => {
-                      return (
-                        <ResumeThumbnail
-                          name={resume.name}
-                          key={id}
-                          notClickable
-                        />
-                      );
-                    })}
-                  </Box>
+                  <ExpandSections resumes={proposal.resumes} />
                   <Box
                     display="flex"
                     justifyContent="center"

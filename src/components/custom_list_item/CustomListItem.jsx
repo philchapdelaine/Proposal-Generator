@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 
-import "../reading_pane/ReadingPane.css";
+import "./CustomListItem.css";
 
 import axios from "axios";
 
@@ -22,7 +22,7 @@ class CustomListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openItemID: null,
+      openItemIDs: [],
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
       proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
@@ -42,7 +42,12 @@ class CustomListItem extends React.Component {
     // } else {
     //   this.setState({ openItemId : null });
     // }
-    this.setState({ openItemID: id });
+    if (this.state.openItemIDs.includes(id)) {
+      const newIDs = this.state.openItemIDs.filter((thisID) => thisID !== id);
+      this.setState({ openItemIDs: newIDs });
+    } else {
+      this.setState({ openItemIDs: [...this.state.openItemIDs, id] });
+    }
   }
 
   handleDeleteSector(sectorID) {
@@ -73,6 +78,7 @@ class CustomListItem extends React.Component {
               .put(url, this.state.currentProposal, config)
               .then((response) => {
                 console.log(response);
+                this.props.updateProposal(this.state.currentProposal);
                 this.setState({ loading: false, proposalSavedMessage: true });
                 setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
               })
@@ -91,7 +97,7 @@ class CustomListItem extends React.Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="proposal-name-form">
             <form>
                 Proposal Name: <input type="text" onChange={this.handleTextChange.bind(this)} value={this.state.proposalName}></input>
            </form>
@@ -111,7 +117,7 @@ class CustomListItem extends React.Component {
                     primary={`${sector.name} for ${sector.linkedEmail}`}
                     secondary={`Division : ${sector.division}`}
                   />
-                  {this.state.openItemID === sector.sectorID ? (
+                  {this.state.openItemIDs.includes(sector.sectorID) ? (
                     <ExpandLess />
                   ) : (
                     <ExpandMore />
@@ -125,7 +131,7 @@ class CustomListItem extends React.Component {
                 </ListItem>
                 <Collapse
                   key={i}
-                  in={this.state.openItemID === sector.sectorID}
+                  in={this.state.openItemIDs.includes(sector.sectorID)}
                   timeout="auto"
                   unmountOnExit
                 >
@@ -145,13 +151,13 @@ class CustomListItem extends React.Component {
             ))
           )}
         </List>
-        <div className="button-group">
-          <ButtonGroup variant="contained" size="large">
-            <Link to="/admin">
-              <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
-            </Link>
-          </ButtonGroup>
-        </div>
+            <div className="button-container">
+                <Link to="/admin">
+                    <ButtonGroup variant="contained" size="large" >
+                        <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                    </ButtonGroup>
+                </Link>
+            </div>
       </div>
     );
   }
@@ -172,6 +178,12 @@ function mapDispatchToProps(dispatch) {
         type: "DELETE_SECTOR",
         sectorID: sectorID,
         proposalId: proposalId,
+      });
+    },
+    updateProposal: (newProposal) => {
+      dispatch({
+        type: "UPDATE_PROPOSAL",
+        newProposal: newProposal
       });
     },
   };

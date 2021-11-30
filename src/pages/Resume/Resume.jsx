@@ -17,6 +17,7 @@ var samplesectors = [
           proposalNumber: 1,
           empty: false,
           division: "Water",
+          modifiedDate: "05/03/2012",
           imageLoc: "blah/blah",
           description: "I'm the best so I don't need to have any experience"
       },
@@ -27,6 +28,7 @@ var samplesectors = [
           proposalNumber: 1,
           empty: false,
           division: "Civil",
+          modifiedDate: "05/03/2012",
           imageLoc: "",
           description: "I'm the best so I don't need to have any projects"
       }
@@ -44,16 +46,20 @@ var resume = [];
 
 var index = 3;
 
+var newDate = "02/05/2003"
+
 // Toggles noAPI mode, which uses sample data and doesn't call the API.
 var noAPI = false;
 
 class Resume extends Component {
   constructor(props) {
     super(props);
-    this.state = { currsector: undefined, sectors: resume, snacktext: "Success!"};
+    this.state = { currsector: undefined, sectors: resume, snacktext: "Success!", snackbarKey: 0, snackbarOpen: false};
   }
 
   componentDidMount() {
+    var today = new Date();
+    newDate = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
     if (noAPI) {
       resume = samplesectors
       this.setState({sectors: resume});
@@ -109,7 +115,10 @@ class Resume extends Component {
       const url = `/api/user/${this.props.userID}/resume/sector`
       axios.post(url, newsector).then((res) => {
         this.handleUpdate()
-        this.setState({snacktext: "Added Sector"})
+        this.setState((prevState, props) => ({
+          snacktext: "Added Sector",
+          snackbarKey: prevState.snackbarKey + 1
+        })); 
         this.openSnackbar()
       })
     }
@@ -121,13 +130,22 @@ class Resume extends Component {
       resume.splice(resume.findIndex((e) => e.sectorID === sector.sectorID), 1);
       this.setState({ sectors: resume });
       this.setState({snacktext: "Deleted " + sector.name})
+      if (sector.sectorID == this.state.currsector.sectorID) {
+        this.setState({currsector: undefined});
+      }
       this.openSnackbar()
     } else {
       const url = `/api/user/${this.props.userID}/resume/sector/${sector.sectorID}`
       axios.delete(url).then((res) => {
         this.handleUpdate()
-        this.setState({snacktext: "Deleted Sector"})
+        this.setState((prevState, props) => ({
+          snacktext: "Deleted Sector",
+          snackbarKey: prevState.snackbarKey + 1
+        })); 
         this.openSnackbar()
+        if (sector.sectorID == this.state.currsector.sectorID) {
+          this.setState({currsector: undefined});
+        }
       })
     }
     console.log("Deleted " + sector.name);
@@ -139,6 +157,7 @@ class Resume extends Component {
     oldsector.description = sectorcontent;
     oldsector.division = sectordivision;
     oldsector.imageLoc = sectorimageLoc;
+    oldsector.modifiedDate = newDate;
     oldsector.proposalNumber = sectorProposalNum;
     if (noAPI) {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
@@ -149,15 +168,18 @@ class Resume extends Component {
       const url = `/api/sector/${oldsector.sectorID}`
       axios.put(url, oldsector).then((res) => {
         this.handleUpdate()
-        this.setState({snacktext: "Saved Sector"})
+        this.setState((prevState, props) => ({
+          snacktext: "Saved Sector",
+          snackbarKey: prevState.snackbarKey + 1
+        })); 
         this.openSnackbar()
       })
     }
     console.log("Saved" + sectorid);
   }
 
-  openSnackbar(text) {
-    openSnack(text);
+  openSnackbar() {
+    this.setState({snackbarOpen: true})
   }
 
   render() {
@@ -168,6 +190,7 @@ class Resume extends Component {
         </div>
         <div className = "resume-page">
           <div className = "resume-builder">
+          <div className = "resume-header">Your Resume</div> 
             <ResumeBuilder sectors = {this.state.sectors}
             addSector = {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
               {this.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
@@ -188,7 +211,19 @@ class Resume extends Component {
             </div>
           </div>
         </div>
-        <SuccessSnackbar text = {this.state.snacktext}></SuccessSnackbar>
+
+        <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={this.state.snackbarOpen}
+        onClose={() => this.setState({snackbarOpen :false})}
+        // key={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={1200}
+      >
+        <MuiAlert onClose={() => this.setState({snackbarOpen: false})} severity={"success"} sx={{ width: '100%' }} variant="filled">
+          {this.state.snacktext}
+        </MuiAlert>
+      </Snackbar>
+      
       </div>
     );
   }
@@ -214,46 +249,5 @@ function mapDispatchToProps(dispatch) {
     },
   };
 }
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-function openSnack(){
-  this.setState({open: false}, () => {
-    this.setState({open: true});
-  });
-}
-
-class SuccessSnackbar extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {open: false, text: "Success!"};
-    openSnack = openSnack.bind(this);
-    this.closeSnack = this.closeSnack.bind(this);
-  }
-
-  closeSnack(reason) {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({open: false})
-  }
-
-
-  render() {
-    return (
-        <Snackbar open={this.state.open} autoHideDuration={1200} onClose={(e, r) => {this.closeSnack(r)}}>
-        <Alert onClose={this.closeSnack} severity="success" sx={{ width: '100%' }}>
-            {this.props.text}
-        </Alert>
-        </Snackbar>
-      );
-  }
-}
-
-SuccessSnackbar.proptypes = {
-    text: PropTypes.string,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Resume);
