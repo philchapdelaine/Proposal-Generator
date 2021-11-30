@@ -113,7 +113,7 @@ export function ResumeOwnerDisplay(props) {
         setResumeOwnerName("Template Sectors");
         break;
       case -2:
-        setResumeOwnerName("Pevious Modified Sectors");
+        setResumeOwnerName("Previous Modified Sectors");
         break;
       default:
         axios
