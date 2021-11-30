@@ -73,6 +73,9 @@ function LoginBox() {
         } else if (err.response.status === 401) {
           setAlertWrongUserpass(true);
           setWrongUserPassMsg("Incorrect Username or Password")
+        }  else if (err.response.status === 500) {
+            setAlertWrongUserpass(true);
+            setWrongUserPassMsg("User does not exist. Please sign up!")
         } else {
           setAlertWrongUserpass(true);
           setWrongUserPassMsg(err.message)
