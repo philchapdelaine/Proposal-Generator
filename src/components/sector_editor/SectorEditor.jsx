@@ -45,10 +45,18 @@ class SectorEditor extends Component {
   render() {
     return (
       <div className = 'editor'>
-        <div> 
-          <FormControl fullWidth>
+        <div>
+          <div className = "type-header"> 
+          Type:
+          </div>
+          <div className = "type-text">
+            {this.state.name}
+          </div>
+        </div>
+        
+          {/* <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Type</InputLabel>
-            <Select
+             <Select
               disabled
               label="Type"
               defaultValue={this.state.name}
@@ -56,7 +64,7 @@ class SectorEditor extends Component {
               onChange={this.handleChangeName}
               sx={{ marginBottom: "10px" }}
               variant="filled"
-            >
+            > 
               <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
               <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
               <MenuItem className="cs-menuitem" value="Experience">Experience</MenuItem>
@@ -64,20 +72,33 @@ class SectorEditor extends Component {
               <MenuItem className="cs-menuitem" value="Justification">Justification</MenuItem>
               <MenuItem className="cs-menuitem" value="Publications">Publications</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
+        <div>
+          <div className="proposal-num-editor">
+          Proposal #:
+          </div>
+          <div className = "propnum-text">
+          {this.state.proposalNum}
+          </div>
         </div>
-        <div className="proposal-num-editor">
-            <TextField
+        
+            {/* <TextField
             disabled
             value={this.state.proposalNum}
             // onChange={this.handleChangeProposalNum} 
             fullWidth id="fullWidth" 
             label="Proposal Number"
             variant="filled"
-            />
-        </div>
+            /> */}
         <div>
-          <FormControl fullWidth>
+          <div className="division-header">
+          Division:
+          </div>
+          <div className = "division-text">
+          {this.state.division}
+        </div>
+        </div>
+          {/* <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Division</InputLabel>
             <Select
               disabled
@@ -96,8 +117,7 @@ class SectorEditor extends Component {
               <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
               <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
             </Select>
-          </FormControl>
-        </div>
+          </FormControl> */}
         <div className = 'sector-editor-field'>
             <TextField multiline minRows = {10} maxRows = {10} 
             value={this.state.content}

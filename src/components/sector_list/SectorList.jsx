@@ -39,8 +39,12 @@ class SectorList extends Component {
             <p>{sector.proposalNumber}</p>
           </div>
 
-          <div className="sector-property">
+          <div className="sector-division">
             <p>{sector.division}</p>
+          </div>
+
+          <div className="sector-desc">
+            <p>{sector.description}</p>
           </div>
 
           <div className = 'delete-button'>
@@ -57,13 +61,16 @@ class SectorList extends Component {
       <div>
         <div className="sector-header-container">
           <div className="sector-name-header">
-            <p>Name</p>
+            <p>Type</p>
           </div>
           <div className="sector-property-header">
-            <p>Proposal #</p>
+            <p>P#</p>
           </div>
-          <div className="sector-property-header">
+          <div className="sector-division-header">
             <p>Division</p>
+          </div>
+          <div className="sector-desc-header">
+            <p>Description</p>
           </div>
         </div>
         <div className = "list-container">
