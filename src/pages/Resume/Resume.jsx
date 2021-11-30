@@ -100,6 +100,7 @@ class Resume extends Component {
       linkedEmail: this.props.email,
       empty: false,
       proposalNumber: propNumber,
+      modifiedDate: newDate,
       division: sectordivision,
       imageLoc: imageloc,
       description: sectordescription,
