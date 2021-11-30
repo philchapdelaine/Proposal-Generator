@@ -17,6 +17,7 @@ var samplesectors = [
           proposalNumber: 1,
           empty: false,
           division: "Water",
+          modifiedDate: "05/03/2012",
           imageLoc: "blah/blah",
           description: "I'm the best so I don't need to have any experience"
       },
@@ -27,6 +28,7 @@ var samplesectors = [
           proposalNumber: 1,
           empty: false,
           division: "Civil",
+          modifiedDate: "05/03/2012",
           imageLoc: "",
           description: "I'm the best so I don't need to have any projects"
       }
@@ -44,6 +46,8 @@ var resume = [];
 
 var index = 3;
 
+var newDate = "02/05/2003"
+
 // Toggles noAPI mode, which uses sample data and doesn't call the API.
 var noAPI = false;
 
@@ -54,6 +58,8 @@ class Resume extends Component {
   }
 
   componentDidMount() {
+    var today = new Date();
+    newDate = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
     if (noAPI) {
       resume = samplesectors
       this.setState({sectors: resume});
@@ -151,6 +157,7 @@ class Resume extends Component {
     oldsector.description = sectorcontent;
     oldsector.division = sectordivision;
     oldsector.imageLoc = sectorimageLoc;
+    oldsector.modifiedDate = newDate;
     oldsector.proposalNumber = sectorProposalNum;
     if (noAPI) {
       resume.splice(resume.findIndex(e => e.sectorID === sectorid), 1, oldsector);
