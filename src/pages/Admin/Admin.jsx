@@ -83,7 +83,11 @@ function Admin() {
       } else if (typeof obj[prop] == "object") {
         xml += OBJtoXML(new Object(obj[prop]));
       } else {
-        xml += obj[prop];
+        if (prop == "imageLoc") { // temporary check in lieu of filetype validation
+          xml += obj[prop].replace(/[<>&'"]/g, '');
+        } else {
+          xml += obj[prop];
+        }
       }
       xml += obj[prop] instanceof Array ? '' : "</" + prop + ">\n";
     }
