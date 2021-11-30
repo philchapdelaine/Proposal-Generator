@@ -56,10 +56,16 @@ button:hover {
     padding: 0rem 1rem 1rem;
 }
 
+.button-group-container {
+    display: flex;
+    border: none;
+    padding: 2rem;
+}
+
 .button-group {
-    padding-top: 2rem;
     display: flex;
     justify-content: center;
+    margin: auto;
 }
 
 .proposal-saved-msg {

@@ -161,8 +161,9 @@ function ReadingPane(props) {
             {sectorFieldDisplay("Description", currentSector.description)}
           </div>
 
-          {currentSector.name ? <div className="button-group">
-            <ButtonGroup variant="contained" size="large">
+          {currentSector.name ? 
+          <div className="button-group-container">
+            <ButtonGroup className="button-group" variant="contained" size="large">
               <Button onClick={openModal}>Edit Sector</Button>
               <Button onClick={() => handleAddSector()}>Add Sector</Button>
             </ButtonGroup>

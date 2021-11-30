@@ -151,13 +151,13 @@ class CustomListItem extends React.Component {
             ))
           )}
         </List>
-        <div className="button-group">
-          <ButtonGroup variant="contained" size="large">
-            <Link to="/admin">
-              <Button onClick={() => this.handleSubmit()}>Save Proposal</Button>
-            </Link>
-          </ButtonGroup>
-        </div>
+            <div className="button-container">
+                <Link to="/admin">
+                    <ButtonGroup variant="contained" size="large" >
+                        <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                    </ButtonGroup>
+                </Link>
+            </div>
       </div>
     );
   }
