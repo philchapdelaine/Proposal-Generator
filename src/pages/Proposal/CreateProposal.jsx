@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ReadingPane from "../../components/reading_pane/ReadingPane";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import ResumeSectorDisplay from "../../components/resume_sector_display/ResumeSectorDisplay";
