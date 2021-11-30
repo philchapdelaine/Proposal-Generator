@@ -28,6 +28,7 @@ function EditSectorModal(props = {}) {
 
   const [newSector, setNewSector] = useState(props.sector); 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -41,13 +42,14 @@ function EditSectorModal(props = {}) {
       }
   };
   useEffect( () => {
-    //console.log(props.sector);
     setSaveButtonDisabled(true);
   }, [props.sector])
  
+  useEffect(() => {
+    setIsValidEmail(validateEmail());
+  }, [newSector.linkedEmail])
 
   const onTextChange = e => {
-    //console.log(newSector);
     setNewSector({ ...props.sector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
   };
@@ -109,8 +111,8 @@ function EditSectorModal(props = {}) {
               label="Employee email" size="small" name="linkedEmail"
               defaultValue={linkedEmail}  
               onChange={onTextChange} 
-              error={!validateEmail()} 
-              helperText={"Employee email must be a valid email format"} 
+              error={!isValidEmail} 
+              helperText={isValidEmail ? "" : "Employee email must be a valid email format"} 
               style={{marginBottom: 10}}
             />
             <TextField label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>

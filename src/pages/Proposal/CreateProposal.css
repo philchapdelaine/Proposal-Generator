@@ -18,5 +18,9 @@
     justify-content: center;
 }
 .cp-center-pane {
-    width: 75%;
+    width: 50%;
+}
+.cp-search-bar {
+    display: flex;
+    align-items: center;
 }

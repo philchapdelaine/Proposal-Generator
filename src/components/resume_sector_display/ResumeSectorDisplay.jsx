@@ -75,7 +75,7 @@ export default function ResumeSectorDisplay(props) {
         <AccordionDetails>
           {/* {resume.sectors.map((sector) => generateRows(sector, resume))} */
           
-          <Table sx={{ minWidth: 650 }} aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
+          <Table aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
         <TableHead>
           <TableRow fontWeight="fontWeightBold">
             <TableCell fontWeight="fontWeightBold">Type</TableCell>
