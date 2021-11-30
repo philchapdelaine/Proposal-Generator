@@ -60,6 +60,19 @@ function Admin() {
     return sortedResumes;
   }
 
+  function escapeXml(unsafe) {
+    // src: https://stackoverflow.com/questions/7918868/how-to-escape-xml-entities-in-javascript
+    return unsafe.replace(/[<>&'"]/g, function (c) {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+        }
+    });
+}
+
   function OBJtoXML(obj) {
     // adapted from: https://stackoverflow.com/questions/48788722/json-to-xml-using-javascript
     var xml = '';
@@ -83,8 +96,8 @@ function Admin() {
       } else if (typeof obj[prop] == "object") {
         xml += OBJtoXML(new Object(obj[prop]));
       } else {
-        if (prop == "imageLoc") { // temporary check in lieu of filetype validation
-          xml += obj[prop].replace(/[<>&'"]/g, '');
+        if (typeof obj[prop] === 'string' || obj[prop] instanceof String) {
+          xml += escapeXml(obj[prop]);
         } else {
           xml += obj[prop];
         }
