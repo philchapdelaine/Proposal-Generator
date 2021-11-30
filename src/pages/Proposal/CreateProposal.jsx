@@ -11,8 +11,6 @@ import {
   BrowserRouter as Router,
   Link,
 } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
 
 // dummy data; this will actually come from the search api
 const recentlyViewedSample = [
@@ -72,7 +70,6 @@ function CreateProposal() {
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
   const [searchedResumes, setSearchedResumes] = useState([]);
-
   var tests = [];
 
   const getResults = async () => {
@@ -171,23 +168,24 @@ function CreateProposal() {
         </Link>
         <div className="cp-center-header">
           <div className="title">
-            Create Proposal
+            Proposal Editor
           </div>
-          <TextField
-            variant="outlined"
-            size="small"
-            margin="normal"
-            label="Search resumes"
-            onChange={(event) => setSearchWord(event.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className="LoginBtn"
-            onClick={() => handleSubmit()}
-          >
-            Search
-          </Button>
+          <div className="cp-search-bar">
+            <TextField
+              variant="outlined"
+              size="small"
+              margin="dense"
+              label="Search resumes"
+              onChange={(event) => setSearchWord(event.target.value)}
+            />
+            <Button
+              variant="contained"
+              style={{ height: "35px", color: "white", backgroundColor: "#1565c0", marginLeft: "10px"}}
+              onClick={() => handleSubmit()}
+            >
+              Search
+            </Button>
+          </div>
         </div>
         <div className="search-results"> Search results: </div> <br />
         {searchedResumes.length !== 0
