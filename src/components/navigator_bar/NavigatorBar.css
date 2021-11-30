@@ -1,5 +1,6 @@
 .nav-bar {
-  min-width: 15%;
+  width: 15%;
+  
 }
 .nav-button {
   display: flex;
