@@ -47,19 +47,18 @@ function EditSectorModal(props = {}) {
   }, [props.sector])
 
   const onTextChange = e => {
-    setNewSector({ ...props.sector, [e.target.name]: e.target.value });
+    setNewSector({ ...newSector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
+    
     if (e.target.name == "linkedEmail") {
       setIsValidEmail(validateEmail(e.target.value));
     }
   };
 
   const validateEmail = (currEmail) => {
-    if (!currEmail) {
-      return false;
-    } else if (!isEmail(currEmail)) {
-      return false;
-    } else return true;
+    if (currEmail) {
+      return isEmail(currEmail);
+    } else return false;
   };
 
   return (
