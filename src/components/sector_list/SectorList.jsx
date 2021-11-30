@@ -29,24 +29,22 @@ class SectorList extends Component {
               ? "active user-sector-item"
               : "user-sector-item"
           }
-          key={i}
-        >
+          key={i}>
           <div className="sector-name">
-            <p>{sector.name}</p>
+            {sector.name}
           </div>
-          
           <div className="sector-property">
-            <p>{sector.proposalNumber}</p>
+            {sector.proposalNumber}
           </div>
-
           <div className="sector-division">
-            <p>{sector.division}</p>
+            {sector.division}
           </div>
-
           <div className="sector-desc">
-            <p>{sector.description}</p>
+            {sector.description}
           </div>
-
+          <div className="sector-date">
+            {sector.modifiedDate}
+          </div>
           <div className = 'delete-button'>
             <DeleteSectorDialog deleteSector = {() => {this.deleteSector(sector)}}></DeleteSectorDialog>
           </div>
@@ -61,16 +59,19 @@ class SectorList extends Component {
       <div>
         <div className="sector-header-container">
           <div className="sector-name-header">
-            <p>Type</p>
+            Type
           </div>
           <div className="sector-property-header">
-            <p>P#</p>
+            P#
           </div>
           <div className="sector-division-header">
-            <p>Division</p>
+            Division
           </div>
           <div className="sector-desc-header">
-            <p>Description</p>
+            Description
+          </div>
+          <div className="sector-date-header">
+            Modified
           </div>
         </div>
         <div className = "list-container">

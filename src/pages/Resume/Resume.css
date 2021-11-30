@@ -8,7 +8,6 @@
 }
 
 .resume-page {
-  flex-grow: 1;
   display: flex;
   padding-left: 0px;
   width: 1200px;
@@ -16,12 +15,11 @@
 
 .resume-builder {
   padding-left: 20px;
-  width: 700px;
+  width: 690px;
 };
 
 .sector-editor {
   padding-left: 50px;
-  flex-grow: 1;
   width: 400px;
 }
 

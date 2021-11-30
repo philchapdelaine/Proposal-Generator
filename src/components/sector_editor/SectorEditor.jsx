@@ -9,7 +9,8 @@ class SectorEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {name: this.props.sector.name, content: this.props.sector.description, id: this.props.sector.sectorID,
-                  division: this.props.sector.division, imageLoc: this.props.sector.imageLoc, proposalNum: this.props.sector.proposalNumber};
+                  division: this.props.sector.division, imageLoc: this.props.sector.imageLoc, proposalNum: this.props.sector.proposalNumber,
+                modifiedDate: this.props.sector.modifiedDate};
   }
 
   handleChange = (event) => {
@@ -31,8 +32,14 @@ class SectorEditor extends Component {
     this.setState({proposalNum: event.target.value});
   };
 
+  handleChangeDate = (event) => {
+    this.setState({modifiedDate: event.target.value});
+  };
+
+
   saveSector() {
     this.props.saveSector(this.state.id, this.state.name, this.state.content, this.state.division, this.state.imageLoc, this.state.proposalNum);
+    this.setState({modifiedDate: this.props.sector.modifiedDate});
   }
 
   componentDidUpdate() {
@@ -96,7 +103,7 @@ class SectorEditor extends Component {
           </div>
           <div className = "division-text">
           {this.state.division}
-        </div>
+          </div>
         </div>
           {/* <FormControl fullWidth>
             <InputLabel htmlFor="uncontrolled-native">Division</InputLabel>
@@ -118,6 +125,14 @@ class SectorEditor extends Component {
               <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
             </Select>
           </FormControl> */}
+        <div>
+          <div className="date-header">
+          Last Modified:
+          </div>
+          <div className = "date-text">
+          {this.state.modifiedDate}
+          </div>
+        </div>
         <div className = 'sector-editor-field'>
             <TextField multiline minRows = {10} maxRows = {10} 
             value={this.state.content}
