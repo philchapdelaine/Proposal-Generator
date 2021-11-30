@@ -29,6 +29,7 @@ export default function ResumeSectorDisplay(props) {
   const dispatch = useDispatch();
 
   function handleSectorClick(sector, currResume) {
+    sector.edited = false;
     dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector });
     dispatch({ type: "SET_TAB", tab: 0 });
     window.scrollTo(0, 0);
@@ -76,8 +77,8 @@ export default function ResumeSectorDisplay(props) {
           
           <Table sx={{ minWidth: 650 }} aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
         <TableHead>
-          <TableRow>
-            <TableCell>Type</TableCell>
+          <TableRow fontWeight="fontWeightBold">
+            <TableCell fontWeight="fontWeightBold">Type</TableCell>
             <TableCell>Proposal Number</TableCell>
             <TableCell>Division</TableCell>
             <TableCell>Image Location</TableCell>
