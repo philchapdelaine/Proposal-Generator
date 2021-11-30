@@ -85,7 +85,7 @@ export default function ResumeSectorDisplay(props) {
           </TableRow>
         </TableHead>
         <TableBody >
-          {resume.sectors.map((sector) => generateRows(sector, resume))}
+          {resume.sectors.map((sector) => generateRows(sector, resume.resumeID < 0 ? null: resume))}
         </TableBody>
       </Table>
           }
