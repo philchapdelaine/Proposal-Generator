@@ -92,9 +92,10 @@ function CreateProposal() {
 
 
   const getFeedback = () => {
-    const url = `/api/search/resume/${searchWord}`
+    const url = `/api/search/resume/${searchWord}/userid/0`
     axios.get(url)
       .then((res) => {
+        console.log(res.data);
         setSearchedResumes(res.data);
         setSearch(false);
       })
@@ -104,7 +105,7 @@ function CreateProposal() {
   }
 
   const getFeedback2 = () => {
-    const url = `/api/search/resume/all:${uid}`
+    const url = `/api/search/resume/all/userid/${uid}`
     axios.get(url)
       .then((res) => {
         setSearchedResumes(res.data);
