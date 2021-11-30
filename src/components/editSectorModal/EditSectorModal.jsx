@@ -24,7 +24,7 @@ const buttonStyle = {
 }
 
 function EditSectorModal(props = {}) {
-  const { sectorID, name, description, division, imageLoc, linkedEmail } = props.sector;
+  const { sectorID, name, description, division, imageLoc, linkedEmail, edited } = props.sector;
 
   const [newSector, setNewSector] = useState(props.sector); 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
@@ -34,18 +34,20 @@ function EditSectorModal(props = {}) {
   const handleSave = async () => {
     if (validateEmail()) {
       // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
+      newSector.edited = true;
+      console.log(newSector);
       dispatch(setCurrentSector(newSector));
       props.onClose();
       }
   };
   useEffect( () => {
-    console.log(props.sector);
+    //console.log(props.sector);
     setSaveButtonDisabled(true);
   }, [props.sector])
  
 
   const onTextChange = e => {
-    console.log(newSector);
+    //console.log(newSector);
     setNewSector({ ...props.sector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
   };

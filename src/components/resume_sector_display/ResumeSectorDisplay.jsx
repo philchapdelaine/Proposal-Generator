@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import "./ResumeSectorDisplay.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
+import CheckIcon from '@mui/icons-material/Check';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const useStyles = makeStyles(() => ({
   resumeOwnerInfo: {
@@ -41,17 +42,14 @@ export default function ResumeSectorDisplay(props) {
                 {sector.name || "Name not available"}
         </TableCell>
         <TableCell sx={{ width: "13%" }} align="left">
-                {sector.linkedEmail || "Email not available"}
-        </TableCell>
-        <TableCell sx={{ width: "13%" }} align="left">
                 {"Proposal # " + (sector.proposalNumber || " not available")}
         </TableCell>
         <TableCell sx={{ width: "13%" }} align="left">
                 {sector.division || "Division not available"}
         </TableCell>
-        <TableCell sx={{ width: "13%" }} align="left">
-                {sector.imageLoc || "Image Location not available"}
-        </TableCell>
+        {<TableCell sx={{ width: "13%" }} align="left">
+                {sector.imageLoc? <CheckIcon></CheckIcon>: <CancelIcon></CancelIcon>}
+        </TableCell>}
         <TableCell sx={{ width: "33%" }} align="left">
                 {sector.description || "Description not available"}
         </TableCell>
@@ -80,7 +78,6 @@ export default function ResumeSectorDisplay(props) {
         <TableHead>
           <TableRow>
             <TableCell>Type</TableCell>
-            <TableCell>Email</TableCell>
             <TableCell>Proposal Number</TableCell>
             <TableCell>Division</TableCell>
             <TableCell>Image Location</TableCell>
@@ -88,10 +85,9 @@ export default function ResumeSectorDisplay(props) {
           </TableRow>
         </TableHead>
         <TableBody >
-          {resume.sectors.map((sector) => generateRows(sector, resume))}
+          {resume.sectors.map((sector) => generateRows(sector, resume.resumeID < 0 ? null: resume))}
         </TableBody>
       </Table>
-          
           }
         </AccordionDetails>
       </Accordion>
@@ -102,7 +98,7 @@ export default function ResumeSectorDisplay(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  return props.searchedResumes.map(generateAccordian);
+  return props.searchedResumes.filter(resume => resume.sectors.length > 0).map(generateAccordian);
 }
 
 export function ResumeOwnerDisplay(props) {
@@ -111,8 +107,16 @@ export function ResumeOwnerDisplay(props) {
   const classes = useStyles();
 
   useEffect(() => {
-      if (props.ownerID != -1) {
-          axios
+    switch(props.ownerID) 
+    {
+      case -1:
+        setResumeOwnerName("Template Sectors");
+        break;
+      case -2:
+        setResumeOwnerName("Pevious Modified Sectors");
+        break;
+      default:
+        axios
             .get("/api/user/" + props.ownerID + "/")
             .then((res) => {
               setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
@@ -121,9 +125,22 @@ export function ResumeOwnerDisplay(props) {
             .catch((err) => {
               console.log(err);
             });
-      } else {
-        setResumeOwnerName("Template Sectors");
-      }
+        break;
+    }
+
+      // if (props.ownerID != -1) {
+      //     axios
+      //       .get("/api/user/" + props.ownerID + "/")
+      //       .then((res) => {
+      //         setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
+      //         setResumeOwnerEmail(res.data.emailAddress);
+      //       })
+      //       .catch((err) => {
+      //         console.log(err);
+      //       });
+      // } else {
+      //   setResumeOwnerName("Template Sectors");
+      // }
   })
   return (
     <>
