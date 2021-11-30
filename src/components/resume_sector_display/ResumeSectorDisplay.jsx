@@ -107,8 +107,16 @@ export function ResumeOwnerDisplay(props) {
   const classes = useStyles();
 
   useEffect(() => {
-      if (props.ownerID != -1) {
-          axios
+    switch(props.ownerID) 
+    {
+      case -1:
+        setResumeOwnerName("Template Sectors");
+        break;
+      case -2:
+        setResumeOwnerName("Pevious Modified Sectors");
+        break;
+      default:
+        axios
             .get("/api/user/" + props.ownerID + "/")
             .then((res) => {
               setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
@@ -117,9 +125,22 @@ export function ResumeOwnerDisplay(props) {
             .catch((err) => {
               console.log(err);
             });
-      } else {
-        setResumeOwnerName("Template Sectors");
-      }
+        break;
+    }
+
+      // if (props.ownerID != -1) {
+      //     axios
+      //       .get("/api/user/" + props.ownerID + "/")
+      //       .then((res) => {
+      //         setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
+      //         setResumeOwnerEmail(res.data.emailAddress);
+      //       })
+      //       .catch((err) => {
+      //         console.log(err);
+      //       });
+      // } else {
+      //   setResumeOwnerName("Template Sectors");
+      // }
   })
   return (
     <>
