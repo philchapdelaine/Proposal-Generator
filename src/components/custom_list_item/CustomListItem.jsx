@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 
-import "../reading_pane/ReadingPane.css";
+import "./CustomListItem.css";
 
 import axios from "axios";
 
@@ -97,7 +97,7 @@ class CustomListItem extends React.Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="proposal-name-form">
             <form>
                 Proposal Name: <input type="text" onChange={this.handleTextChange.bind(this)} value={this.state.proposalName}></input>
            </form>

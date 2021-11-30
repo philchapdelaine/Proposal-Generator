@@ -1,0 +1,18 @@
+.proposal-name-form {
+    display: flex;
+    justify-content: center;
+}
+
+.button-group {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    background-color: #00569c;
+    color: white;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
