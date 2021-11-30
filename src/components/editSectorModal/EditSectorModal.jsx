@@ -28,12 +28,12 @@ function EditSectorModal(props = {}) {
 
   const [newSector, setNewSector] = useState(props.sector); 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
-  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
 
   const dispatch = useDispatch();
 
   const handleSave = async () => {
-    if (validateEmail()) {
+    if (validateEmail(newSector.linkedEmail)) {
       // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
       newSector.edited = true;
       console.log(newSector);
@@ -43,21 +43,21 @@ function EditSectorModal(props = {}) {
   };
   useEffect( () => {
     setSaveButtonDisabled(true);
+    setNewSector(props.sector);
   }, [props.sector])
- 
-  useEffect(() => {
-    setIsValidEmail(validateEmail());
-  }, [newSector.linkedEmail])
 
   const onTextChange = e => {
     setNewSector({ ...props.sector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
+    if (e.target.name == "linkedEmail") {
+      setIsValidEmail(validateEmail(e.target.value));
+    }
   };
 
-  const validateEmail = () => {
-    if (!newSector.linkedEmail) {
+  const validateEmail = (currEmail) => {
+    if (!currEmail) {
       return false;
-    } else if (!isEmail(newSector.linkedEmail)) {
+    } else if (!isEmail(currEmail)) {
       return false;
     } else return true;
   };
@@ -109,7 +109,7 @@ function EditSectorModal(props = {}) {
             </FormControl>
             <TextField 
               label="Employee email" size="small" name="linkedEmail"
-              defaultValue={linkedEmail}  
+              defaultValue={linkedEmail}
               onChange={onTextChange} 
               error={!isValidEmail} 
               helperText={isValidEmail ? "" : "Employee email must be a valid email format"} 
