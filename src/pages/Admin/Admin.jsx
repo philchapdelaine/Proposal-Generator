@@ -13,7 +13,7 @@ import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   setProposalIndex,
   setProposals as setProposalsRedux,
@@ -152,14 +152,16 @@ function Admin() {
           </Link>
         </div>
         <Box>
-          <Typography variant="h4" margin={3}>
-            Your proposals
-          </Typography>
+          <Box display="flex" flexDirection="row">
+            <div className = "admin-header">Your Proposals</div>
+            <Box width={15} />
+            <div className = "admin-hint">Expand to delete, edit, and export proposals</div> 
+          </Box>
           { proposals.length !== 0 
             ? (proposals.map((proposal, id) => {
             return (
               <Accordion key={id} style={style}>
-                <AccordionSummary>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>{proposal.proposalName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
