@@ -247,7 +247,7 @@ function Signup() {
         handleProceed={
           <Link to="/login" style={{ textDecoration: "none" }}>
             <Button color="primary" variant="outlined" className="LoginBtn">
-              Yes
+              Quit
             </Button>
           </Link>
         }
