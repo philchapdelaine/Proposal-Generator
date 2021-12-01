@@ -7,6 +7,7 @@ import SectorEditor from "../../components/sector_editor/SectorEditor";
 import axios from "axios";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { Box } from "@mui/system";
 import { connect } from "react-redux"; // redux
 
 var samplesectors = [
@@ -191,7 +192,12 @@ class Resume extends Component {
         </div>
         <div className = "resume-page">
           <div className = "resume-builder">
-          <div className = "resume-header">Your Resume</div> 
+          <Box display="flex" flexDirection="row">
+            <div className = "resume-header">Your Resume</div> 
+            <Box width={15} />
+            <div className = "admin-hint">This is your personal resume page, <br/> 
+            where you can add or edit template sectors</div> 
+          </Box>
             <ResumeBuilder sectors = {this.state.sectors}
             addSector = {(sectorname, sectordivision, propNumber, imageloc, sectordescription) => 
               {this.addSector(sectorname, sectordivision, propNumber, imageloc, sectordescription)}}
