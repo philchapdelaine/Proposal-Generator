@@ -30,7 +30,6 @@ function EditSectorModal(props = {}) {
 
   const [newSector, setNewSector] = useState(props.sector);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
-  const [isValidEmail, setIsValidEmail] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -52,13 +51,21 @@ function EditSectorModal(props = {}) {
     setNewSector({ ...newSector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
 
+    var isCurrEmailValid = validateEmail(newSector.linkedEmail);
+    var isCurrImgLocValid = validateImageLocation(newSector.imageLoc);
+
     if (e.target.name == "linkedEmail") {
-      setIsValidEmail(validateEmail(e.target.value));
+      isCurrEmailValid = validateEmail(e.target.value);
     }
+    if (e.target.name == "imageLoc") {
+      isCurrImgLocValid = validateImageLocation(e.target.value);
+    }
+
+    setSaveButtonDisabled(!isCurrEmailValid || !isCurrImgLocValid);
   };
 
   const validateImageLocation = (currImageLoc) => {
-    return (currImageLoc === "" || (isValid(currImageLoc) && (currImageLoc.endsWith(".jpeg") || currImageLoc.endsWith(".jpg") || currImageLoc.endsWith(".png"))))
+    return (currImageLoc === null || currImageLoc === "" || (isValid(currImageLoc) && (currImageLoc.endsWith(".jpeg") || currImageLoc.endsWith(".jpg") || currImageLoc.endsWith(".png"))))
   }
 
   const validateEmail = (currEmail) => {
@@ -116,8 +123,8 @@ function EditSectorModal(props = {}) {
               label="Employee email" size="small" name="linkedEmail"
               defaultValue={linkedEmail}
               onChange={onTextChange}
-              error={!isValidEmail}
-              helperText={isValidEmail ? "" : "Employee email must be a valid email format"}
+              error={!validateEmail(newSector.linkedEmail)}
+              helperText={validateEmail(newSector.linkedEmail) ? "" : "Employee email must be a valid email format"}
               style={{marginBottom: 10}}
             />
             <TextField helperText={validateImageLocation(newSector.imageLoc)? "" : "Invalid Directory. Only .png .jpeg .jpg"} error={!validateImageLocation(newSector.imageLoc)} label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>
