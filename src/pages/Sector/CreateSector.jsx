@@ -26,9 +26,8 @@ function CreateSector() {
 
   function openModal() {
     const hasType = type !== ""; // add other required fields here
-    const hasProposalNum = proposalNum !== "";
     const hasDivision = division !== "";
-    hasRequiredInfo = hasType && hasProposalNum && hasDivision;
+    hasRequiredInfo = hasType && hasDivision;
     setSubmitAttempted(true);
     setSectorCreated(false);
 
@@ -130,7 +129,7 @@ function CreateSector() {
           /> */}
         </div>
         {!hasRequiredInfo && submitAttempted && (
-          <div className="cs-warning"> Sector type, proposal number, and division are required fields. </div>
+          <div className="cs-warning"> Sector type and division are required fields. </div>
         )}
         { sectorCreated ?  <div className="cs-success-message"> Sector created successfully. Employees may now use this sector via the Resume page.</div> : null }
         <Link to="/admin">
