@@ -214,7 +214,7 @@ class Resume extends Component {
         </div>
 
         <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         open={this.state.snackbarOpen}
         onClose={() => this.setState({snackbarOpen :false})}
         // key={{ vertical: "top", horizontal: "center" }}
