@@ -55,7 +55,6 @@ class CustomListItem extends React.Component {
   handleDeleteSector(sectorID) {
       this.setState({ loading: true });
       let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}/sector/${sectorID}`;
-      console.log(this.state.currentProposal);
       axios
           .delete(url)
           .then((response) => {
@@ -71,7 +70,6 @@ class CustomListItem extends React.Component {
     async handleSubmit() {
         if (this.state.currentProposal !== undefined) {
             await this.axiosPut();
-            console.log(this.state);
             this.setState({ redirect: "/admin" });
         }
     }
@@ -81,7 +79,6 @@ class CustomListItem extends React.Component {
         const config = { headers: { "Content-Type": "application/json" } };
         this.state.currentProposal.proposalName = this.state.proposalName;
         let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-        console.log(this.state.currentProposal)
         axios
             .put(url, this.state.currentProposal, config)
             .then((response) => {
@@ -139,7 +136,7 @@ class CustomListItem extends React.Component {
                   </IconButton>
                 </ListItem>
                 <Collapse
-                  key={i}
+                  key={i+sector.sectorID}
                   in={this.state.openItemIDs.includes(sector.sectorID)}
                   timeout="auto"
                   unmountOnExit
