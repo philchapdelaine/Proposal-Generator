@@ -21,7 +21,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    column-gap: 20px;
+    column-gap: 15px;
   }
 
   .user-sector-item:hover {
@@ -65,8 +65,8 @@
   }
   .sector-property,
   .sector-property-header {
-    width: 30px;
-    max-width: 30px;
+    width: 60px;
+    max-width: 60px;
   }
   .sector-division,
   .sector-division-header {
@@ -80,8 +80,8 @@
   }
   .sector-date,
   .sector-date-header {
-    width: 90px;
-    max-width: 90px;
+    width: 85px;
+    max-width: 85px;
   }
 
   .delete-button {
