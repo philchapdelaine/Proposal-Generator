@@ -37,6 +37,8 @@ class CustomListItem extends React.Component {
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.axiosPut = this.axiosPut.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.action = this.action.bind(this);
   }
 
   componentWillUnmount() {
@@ -70,23 +72,23 @@ class CustomListItem extends React.Component {
           });
   }
 
-    handleSubmit() {
+    async handleSubmit() {
         if (this.state.currentProposal !== undefined) {
-            this.axiosPut();
+            await this.axiosPut();
             this.setState({ success: true });
         }
     }
 
-    axiosPut() {
+    async axiosPut() {
+        this.setState({ success: true });
         this.setState({ loading: true });
         const config = { headers: { "Content-Type": "application/json" } };
         this.state.currentProposal.proposalName = this.state.proposalName;
         let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-        axios
+        const res = await axios
             .put(url, this.state.currentProposal, config)
             .then((response) => {
                 console.log(response);
-                this.props.updateProposal(this.state.currentProposal);
                 this.setState({ loading: false });
             })
             .catch((error) => {
@@ -105,10 +107,7 @@ class CustomListItem extends React.Component {
     }
 
     handleClose(event, reason) {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setWarning(false);
+        this.setState({ success: false });
     };
 
     action() {
@@ -117,7 +116,7 @@ class CustomListItem extends React.Component {
                     size="small"
                     aria-label="close"
                     color="inherit"
-                    onClick={handleClose}
+                    onClick={this.handleClose}
                 >
                     <CloseIcon fontSize="small" />
                 </IconButton>
@@ -192,7 +191,7 @@ class CustomListItem extends React.Component {
             </div>
             <Snackbar
                 open={this.state.success}
-                autoHideDuration={6000}
+                autoHideDuration={3000}
                 onClose={this.handleClose}
                 message="Proposal Successfully Saved"
                 action={this.action}
