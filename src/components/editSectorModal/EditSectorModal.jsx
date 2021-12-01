@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentSector } from "../../redux/actions/proposal-actions";
 import isEmail from "validator/lib/isEmail";
 
+var isValid = require('is-valid-path');
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -26,14 +28,14 @@ const buttonStyle = {
 function EditSectorModal(props = {}) {
   const { sectorID, name, description, division, imageLoc, linkedEmail, edited } = props.sector;
 
-  const [newSector, setNewSector] = useState(props.sector); 
+  const [newSector, setNewSector] = useState(props.sector);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
   const [isValidEmail, setIsValidEmail] = useState(true);
 
   const dispatch = useDispatch();
 
   const handleSave = async () => {
-    if (validateEmail(newSector.linkedEmail)) {
+    if (validateEmail(newSector.linkedEmail) && validateImageLocation(newSector.imageLoc) ) {
       // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
       newSector.edited = true;
       console.log(newSector);
@@ -49,11 +51,15 @@ function EditSectorModal(props = {}) {
   const onTextChange = e => {
     setNewSector({ ...newSector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
-    
+
     if (e.target.name == "linkedEmail") {
       setIsValidEmail(validateEmail(e.target.value));
     }
   };
+
+  const validateImageLocation = (currImageLoc) => {
+    return (currImageLoc === "" || (isValid(currImageLoc) && (currImageLoc.endsWith(".jpeg") || currImageLoc.endsWith(".jpg") || currImageLoc.endsWith(".png"))))
+  }
 
   const validateEmail = (currEmail) => {
     if (currEmail) {
@@ -62,7 +68,7 @@ function EditSectorModal(props = {}) {
   };
 
   return (
-    <Modal 
+    <Modal
       open={props.open}
       onClose={props.onClose}
       >
@@ -106,15 +112,15 @@ function EditSectorModal(props = {}) {
                 <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
               </Select>
             </FormControl>
-            <TextField 
+            <TextField
               label="Employee email" size="small" name="linkedEmail"
               defaultValue={linkedEmail}
-              onChange={onTextChange} 
-              error={!isValidEmail} 
-              helperText={isValidEmail ? "" : "Employee email must be a valid email format"} 
+              onChange={onTextChange}
+              error={!isValidEmail}
+              helperText={isValidEmail ? "" : "Employee email must be a valid email format"}
               style={{marginBottom: 10}}
             />
-            <TextField label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>
+            <TextField helperText={validateImageLocation(newSector.imageLoc)? "" : "Invalid Directory. Only .png .jpeg .jpg"} error={!validateImageLocation(newSector.imageLoc)} label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>
             <TextField label="Description" name="description" size="small" defaultValue={description} onChange={onTextChange} multiline maxRows={4}/>
           </Box>
           <Box display="flex" justifyContent="center" style={{marginTop: 10}}>
