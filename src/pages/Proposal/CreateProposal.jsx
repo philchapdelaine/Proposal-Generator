@@ -178,11 +178,18 @@ function CreateProposal() {
               size="small"
               margin="dense"
               label="Search resumes"
+              helperText="Search by name, email, proposal #, sector type, or division"
               onChange={(event) => setSearchWord(event.target.value)}
             />
             <Button
               variant="contained"
-              style={{ height: "35px", color: "white", backgroundColor: "#1565c0", marginLeft: "10px"}}
+              style={{ 
+                height: "35px", 
+                color: "white", 
+                backgroundColor: "#1565c0", 
+                marginLeft: "10px",
+                marginTop: "10px"
+                }}
               onClick={() => handleSubmit()}
             >
               Search
