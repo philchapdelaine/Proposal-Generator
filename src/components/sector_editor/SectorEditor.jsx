@@ -151,12 +151,16 @@ class SectorEditor extends Component {
         <div className='sector-editor-field'>
           <TextField multiline minRows={10} maxRows={10}
             value={this.state.content}
-            onChange={this.handleChange} fullWidth id="fullWidth"
+            inputProps={{style: {fontSize: 14}}}
+            InputLabelProps={{style: {fontSize: 14}}}
+            onChange={this.handleChange} fullWidth id="fullWidth" 
             label="Description"
           />
         </div>
         <div className="imageloc-editor">
-          <TextField
+            <TextField
+            inputProps={{style: {fontSize: 14}}}
+            InputLabelProps={{style: {fontSize: 14}}}
             value={this.state.imageLoc}
             onChange={this.handleChangeimageLoc} fullWidth id="fullWidth"
             label="Image URL"
