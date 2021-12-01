@@ -35,15 +35,6 @@ class CustomListItem extends React.Component {
   }
 
   handleClick(id) {
-    // const oldResumeClicked = this.state.openItemID === id;
-    // console.log(newResumeClicked)
-    // if (oldResumeClicked) {
-    //   this.setState({ openItemId : 0 });
-    //   console.log(this.state.openItemID)
-    // }
-    // } else {
-    //   this.setState({ openItemId : null });
-    // }
     if (this.state.openItemIDs.includes(id)) {
       const newIDs = this.state.openItemIDs.filter((thisID) => thisID !== id);
       this.setState({ openItemIDs: newIDs });
