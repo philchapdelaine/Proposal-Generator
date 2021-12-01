@@ -10,6 +10,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 import "./CustomListItem.css";
 
@@ -28,6 +30,7 @@ class CustomListItem extends React.Component {
       proposals: this.props.proposals,
       proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
       redirect: null,
+      success: false,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
@@ -67,10 +70,10 @@ class CustomListItem extends React.Component {
           });
   }
 
-    async handleSubmit() {
+    handleSubmit() {
         if (this.state.currentProposal !== undefined) {
-            await this.axiosPut();
-            this.setState({ redirect: "/admin" });
+            this.axiosPut();
+            this.setState({ success: true });
         }
     }
 
@@ -91,11 +94,35 @@ class CustomListItem extends React.Component {
             });
     }
 
-  handleTextChange(event) {
-      this.setState({
-          proposalName: event.target.value
-      })
-  }
+    handleBack() {
+        this.setState({ redirect: "/admin" });
+    }
+
+    handleTextChange(event) {
+        this.setState({
+            proposalName: event.target.value
+        })
+    }
+
+    handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setWarning(false);
+    };
+
+    action() {
+            <React.Fragment>
+                <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={handleClose}
+                >
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+    };
 
   render() {
     if (this.state.redirect) {
@@ -159,9 +186,18 @@ class CustomListItem extends React.Component {
         </List>
             <div className="button-container">
                 <ButtonGroup variant="contained" size="large" >
+                    <Button className="save-button" onClick={() => this.handleBack()}>Exit</Button>
                     <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
                 </ButtonGroup>
             </div>
+            <Snackbar
+                open={this.state.success}
+                autoHideDuration={6000}
+                onClose={this.handleClose}
+                message="Proposal Successfully Saved"
+                action={this.action}
+            >
+            </Snackbar>
       </div>
     );
   }
