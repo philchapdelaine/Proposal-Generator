@@ -36,6 +36,13 @@ class CustomListItem extends React.Component {
     this.axiosPut = this.axiosPut.bind(this);
   }
 
+  componentWillUnmount() {
+      // fix Warning: Can't perform a React state update on an unmounted component
+      this.setState = (state, callback) => {
+          return;
+      };
+  }
+
   handleClick(id) {
     if (this.state.openItemIDs.includes(id)) {
       const newIDs = this.state.openItemIDs.filter((thisID) => thisID !== id);

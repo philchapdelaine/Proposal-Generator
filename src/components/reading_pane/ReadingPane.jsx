@@ -97,8 +97,6 @@ function ReadingPane(props) {
                           newProposal: response.data,
                           proposalID: reduxProposals[currentProposalIndex].proposalID
                       });
-                      this.setState({ loading: false, proposalSavedMessage: true });
-                      setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
                   })
                   .catch((error) => {
                       console.log(error);
