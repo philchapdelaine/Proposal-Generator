@@ -32,6 +32,8 @@ class CustomListItem extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.axiosPut = this.axiosPut.bind(this);
   }
 
   handleClick(id) {
@@ -52,35 +54,38 @@ class CustomListItem extends React.Component {
           .then((response) => {
               console.log(response);
               this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
-              this.setState({ loading: false, proposalSavedMessage: true });
-              setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+              this.setState({ loading: false });
           })
           .catch((error) => {
               console.log(error);
           });
   }
 
-    handleSubmit() {
+    async handleSubmit() {
         if (this.state.currentProposal !== undefined) {
-            this.setState({ loading: true });
-            const config = { headers: { "Content-Type": "application/json" } };
-            this.state.currentProposal.proposalName = this.state.proposalName;
-            let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-            console.log(this.state.currentProposal)
-            axios
-              .put(url, this.state.currentProposal, config)
-              .then((response) => {
-                console.log(response);
-                this.props.updateProposal(this.state.currentProposal);
-                this.setState({ loading: false, proposalSavedMessage: true });
-                setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            await this.axiosPut();
+            console.log(this.state);
             this.setState({ redirect: "/admin" });
         }
-  }
+    }
+
+    axiosPut() {
+        this.setState({ loading: true });
+        const config = { headers: { "Content-Type": "application/json" } };
+        this.state.currentProposal.proposalName = this.state.proposalName;
+        let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+        console.log(this.state.currentProposal)
+        axios
+            .put(url, this.state.currentProposal, config)
+            .then((response) => {
+                console.log(response);
+                this.props.updateProposal(this.state.currentProposal);
+                this.setState({ loading: false });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
   handleTextChange(event) {
       this.setState({
