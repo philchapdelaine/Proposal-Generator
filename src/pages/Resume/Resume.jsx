@@ -49,7 +49,7 @@ var index = 3;
 var newDate = "02/05/2003"
 
 // Toggles noAPI mode, which uses sample data and doesn't call the API.
-var noAPI = false;
+var noAPI = true;
 
 class Resume extends Component {
   constructor(props) {
