@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentSector } from "../../redux/actions/proposal-actions";
 import isEmail from "validator/lib/isEmail";
 
+var isValid = require('is-valid-path');
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -26,14 +28,14 @@ const buttonStyle = {
 function EditSectorModal(props = {}) {
   const { sectorID, name, description, division, imageLoc, linkedEmail, edited } = props.sector;
 
-  const [newSector, setNewSector] = useState(props.sector); 
+  const [newSector, setNewSector] = useState(props.sector);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
-  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
 
   const dispatch = useDispatch();
 
   const handleSave = async () => {
-    if (validateEmail()) {
+    if (validateEmail(newSector.linkedEmail) && validateImageLocation(newSector.imageLoc) ) {
       // sets current sector to the updated sector. DOES NOT update anything in db, nor does it affect the original sector
       newSector.edited = true;
       console.log(newSector);
@@ -43,27 +45,30 @@ function EditSectorModal(props = {}) {
   };
   useEffect( () => {
     setSaveButtonDisabled(true);
+    setNewSector(props.sector);
   }, [props.sector])
- 
-  useEffect(() => {
-    setIsValidEmail(validateEmail());
-  }, [newSector.linkedEmail])
 
   const onTextChange = e => {
-    setNewSector({ ...props.sector, [e.target.name]: e.target.value });
+    setNewSector({ ...newSector, [e.target.name]: e.target.value });
     setSaveButtonDisabled(false);
+
+    if (e.target.name == "linkedEmail") {
+      setIsValidEmail(validateEmail(e.target.value));
+    }
   };
 
-  const validateEmail = () => {
-    if (!newSector.linkedEmail) {
-      return false;
-    } else if (!isEmail(newSector.linkedEmail)) {
-      return false;
-    } else return true;
+  const validateImageLocation = (currImageLoc) => {
+    return (currImageLoc === "" || (isValid(currImageLoc) && (currImageLoc.endsWith(".jpeg") || currImageLoc.endsWith(".jpg") || currImageLoc.endsWith(".png"))))
+  }
+
+  const validateEmail = (currEmail) => {
+    if (currEmail) {
+      return isEmail(currEmail);
+    } else return false;
   };
 
   return (
-    <Modal 
+    <Modal
       open={props.open}
       onClose={props.onClose}
       >
@@ -107,15 +112,15 @@ function EditSectorModal(props = {}) {
                 <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
               </Select>
             </FormControl>
-            <TextField 
+            <TextField
               label="Employee email" size="small" name="linkedEmail"
-              defaultValue={linkedEmail}  
-              onChange={onTextChange} 
-              error={!isValidEmail} 
-              helperText={isValidEmail ? "" : "Employee email must be a valid email format"} 
+              defaultValue={linkedEmail}
+              onChange={onTextChange}
+              error={!isValidEmail}
+              helperText={isValidEmail ? "" : "Employee email must be a valid email format"}
               style={{marginBottom: 10}}
             />
-            <TextField label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>
+            <TextField helperText={validateImageLocation(newSector.imageLoc)? "" : "Invalid Directory. Only .png .jpeg .jpg"} error={!validateImageLocation(newSector.imageLoc)} label="Image location" name="imageLoc" size="small" defaultValue={imageLoc} onChange={onTextChange} style={{marginBottom: 10}}/>
             <TextField label="Description" name="description" size="small" defaultValue={description} onChange={onTextChange} multiline maxRows={4}/>
           </Box>
           <Box display="flex" justifyContent="center" style={{marginTop: 10}}>
