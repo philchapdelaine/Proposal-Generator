@@ -15,6 +15,7 @@ import "./CustomListItem.css";
 
 import axios from "axios";
 
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
@@ -26,6 +27,7 @@ class CustomListItem extends React.Component {
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
       proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
+      redirect: null,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
@@ -85,6 +87,7 @@ class CustomListItem extends React.Component {
               .catch((error) => {
                 console.log(error);
               });
+            this.setState({ redirect: "/admin" });
         }
   }
 
@@ -95,6 +98,9 @@ class CustomListItem extends React.Component {
   }
 
   render() {
+    if (this.state.redirect) {
+        return <Redirect to={this.state.redirect} />
+    }
     return (
       <div>
         <div className="proposal-name-form">
@@ -152,11 +158,9 @@ class CustomListItem extends React.Component {
           )}
         </List>
             <div className="button-container">
-                <Link to="/admin">
-                    <ButtonGroup variant="contained" size="large" >
-                        <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
-                    </ButtonGroup>
-                </Link>
+                <ButtonGroup variant="contained" size="large" >
+                    <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                </ButtonGroup>
             </div>
       </div>
     );
