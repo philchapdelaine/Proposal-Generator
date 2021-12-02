@@ -1,42 +1,3 @@
-// used for testing
-const initialProposal = {
-	"proposalID": 1,
-	"proposalName": "dummy proposal",
-	"resumes" : 
-		[
-			{
-				"sectorID": 1,
-				"name": "Experience",
-				"linkedEmail": "mc@ae.com",
-				"division": "Water",
-				"empty": true,
-				"proposalNumber": "1",
-				"imageLoc": "blah/blah",
-				"description": "I'm the best so I don't need to have any experience"
-			},
-			{
-				"sectorID": 2,
-				"name": "Education",
-				"linkedEmail": "mc@ae.com",
-				"division": "Ground",
-				"empty": true,
-				"proposalNumber": "1",
-				"imageLoc": "blah/blah",
-				"description": "II am also a super great description"
-			}
-		]
-	};
-
-// just for testing
-const intialSector = {
-	"sectorID": 4,
-	"name": "TestSector",
-	"linkedEmail": "mc@ae.com",
-	"division": "Air",
-	"imageLoc": "blah/blah",
-	"description": "How do I keep making these descriptions so good"
-}
-
 const INITIAL_STATE = {
 	currentProposalIndex: -1,
 	currentSector: {},
@@ -70,7 +31,6 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: state.currentSector,
 			proposals: [...state.proposals]
 		};
-		// const proposaltoUpdateIndex = newState.proposals.findIndex(proposal => proposal.proposalId == action.proposalId);
 		let updatedSectors = newState.proposals[state.currentProposalIndex].resumes.filter(sector => sector.sectorID !== action.sectorID);
 		newState.proposals[state.currentProposalIndex].resumes = updatedSectors;
 		return newState;
@@ -82,11 +42,9 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			proposals: [...state.proposals]
 		};
 		let proposaltoUpdateIndex = state.currentProposalIndex;
-		// newState.proposals[proposaltoUpdateIndex].resumes.push(state.currentSector);
 		newState.proposals[proposaltoUpdateIndex] = action.newProposal;
 		return newState;
 	}
-	// This will only get called when a user adds the first sector to new proposal
 	if (action.type === 'ADD_SECTOR_NEW_PROPOSAL') {
 		let newState = {
 			currentProposalIndex: state.currentProposalIndex,
@@ -111,15 +69,6 @@ const proposalReducer = (state = INITIAL_STATE, action) => {
 			currentSector: action.currentSector,
 			proposals: [...state.proposals]
 		};
-		return newState;
-	}
-	if (action.type === 'UPDATE_PROPOSAL') {
-		let newState = {
-			currentProposalIndex: state.currentProposalIndex,
-			currentSector: state.currentSector,
-			proposals: [...state.proposals]
-		};
-		newState.proposals[state.currentProposalIndex] = action.newProposal;
 		return newState;
 	}
   return state;

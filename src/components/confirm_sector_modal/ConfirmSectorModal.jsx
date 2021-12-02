@@ -18,7 +18,7 @@ function ConfirmSectorModal(props) {
       axios.post('/api/sector', {
           "name": props.type,
           "division": props.division,
-          "ProposalNumber": props.proposalNum,
+          "ProposalNumber": props.proposalNum || "NONE",
           // These properties are not required for sector templates. Submit empty string for data validation
           "imageLoc": "",
           "description": "",

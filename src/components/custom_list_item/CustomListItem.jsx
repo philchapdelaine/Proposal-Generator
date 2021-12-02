@@ -10,11 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 import "./CustomListItem.css";
 
 import axios from "axios";
 
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
@@ -26,22 +29,26 @@ class CustomListItem extends React.Component {
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
       proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
+      redirect: null,
+      success: false,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDeleteSector = this.handleDeleteSector.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.axiosPut = this.axiosPut.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.action = this.action.bind(this);
+  }
+
+  componentWillUnmount() {
+      // fix Warning: Can't perform a React state update on an unmounted component
+      this.setState = (state, callback) => {
+          return;
+      };
   }
 
   handleClick(id) {
-    // const oldResumeClicked = this.state.openItemID === id;
-    // console.log(newResumeClicked)
-    // if (oldResumeClicked) {
-    //   this.setState({ openItemId : 0 });
-    //   console.log(this.state.openItemID)
-    // }
-    // } else {
-    //   this.setState({ openItemId : null });
-    // }
     if (this.state.openItemIDs.includes(id)) {
       const newIDs = this.state.openItemIDs.filter((thisID) => thisID !== id);
       this.setState({ openItemIDs: newIDs });
@@ -53,48 +60,73 @@ class CustomListItem extends React.Component {
   handleDeleteSector(sectorID) {
       this.setState({ loading: true });
       let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}/sector/${sectorID}`;
-      console.log(this.state.currentProposal);
       axios
           .delete(url)
           .then((response) => {
               console.log(response);
               this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
-              this.setState({ loading: false, proposalSavedMessage: true });
-              setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
+              this.setState({ loading: false });
           })
           .catch((error) => {
               console.log(error);
           });
   }
 
-    handleSubmit() {
+    async handleSubmit() {
         if (this.state.currentProposal !== undefined) {
-            this.setState({ loading: true });
-            const config = { headers: { "Content-Type": "application/json" } };
-            this.state.currentProposal.proposalName = this.state.proposalName;
-            let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
-            console.log(this.state.currentProposal)
-            axios
-              .put(url, this.state.currentProposal, config)
-              .then((response) => {
-                console.log(response);
-                this.props.updateProposal(this.state.currentProposal);
-                this.setState({ loading: false, proposalSavedMessage: true });
-                setTimeout(this.setState({ proposalSavedMessage: false }), 3000);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            await this.axiosPut();
+            this.setState({ success: true });
         }
-  }
+    }
 
-  handleTextChange(event) {
-      this.setState({
-          proposalName: event.target.value
-      })
-  }
+    async axiosPut() {
+        this.setState({ success: true });
+        this.setState({ loading: true });
+        const config = { headers: { "Content-Type": "application/json" } };
+        this.state.currentProposal.proposalName = this.state.proposalName;
+        let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
+        const res = await axios
+            .put(url, this.state.currentProposal, config)
+            .then((response) => {
+                console.log(response);
+                this.setState({ loading: false });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    handleBack() {
+        this.setState({ redirect: "/admin" });
+    }
+
+    handleTextChange(event) {
+        this.setState({
+            proposalName: event.target.value
+        })
+    }
+
+    handleClose(event, reason) {
+        this.setState({ success: false });
+    };
+
+    action() {
+            <React.Fragment>
+                <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={this.handleClose}
+                >
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            </React.Fragment>
+    };
 
   render() {
+    if (this.state.redirect) {
+        return <Redirect to={this.state.redirect} />
+    }
     return (
       <div>
         <div className="proposal-name-form">
@@ -130,7 +162,7 @@ class CustomListItem extends React.Component {
                   </IconButton>
                 </ListItem>
                 <Collapse
-                  key={i}
+                  key={i+sector.sectorID}
                   in={this.state.openItemIDs.includes(sector.sectorID)}
                   timeout="auto"
                   unmountOnExit
@@ -152,12 +184,19 @@ class CustomListItem extends React.Component {
           )}
         </List>
             <div className="button-container">
-                <Link to="/admin">
-                    <ButtonGroup variant="contained" size="large" >
-                        <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
-                    </ButtonGroup>
-                </Link>
+                <ButtonGroup variant="contained" size="large" >
+                    <Button className="save-button" onClick={() => this.handleBack()}>Exit</Button>
+                    <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                </ButtonGroup>
             </div>
+            <Snackbar
+                open={this.state.success}
+                autoHideDuration={2000}
+                onClose={this.handleClose}
+                message="Proposal Successfully Saved"
+                action={this.action}
+            >
+            </Snackbar>
       </div>
     );
   }
@@ -179,13 +218,7 @@ function mapDispatchToProps(dispatch) {
         sectorID: sectorID,
         proposalId: proposalId,
       });
-    },
-    updateProposal: (newProposal) => {
-      dispatch({
-        type: "UPDATE_PROPOSAL",
-        newProposal: newProposal
-      });
-    },
+    }
   };
 }
 

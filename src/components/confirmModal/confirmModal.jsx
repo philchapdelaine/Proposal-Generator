@@ -42,7 +42,7 @@ function ConfirmModal(props) {
             variant="outlined"
             onClick={props.handleClose}
           >
-            No
+            Cancel
           </Button>
         </Box>
       </Modal>
