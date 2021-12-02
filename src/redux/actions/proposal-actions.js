@@ -54,10 +54,3 @@ export const setCurrentSector = (currentSector) => {
         currentSector: currentSector
     }
 };
-
-export const updateProposal = (newProposal) => {
-    return {
-        type: "UPDATE_PROPOSAL",
-        newProposal: newProposal
-    }
-};
