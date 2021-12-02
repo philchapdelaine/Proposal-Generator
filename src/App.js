@@ -2,9 +2,7 @@ import "./App.css";
 import Logo from "./components/logo/logo";
 import UserDropdown from "./components/user_dropdown/UserDropdown";
 
-import MenuIcon from "@mui/icons-material/Menu";
 
-// import Navigator from "./components/navigator/Navigator";
 import { useSelector, useDispatch } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -14,7 +12,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import React, {useEffect} from "react";
+import React from "react";
 
 import Login from "./pages/Login/Login";
 import CreateSector from "./pages/Sector/CreateSector";
@@ -29,21 +27,6 @@ function App() {
   const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn);
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
 
-  const dispatch = useDispatch();
-
-  // localStorage.clear()
-
-  // useEffect(() => {
-  //   const loggedInUser = localStorage.getItem("aeUser");
-  //   if (loggedInUser !== null) {
-  //     const foundUser = JSON.parse(loggedInUser);
-  //     console.log(foundUser)
-  //     dispatch({
-  //       type: "SUCCESSFUL_LOGIN",
-  //       payload: foundUser,
-  //     });
-  //   }
-  // }, []);
 
   const loggedinRedirects = () => {
     if (isLoggedIn) {
