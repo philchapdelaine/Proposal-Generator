@@ -39,10 +39,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       return { ...state, password: "", loggedIn: false };
 
     case "LOG_OUT":
-      window.localStorage.removeItem("aeUser");
-      // return INITIAL_STATE;
+      localStorage.removeItem("aeUser");
       return {
-        ...state,
         username: "",
         password: "",
         loggedIn: false,

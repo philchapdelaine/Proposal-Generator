@@ -32,7 +32,6 @@ function UserDropdown() {
     setAnchorEl(null);
   };
   const handleLogout = () => {
-    localStorage.removeItem("aeUser");
     dispatch({ type: "LOG_OUT" });
   };
 
@@ -85,7 +84,7 @@ function UserDropdown() {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={() => handleLogout}>
+          <MenuItem onClick={() => handleLogout()}>
             <ListItemIcon>
 
               <Logout fontSize="small" />
