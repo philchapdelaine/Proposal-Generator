@@ -62,6 +62,7 @@ function LoginBox() {
             type: "SUCCESSFUL_LOGIN",
             payload: res.data,
           });
+          // localStorage.setItem("aeUser", JSON.stringify(action.payload))
         } else {
           alert("Incorrect Username or Password");
         }
