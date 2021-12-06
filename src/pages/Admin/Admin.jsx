@@ -209,7 +209,7 @@ function formatSectorInfo(sector) {
                       Delete
                     </Button>
                     <Tooltip 
-                      title="Go to Create Proposal page to edit your proposal in the Reading Pane." 
+                      title="Go to the Proposal Editor page to add, delete, and modify sectors from your proposal in the Reading Pane." 
                       followCursor>
                       <Button
                         variant="outlined"
