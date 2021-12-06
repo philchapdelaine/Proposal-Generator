@@ -191,7 +191,7 @@ class CustomListItem extends React.Component {
             </div>
             <Snackbar
                 open={this.state.success}
-                autoHideDuration={3000}
+                autoHideDuration={2000}
                 onClose={this.handleClose}
                 message="Proposal Successfully Saved"
                 action={this.action}
@@ -218,13 +218,7 @@ function mapDispatchToProps(dispatch) {
         sectorID: sectorID,
         proposalId: proposalId,
       });
-    },
-    updateProposal: (newProposal) => {
-      dispatch({
-        type: "UPDATE_PROPOSAL",
-        newProposal: newProposal
-      });
-    },
+    }
   };
 }
 
