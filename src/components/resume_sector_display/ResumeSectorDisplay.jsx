@@ -21,6 +21,12 @@ const useStyles = makeStyles(() => ({
     marginLeft: "15px",
     marginRight: "10px"
   },
+  adminModified: {
+    backgroundColor: "#94b6d1"
+  },
+  templateSectors: {
+    backgroundColor: "#bad3e8"
+  }
 }));
 
 
@@ -59,20 +65,30 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function generateAccordian(resume) {
+    const [accordionType, setAccordionType] = useState("");
+    const classes = useStyles();
+
+    function handleAccordionType(type) {
+      setAccordionType(type);
+    }
+    useEffect(() => {
+    }, [accordionType])
+
     return (
       <Accordion
         expanded={expanded === "panel" + resume.resumeID}
         onChange={handleChange("panel" + resume.resumeID)}
       >
         <AccordionSummary
+          className={ accordionType == "adminModified" ? classes.adminModified : accordionType == "template" ? classes.templateSectors : "" }
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
           sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
         >
-          <ResumeOwnerDisplay ownerID={resume.resumeID}></ResumeOwnerDisplay>
+          <ResumeOwnerDisplay ownerID={resume.resumeID} notifyAccordionType={handleAccordionType} ></ResumeOwnerDisplay>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails className={ accordionType == "adminModified" ? classes.adminModified : accordionType == "template" ? classes.templateSectors : ""}>
           {/* {resume.sectors.map((sector) => generateRows(sector, resume))} */
           
           <Table aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
@@ -107,14 +123,22 @@ export function ResumeOwnerDisplay(props) {
   const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
   const classes = useStyles();
 
+  function notifyAccordionType(type) {
+    props.notifyAccordionType(type);
+  }
+
   useEffect(() => {
     switch(props.ownerID) 
     {
       case -1:
         setResumeOwnerName("Template Sectors");
+        setResumeOwnerEmail("Unused templates for customization");
+        notifyAccordionType("template");
         break;
       case -2:
-        setResumeOwnerName("Previous Modified Sectors");
+        setResumeOwnerName("Admin Modified Sectors");
+        setResumeOwnerEmail("Sectors edited by an admin in other proposals");
+        notifyAccordionType("adminModified");
         break;
       default:
         axios
@@ -122,6 +146,7 @@ export function ResumeOwnerDisplay(props) {
             .then((res) => {
               setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
               setResumeOwnerEmail(res.data.emailAddress);
+              notifyAccordionType("");
             })
             .catch((err) => {
               console.log(err);
