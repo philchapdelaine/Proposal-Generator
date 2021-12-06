@@ -73,6 +73,18 @@ function Admin() {
     });
 }
 
+function formatSectorInfo(sector) {
+  var sectorInfo = '';
+  sectorInfo += "Type: " + sector.name;
+  sectorInfo += "\nProposal Number: " + sector.proposalNumber;
+  sectorInfo += "\nDivision: " + sector.division;
+  sectorInfo += "\nLast Modified: " + sector.modifiedDate;
+  sectorInfo += "\nLinked Email: " + sector.linkedEmail;
+  sectorInfo += "\nImage Location: " + sector.imageLoc;
+  sectorInfo += "\nDescription: " + sector.description + "\n";
+  return sectorInfo;
+}
+
   function OBJtoXML(obj) {
     // adapted from: https://stackoverflow.com/questions/48788722/json-to-xml-using-javascript
     var xml = '';
@@ -88,7 +100,7 @@ function Admin() {
 
           for (var sector of resumes[linkedEmail]) {
             xml += "\n<" + "sector" + ">\n";
-            xml += OBJtoXML(new Object(sector));
+            xml += formatSectorInfo(sector);
             xml += "</" + "sector" + ">\n";
           }
           xml += "</resume-" + username + ">\n";
@@ -112,7 +124,7 @@ function Admin() {
     // src: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
     const blob = new Blob(["<proposal>\n" + OBJtoXML(proposal) + "\n</proposal>"], { type: "text/xml" })
     const a = document.createElement("a");
-    a.download = proposal.name + ".xml";
+    a.download = proposal.proposalName + ".xml";
     a.href = window.URL.createObjectURL(blob);
     a.dataset.downloadurl = ["text/json", a.download, a.href];
 
