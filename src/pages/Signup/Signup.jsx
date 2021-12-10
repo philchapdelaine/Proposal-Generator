@@ -126,7 +126,7 @@ function Signup() {
 
   return (
     <div className="Signup">
-      REGISTRATION <br />
+      <span className="title"> Sign Up </span> <br />
       <Box
         component="form"
         sx={{
