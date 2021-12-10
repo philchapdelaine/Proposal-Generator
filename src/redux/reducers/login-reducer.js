@@ -1,10 +1,20 @@
+var storedUser = localStorage.getItem("aeUser")
+
 const INITIAL_STATE = {
-  username: "",
+  username: storedUser  ? JSON.parse(storedUser)["emailAddress"]: "",
   password: "",
-  loggedIn: false,
-  admin: false,
-  uid: -1,
+  loggedIn: storedUser  ? true : false,
+  admin: storedUser  ? ( JSON.parse(storedUser)["roleType"] === "Project Administrator" ? true: false ) : false ,
+  uid: storedUser ? JSON.parse(storedUser)["applicationUserId"] : -1,
 };
+
+// const INITIAL_STATE = {
+//   username: "",
+//   password: "",
+//   loggedIn: false,
+//   admin: false ,
+//   uid: -1,
+// };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -16,18 +26,27 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       };
 
     case "SUCCESSFUL_LOGIN":
+      localStorage.setItem("aeUser", JSON.stringify(action.payload))
       return {
         ...state,
         loggedIn: true,
         uid: action.payload["applicationUserId"],
         admin: action.payload["roleType"] === "Project Administrator",
+        username: action.payload["emailAddress"] 
       };
 
     case "FAILED_LOGIN":
       return { ...state, password: "", loggedIn: false };
 
     case "LOG_OUT":
-      return INITIAL_STATE;
+      localStorage.removeItem("aeUser");
+      return {
+        username: "",
+        password: "",
+        loggedIn: false,
+        admin: false ,
+        uid: -1,
+      }
 
     default:
       return state;
@@ -35,6 +54,3 @@ const loginReducer = (state = INITIAL_STATE, action) => {
 };
 
 export default loginReducer;
-
-//  merely sample from:
-// https://github.com/kenhyj/Traceify/tree/master/client/src/redux/reducers

@@ -20,6 +20,8 @@ import "./Signup.css";
 
 import isEmail from "validator/lib/isEmail";
 
+import { useSelector, useDispatch } from "react-redux";
+
 import axios from "axios";
 
 function Signup() {
@@ -40,6 +42,8 @@ function Signup() {
   const [alertSignupFail, setAlertSignupFail] = useState(false);
   const [signupFailMsg, setSignupFailMsg] = useState("");
   const [signupFailSeverity, setSignupFailSeverity] = useState("error");
+
+  const dispatch = useDispatch();
 
   const handleValidator = () => {
     setvalidator({...validator_init_state, })
@@ -70,7 +74,7 @@ function Signup() {
   }
 
   const register = async () => {
-    const resp = await axios
+    await axios
       .post(`/api/authenticate/register/`, {
         FirstName: firstName,
         LastName: lastName,
@@ -81,14 +85,21 @@ function Signup() {
       .then((res) => {
         if (res.status === 200) {
           setSigninSuccess(true);
-          window.location = "/login";
+          setTimeout(function () {
+            dispatch({
+              type: "SUCCESSFUL_LOGIN",
+              payload: res.data,
+            });
+        }, 5000);
+          // window.location = "/login";
         } else {
           alert(res);
         }
       })
       .catch((err) => {
         setAlertSignupFail(true);
-        if (err.response.status == 400) {
+        console.log(err);
+        if (err.response.status === 400) {
           setSignupFailSeverity("error");
           setSignupFailMsg("Try another username")
         } else if (err.response.status == 404) {
@@ -273,7 +284,7 @@ function Signup() {
         autoHideDuration={6000}
       >
         <MuiAlert onClose={() => setSigninSuccess(false)} severity="success" sx={{ width: '100%' }} variant="filled">
-        Sign up Successful! Redirecting to Login.
+        Sign up Successful! Signing in . . .
         </MuiAlert>
       </Snackbar>
 
