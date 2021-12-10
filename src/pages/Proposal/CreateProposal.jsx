@@ -74,8 +74,12 @@ function CreateProposal() {
   const [searchedProposals, setsearchedProposals] = useState([]);
   const uid = useSelector((state) => state.loginReducer.uid);
 
-  const handleSubmit = () => {
-    setSearch(true)
+  const handleSubmit = (buttonPressEvt = null) => {
+    if (!buttonPressEvt) {
+      setSearch(true);
+    } else if ( buttonPressEvt.key === "Enter") {
+      setSearch(true);
+    }
   };
 
 
@@ -180,6 +184,7 @@ function CreateProposal() {
               label="Search resumes"
               helperText="Search by name, email, proposal #, sector type, or division"
               onChange={(event) => setSearchWord(event.target.value)}
+              onKeyDown={(e) => handleSubmit(e)}
             />
             <Button
               variant="contained"
