@@ -5,14 +5,17 @@ import {
   AccordionSummary,
   Button,
   Typography,
-  Tooltip
+  Tooltip,
+  tooltipClasses
 } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import { Box } from "@mui/system";
 import NavigatorBar from "../../components/navigator_bar/NavigatorBar";
 import { useHistory, BrowserRouter as Router, Link } from "react-router-dom";
 import "./Admin.css";
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
+import HelpIcon from '@mui/icons-material/Help';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   setProposalIndex,
@@ -28,15 +31,6 @@ const style = {
   margin: "10px",
 };
 
-const sampleStyle = {
-  width: "100px",
-  height: "150px",
-  bgcolor: "grey",
-  marginLeft: "10px",
-  marginRight: "10px",
-  marginTop: "10px",
-};
-
 function Admin() {
   const [proposals, setProposals] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -45,6 +39,19 @@ function Admin() {
   const dispatch = useDispatch();
 
   const uid = useSelector((state) => state.loginReducer.uid);
+
+
+  const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      maxWidth: 220,
+      fontSize: theme.typography.pxToRem(12),
+      border: '4px solid black',
+    },
+  }));
 
   const handleClickEdit = (index) => {
     dispatch(setProposalIndex(index));
@@ -173,12 +180,24 @@ function formatSectorInfo(sector) {
       <NavigatorBar />
       <div className="admin-main">
         <div className="admin-buttons-container">
-          <Link to="/create-proposal" style={{ textDecoration: "none" }}>
+          <Link to="/create-proposal" style={{ textDecoration: "none", marginRight: "5px" }}>
                       <Button className="admin-button" color="primary" variant="outlined" onClick={() => createNewProposal()}> New Proposal <AddIcon/></Button>
-          </Link>{" "}
+          </Link>
           <Link to="/sector" style={{ textDecoration: "none" }}>
             <Button className="admin-button" color="primary" variant="outlined"> New Sector <AddIcon/></Button>
           </Link>
+          <HtmlTooltip 
+              title={
+                <div>
+                  <Typography><b>New Proposal</b></Typography>
+                  Build a new proposal using the Proposal Editor to search current employee resumes.
+                  <Typography><b>New Sector</b></Typography>
+                  Create a sector template for employees to use and customize in their own resumes.
+                </div>
+                }
+              followCursor>
+              <HelpIcon fontSize="small" sx= {{ marginLeft: "10px" }}></HelpIcon>
+            </HtmlTooltip>
         </div>
         <Box>
           <Box display="flex" flexDirection="row">
@@ -208,8 +227,8 @@ function formatSectorInfo(sector) {
                     >
                       Delete
                     </Button>
-                    <Tooltip 
-                      title="Go to the Proposal Editor page to add, delete, and modify sectors from your proposal in the Reading Pane." 
+                    <HtmlTooltip 
+                      title="Go to the Proposal Editor page to add, delete, and modify sectors in your proposal." 
                       followCursor>
                       <Button
                         variant="outlined"
@@ -218,7 +237,7 @@ function formatSectorInfo(sector) {
                       >
                         Edit
                       </Button>
-                    </Tooltip>
+                    </HtmlTooltip>
                     <Button variant="contained" onClick={() => exportProposal(proposal)}>Export</Button>
                   </Box>
                 </AccordionDetails>
