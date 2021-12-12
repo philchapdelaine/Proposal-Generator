@@ -35,6 +35,7 @@ function Admin() {
   const [proposals, setProposals] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -167,6 +168,10 @@ function formatSectorInfo(sector) {
     }
   };
 
+  function searchProposals() {
+    console.log("proposal search api call goes here, you can use the" + searchTerm);
+  }
+
   const createNewProposal = () => {
       dispatch(setProposalIndex(-1));
   }
@@ -205,12 +210,27 @@ function formatSectorInfo(sector) {
             <Box width={15} />
             <div className = "admin-hint">Expand to delete, edit, and export proposals</div> 
           </Box>
+          <div className="proposal-search">
+            <form onSubmit={(e) => {e.preventDefault() 
+                searchProposals()}} className="proposal-search">
+              <input
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="proposal-search-bar"
+                placeholder="Search your proposals"
+              />
+              <Button 
+                className="admin-search-button"
+                onClick={searchProposals}
+              >Search</Button>
+            </form>
+          </div>
           { proposals.length !== 0 
             ? (proposals.map((proposal, id) => {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>{proposal.proposalName}</Typography>
+                  <Typography sx={{ width: '70%', flexShrink: 0, fontWeight:"300"}} variant="h6">{proposal.proposalName}</Typography>
+                  <Typography sx={{ color: "text.secondary", marginTop: "5px" }}  fontFamily='"Roboto" "Helvetica" "Arial" "sans-serif"'>created: 12/11/2021</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <ExpandSections resumes={proposal.resumes} />
