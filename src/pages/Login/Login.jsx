@@ -83,8 +83,12 @@ function LoginBox() {
       });
   };
 
-  const handleSubmit = () => {
-    authUser();
+  const handleSubmit = (buttonPressEvt = null) => {
+    if (!buttonPressEvt) {
+      authUser();
+    } else if (buttonPressEvt.key === "Enter") {
+      authUser();
+    }
   };
 
   return (
@@ -113,6 +117,7 @@ function LoginBox() {
               payload: { username: event.target.value },
             })
           }
+          onKeyDown={(e) => handleSubmit(e)}
         />
         <TextField
           required
@@ -127,6 +132,7 @@ function LoginBox() {
           }}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          onKeyDown={(e) => handleSubmit(e)}
           type="password"
         />
         <div className="LoginBtnGrp">
