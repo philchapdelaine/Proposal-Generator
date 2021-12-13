@@ -65,9 +65,11 @@ function ReadingPane(props) {
       // case where sector is added to a non-existent proposal
       if (proposalNotCreated) {
         // build a fresh proposal
+        const date = new Date();
         let newProposal = {
           proposalName: "Untitled New Proposal",
           resumes: [],
+          proposalModifiedDate: date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()
           };
         // build a new sector with no sectorID
         let newSector = (({ description, division, empty, edited, imageLoc, linkedEmail, name, proposalNumber }) => (

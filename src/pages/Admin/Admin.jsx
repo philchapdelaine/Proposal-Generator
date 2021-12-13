@@ -229,8 +229,8 @@ function formatSectorInfo(sector) {
             return (
               <Accordion key={id} style={style}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography sx={{ width: '70%', flexShrink: 0, fontWeight:"300"}} variant="h6">{proposal.proposalName}</Typography>
-                  <Typography sx={{ color: "text.secondary", marginTop: "5px" }}  fontFamily='"Roboto" "Helvetica" "Arial" "sans-serif"'>created: 12/11/2021</Typography>
+                  <Typography sx={{ width: '65%', flexShrink: 0, fontWeight:"300"}} variant="h6">{proposal.proposalName}</Typography>
+                  <Typography sx={{ color: "text.secondary", marginTop: "5px" }}  fontFamily='"Roboto" "Helvetica" "Arial" "sans-serif"'>Last modified: {proposal.proposalModifiedDate}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <ExpandSections resumes={proposal.resumes} />
