@@ -169,6 +169,14 @@ function formatSectorInfo(sector) {
   };
 
   function searchProposals() {
+    axios.get(`/api/search/proposal/${searchTerm}/userid/${uid}`)
+      .then((res) => {
+        console.log(res.data);
+        setProposals(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     console.log("proposal search api call goes here, you can use the" + searchTerm);
   }
 
