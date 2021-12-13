@@ -45,6 +45,29 @@ function CreateSector() {
     setDivision("");
   }
 
+  function generateMenuItems(sectorField = "") {
+    let ConfigData = require('../../config/MenuItemsConfig.json');
+    var menuOptions = [];
+    switch (sectorField) {
+      case 'type':
+        menuOptions = ConfigData.SECTOR_TYPES;
+        break;
+      case 'division':
+        menuOptions = ConfigData.DIVISIONS;
+        break;
+      default:
+        break;
+    }
+    
+    return (
+      <div>
+        {menuOptions.map((value, index) => {
+          return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+        })}
+      </div>
+    )
+  }
+
   return (
 
     <div className="create-sector-page">
@@ -65,12 +88,7 @@ function CreateSector() {
               value={type}
               onChange={(event) => setType(event.target.value)}
             >
-              <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
-              <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
-              <MenuItem className="cs-menuitem" value="Experience">Experience</MenuItem>
-              <MenuItem className="cs-menuitem" value="Summary">Summary</MenuItem>
-              <MenuItem className="cs-menuitem" value="Justification">Justification</MenuItem>
-              <MenuItem className="cs-menuitem" value="Publications">Publications</MenuItem>
+              {generateMenuItems('type')}
             </Select>
           </FormControl>
           <TextField
@@ -83,24 +101,6 @@ function CreateSector() {
             onChange={(event) => setProposalNum(event.target.value)}
           />
           <br />
-          {/* <TextField
-            label="Employee Email"
-            className="cs-input"
-            fullWidth={true}
-            style={{ marginBottom: '15px' }}
-            variant="outlined"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          /> */}
-          {/* <TextField
-            label="Image Location"
-            className="cs-input"
-            fullWidth={true}
-            style={{ marginBottom: '15px' }}
-            variant="outlined"
-            value={imgLocation}
-            onChange={(event) => setImgLocation(event.target.value)}
-          /> */}
           <FormControl fullWidth>
             <InputLabel>Division</InputLabel>
             <Select
@@ -109,24 +109,9 @@ function CreateSector() {
               value={division}
               onChange={(event) => setDivision(event.target.value)}
             >
-              <MenuItem className="cs-menuitem" value="Water">Water</MenuItem>
-              <MenuItem className="cs-menuitem" value="Bridge">Bridge</MenuItem>
-              <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
-              <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
-              <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
-              <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
+              {generateMenuItems('division')}
             </Select>
           </FormControl>
-          {/* <TextField
-            label="Description"
-            className="cs-input"
-            fullWidth={true}
-            variant="outlined"
-            multiline={true}
-            minRows="8"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          /> */}
         </div>
         {!hasRequiredInfo && submitAttempted && (
           <div className="cs-warning"> Sector type and division are required fields. </div>
