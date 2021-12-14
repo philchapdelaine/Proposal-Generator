@@ -24,6 +24,10 @@ function CreateSector() {
 
   let hasRequiredInfo = false;
 
+  let ConfigData = require('../../config/MenuItemsConfig.json');
+  const typeMenuOptions = ConfigData.SECTOR_TYPES;
+  const divisionMenuOptions = ConfigData.DIVISIONS;
+
   function openModal() {
     const hasType = type !== ""; // add other required fields here
     const hasDivision = division !== "";
@@ -45,31 +49,7 @@ function CreateSector() {
     setDivision("");
   }
 
-  function generateMenuItems(sectorField = "") {
-    let ConfigData = require('../../config/MenuItemsConfig.json');
-    var menuOptions = [];
-    switch (sectorField) {
-      case 'type':
-        menuOptions = ConfigData.SECTOR_TYPES;
-        break;
-      case 'division':
-        menuOptions = ConfigData.DIVISIONS;
-        break;
-      default:
-        break;
-    }
-    
-    return (
-      <div>
-        {menuOptions.map((value, index) => {
-          return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
-        })}
-      </div>
-    )
-  }
-
   return (
-
     <div className="create-sector-page">
       <div id="app-modal"></div>
       <NavigatorBar />
@@ -88,7 +68,9 @@ function CreateSector() {
               value={type}
               onChange={(event) => setType(event.target.value)}
             >
-              {generateMenuItems('type')}
+              {typeMenuOptions.map((value, index) => {
+                return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+              })}
             </Select>
           </FormControl>
           <TextField
@@ -109,7 +91,9 @@ function CreateSector() {
               value={division}
               onChange={(event) => setDivision(event.target.value)}
             >
-              {generateMenuItems('division')}
+              {divisionMenuOptions.map((value, index) => {
+                return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+              })}
             </Select>
           </FormControl>
         </div>
