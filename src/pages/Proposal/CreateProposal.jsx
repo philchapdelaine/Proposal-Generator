@@ -181,7 +181,7 @@ function CreateProposal() {
             <HtmlTooltip 
               title={
                 <div>
-                  To filter sectors by category, use the search format <em>ìcategory:keywordî</em>. <br/> e.g. <em>division:water</em>
+                  To filter sectors by category, use the search format <em>‚Äúcategory:keyword‚Äù</em>. <br/> e.g. <em>division:water</em>
                 </div>
               }
               followCursor>
