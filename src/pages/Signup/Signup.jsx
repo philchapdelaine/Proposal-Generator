@@ -227,7 +227,7 @@ function Signup() {
               : setRole("Employee")
           }
         />
-        Admin
+        <span className="admin-checkbox-text">Admin</span>
         <div className="SignupBtnGrp">
           <Button
             variant="contained"
@@ -245,7 +245,7 @@ function Signup() {
               handleOpen();
             }}
           >
-            Sign-in
+            Exit
           </Button>
         </div>
       </Box>
