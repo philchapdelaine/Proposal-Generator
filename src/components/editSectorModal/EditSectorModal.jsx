@@ -31,6 +31,10 @@ function EditSectorModal(props = {}) {
   const [newSector, setNewSector] = useState(props.sector);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
+  let ConfigData = require('../../config/MenuItemsConfig.json');
+  const typeMenuOptions = ConfigData.SECTOR_TYPES;
+  const divisionMenuOptions = ConfigData.DIVISIONS;
+
   const dispatch = useDispatch();
 
   const handleSave = async () => {
@@ -74,29 +78,6 @@ function EditSectorModal(props = {}) {
     } else return false;
   };
 
-  function generateMenuItems(sectorField = "") {
-    let ConfigData = require('../../config/MenuItemsConfig.json');
-    var menuOptions = [];
-    switch (sectorField) {
-      case 'type':
-        menuOptions = ConfigData.SECTOR_TYPES;
-        break;
-      case 'division':
-        menuOptions = ConfigData.DIVISIONS;
-        break;
-      default:
-        break;
-    }
-    
-    return (
-      <div>
-        {menuOptions.map((value, index) => {
-          return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
-        })}
-      </div>
-    )
-  }
-
   return (
     <Modal
       open={props.open}
@@ -116,7 +97,9 @@ function EditSectorModal(props = {}) {
                 onChange={onTextChange}
                 sx={{ marginBottom: "10px" }}
               >
-                {generateMenuItems('type')}
+                {typeMenuOptions.map((value, index) => {
+                return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+              })}
               </Select>
             </FormControl>
             {/* <TextField label="Division" name="division" size="small" defaultValue={division} onChange={(e) => onTextChange(e)} style={{marginBottom: 10}}/> */}
@@ -129,7 +112,9 @@ function EditSectorModal(props = {}) {
                 onChange={onTextChange}
                 sx={{ marginBottom: "10px" }}
               >
-                {generateMenuItems('division')}
+                {divisionMenuOptions.map((value, index) => {
+                return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+              })}
               </Select>
             </FormControl>
             <TextField
