@@ -186,7 +186,7 @@ class CustomListItem extends React.Component {
             <div className="button-container">
                 <ButtonGroup variant="contained" size="large" >
                     <Button className="save-button" onClick={() => this.handleBack()}>Exit</Button>
-                    <Button className="save-button" onClick={() => this.handleSubmit()}>Save Proposal</Button>
+                    <Button className="save-button" onClick={() => this.handleSubmit()}>Save</Button>
                 </ButtonGroup>
             </div>
             <Snackbar
