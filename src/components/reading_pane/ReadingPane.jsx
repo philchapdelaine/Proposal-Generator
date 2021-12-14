@@ -7,6 +7,9 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import HelpIcon from '@mui/icons-material/Help';
+import { Tooltip, tooltipClasses, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import CustomListItem from "../custom_list_item/CustomListItem";
 import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
@@ -27,6 +30,19 @@ function ReadingPane(props) {
   let currentTab = useSelector((state) => state.tabReducer);
   let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
   let reduxProposals = useSelector((state) => state.proposalReducer.proposals);
+
+
+  const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      maxWidth: 220,
+      fontSize: theme.typography.pxToRem(12),
+      border: '4px solid black',
+    },
+  }));
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -49,9 +65,11 @@ function ReadingPane(props) {
       // case where sector is added to a non-existent proposal
       if (proposalNotCreated) {
         // build a fresh proposal
+        const date = new Date();
         let newProposal = {
           proposalName: "Untitled New Proposal",
           resumes: [],
+          proposalModifiedDate: date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()
           };
         // build a new sector with no sectorID
         let newSector = (({ description, division, empty, edited, imageLoc, linkedEmail, name, proposalNumber }) => (
@@ -139,7 +157,21 @@ function ReadingPane(props) {
 
   return (
     <div className="reading-pane">
-      <div className="reading-pane-header"> Reading Pane </div>
+      <div className="reading-pane-header">
+        Reading Pane 
+        <HtmlTooltip 
+          title={
+            <div>
+              <Typography><b>Sector Preview:</b></Typography>
+              Preview and edit sectors, then add to the current proposal. <br/>
+              <Typography><b>Current Proposal: </b> </Typography>
+              View and rename the current proposal draft. Click “SAVE PROPOSAL” to save your changes, then click “EXIT” to return to Your Proposals.
+            </div>
+          }
+          followCursor>
+          <HelpIcon sx= {{ marginLeft: "10px" }}></HelpIcon>
+        </HtmlTooltip>
+      </div>
       <div className="preview">
         <Tabs
           TabIndicatorProps={{ style: { background: "#5F9EA0" } }}

@@ -8,7 +8,9 @@
   margin-left: 20px;
 }
 .admin-buttons-container {
+  display: flex;
   float: right;
+  align-items: center;
 }
 .no-proposals-msg {
   margin-left: 20px;
@@ -28,4 +30,21 @@
   font-size: 18px;
   margin-top: 10px;
   color: gray;
+}
+.proposal-search {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+.proposal-search-bar {
+  background: rgb(223, 223, 223);
+  width: 60%;
+  height: 30px;
+	border-radius: 10px;
+	border: none;
+	padding: 4px 4px 4px 10px;
+	outline: none;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
