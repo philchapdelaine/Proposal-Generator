@@ -7,14 +7,61 @@ import "./CreateProposal.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import HelpIcon from '@mui/icons-material/Help';
-import { Tooltip, tooltipClasses, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
 import axios from "axios";
 import {
   BrowserRouter as Router,
   Link,
 } from "react-router-dom";
+
+// dummy data; this will actually come from the search api
+const recentlyViewedSample = [
+  {
+    "resumeID": 1,
+    "sectors": [
+      {
+        "sectorID": 1,
+        "name": "Experience",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Water",
+        "imageLoc": "blah/blah",
+        "description": "I'm the best so I don't need to have any experience"
+      },
+      {
+        "sectorID": 2,
+        "name": "Projects",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Air",
+        "imageLoc": null,
+        "description": "I'm the best so I don't need to have any projects"
+      }
+    ]
+  },
+  {
+    "resumeID": 2,
+    "sectors": [
+      {
+        "sectorID": 3,
+        "name": "Education",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Water",
+        "imageLoc": "blah/blah",
+        "description": "I'm the best so I don't need to have any experience"
+      },
+      {
+        "sectorID": 4,
+        "name": "Skills",
+        "linkedEmail": "mc@ae.com",
+        "fileType": "txt",
+        "division": "Air",
+        "imageLoc": null,
+        "description": "I'm the best so I don't need to have any projects"
+      }
+    ]
+  },
+]
 
 const maxLengthRecentlyViewed = 6;
 
@@ -27,25 +74,8 @@ function CreateProposal() {
   const [searchedProposals, setsearchedProposals] = useState([]);
   const uid = useSelector((state) => state.loginReducer.uid);
 
-  const HtmlTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#f5f5f9',
-      color: 'rgba(0, 0, 0, 0.87)',
-      maxWidth: 220,
-      fontSize: theme.typography.pxToRem(12),
-      border: '4px solid black',
-    },
-  }));
-
-
-  const handleSubmit = (buttonPressEvt = null) => {
-    if (!buttonPressEvt) {
-      setSearch(true);
-    } else if ( buttonPressEvt.key === "Enter") {
-      setSearch(true);
-    }
+  const handleSubmit = () => {
+    setSearch(true)
   };
 
 
@@ -60,28 +90,43 @@ function CreateProposal() {
   }, [isSearch]);
 
 
-    const getFeedback = () => {
-        const url = `/api/search/resume/${searchWord}`
-        axios.get(url)
-            .then((res) => {
-                console.log(res.data);
-                setSearchedResumes(res.data);
-                setSearch(false);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+  const getFeedback = () => {
+    if (searchWord === null || searchWord === "") {
+      const url = `/api/search/resume/all/userid/${uid}`
+      axios.get(url)
+      .then((res) => {
+        console.log(res.data);
+        setSearchedResumes(res.data);
+        setSearch(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    } else {
+      const url = `/api/search/resume/${searchWord}/userid/${uid}`
+      axios.get(url)
+      .then((res) => {
+        console.log(res.data);
+        setSearchedResumes(res.data);
+        setSearch(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     }
-    const getFeedback2 = () => {
-        const url = `/api/search/resume/${"all"}`
-        axios.get(url)
-            .then((res) => {
-                setSearchedResumes(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
+    
+  }
+
+  const getFeedback2 = () => {
+    const url = `/api/search/resume/all/userid/${uid}`
+    axios.get(url)
+      .then((res) => {
+        setSearchedResumes(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
 
   function addToRecentlyViewed(resume) {
@@ -126,19 +171,6 @@ function CreateProposal() {
         <div className="cp-center-header">
           <div className="title">
             Proposal Editor
-            <HtmlTooltip 
-              title={
-                <div>
-                  Search employee resumes below to find and add sectors to your proposal.
-                  <Typography><b>Admin Modified Sectors</b></Typography>
-                  Easily find and reuse edited sectors that were previously modified by a Project Admin.
-                  <Typography><b>Template Sectors</b></Typography>
-                  Existing template sectors to customize.
-                </div>
-                }
-              followCursor>
-              <HelpIcon fontSize="medium" sx= {{ marginLeft: "10px" }}></HelpIcon>
-            </HtmlTooltip>
           </div>
           <div className="cp-search-bar">
             <TextField
@@ -148,7 +180,6 @@ function CreateProposal() {
               label="Search resumes"
               helperText="Search by name, email, proposal #, sector type, or division"
               onChange={(event) => setSearchWord(event.target.value)}
-              onKeyDown={(e) => handleSubmit(e)}
             />
             <Button
               variant="contained"
@@ -163,15 +194,6 @@ function CreateProposal() {
             >
               Search
             </Button>
-            <HtmlTooltip 
-              title={
-                <div>
-                  To filter sectors by category, use the search format <em>“category:keyword”</em>. <br/> e.g. <em>division:water</em>
-                </div>
-              }
-              followCursor>
-              <HelpIcon sx= {{ marginTop: "15px", marginLeft: "10px" }}></HelpIcon>
-            </HtmlTooltip>
           </div>
         </div>
         <div className="search-results"> Search results: </div> <br />
