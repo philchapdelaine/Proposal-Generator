@@ -165,7 +165,7 @@ function ReadingPane(props) {
               <Typography><b>Sector Preview:</b></Typography>
               Preview and edit sectors, then add to the current proposal. <br/>
               <Typography><b>Current Proposal: </b> </Typography>
-              View and rename the current proposal draft. Click “SAVE PROPOSAL” to save your changes, then click “EXIT” to return to Your Proposals.
+              View and rename the current proposal draft. Click “SAVE” to save your changes, then click “EXIT” to return to Your Proposals.
             </div>
           }
           followCursor>
