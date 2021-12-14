@@ -21,6 +21,7 @@ import {
   setProposalIndex,
   setProposals as setProposalsRedux,
 } from "../../redux/actions/proposal-actions";
+import { setTab } from "../../redux/actions/tab-actions";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
 import ExpandSections from "../../components/expand_sections/ExpandSections";
@@ -193,6 +194,7 @@ function formatSectorInfo(sector) {
 
   const createNewProposal = () => {
       dispatch(setProposalIndex(-1));
+      dispatch(setTab(0));
   }
 
   useEffect(() => {
