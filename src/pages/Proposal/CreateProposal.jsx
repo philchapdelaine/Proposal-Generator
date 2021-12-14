@@ -26,6 +26,7 @@ function CreateProposal() {
   const [searchedResumes, setResumes] = useState([]);
   const [searchedModfiedSectors, setModfiedSectors] = useState([]);
   const [searchedTemplateSectors, setTemplateSectors] = useState([]);
+  const [searchedResumeSectors, setResumeSectors] = useState([]);
   const uid = useSelector((state) => state.loginReducer.uid);
 
   const HtmlTooltip = styled(({ className, ...props }) => (
@@ -69,6 +70,7 @@ function CreateProposal() {
         setResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
+        setResumeSectors(res.data.resumeSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -81,6 +83,7 @@ function CreateProposal() {
         setResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
+        setResumeSectors(res.data.resumeSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -97,6 +100,7 @@ function CreateProposal() {
         setResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
+        setResumeSectors(res.data.resumeSectors);
       })
       .catch((err) => {
         console.log(err);
@@ -201,6 +205,7 @@ function CreateProposal() {
             searchedResumes={searchedResumes}
             searchedModifiedSectors={searchedModfiedSectors}
             searchedTemplateSectors={searchedTemplateSectors}
+            searchedResumeSectors={searchedResumeSectors}
           ></ResumeSectorDisplay>
           : <div className="no-search-results"> No search results </div>}
       </div>
