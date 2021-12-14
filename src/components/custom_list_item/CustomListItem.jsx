@@ -84,6 +84,9 @@ class CustomListItem extends React.Component {
         this.setState({ loading: true });
         const config = { headers: { "Content-Type": "application/json" } };
         this.state.currentProposal.proposalName = this.props.currentProposalName;
+        const date = new Date();
+        this.state.currentProposal.proposalModifiedDate = (date.getMonth() + 1)+ "/" + date.getDate() + "/" + date.getFullYear();
+
         let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
         const res = await axios
             .put(url, this.state.currentProposal, config)
