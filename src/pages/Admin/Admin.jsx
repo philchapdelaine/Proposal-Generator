@@ -87,7 +87,6 @@ function formatSectorInfo(sector) {
   sectorInfo += "Type: " + sector.name;
   sectorInfo += "\nProposal Number: " + sector.proposalNumber;
   sectorInfo += "\nDivision: " + sector.division;
-  sectorInfo += "\nLast Modified: " + sector.modifiedDate;
   sectorInfo += "\nLinked Email: " + sector.linkedEmail;
   sectorInfo += "\nImage Location: " + sector.imageLoc;
   sectorInfo += "\nDescription: " + sector.description + "\n";
@@ -189,7 +188,6 @@ function formatSectorInfo(sector) {
         console.log(err);
       })
     }
-    console.log("proposal search api call goes here, you can use the" + searchTerm);
   }
 
   const createNewProposal = () => {
