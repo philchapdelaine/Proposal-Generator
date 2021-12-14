@@ -1,0 +1,21 @@
+{
+
+    "SECTOR_TYPES": [
+        "Role",
+        "Education",
+        "Experience",
+        "Summary",
+        "Justification",
+        "Publications"
+    ],
+  
+    "DIVISIONS": [
+        "Water",
+        "Bridge",
+        "Electrical",
+        "Environmental",
+        "Civil",
+        "NONE"
+    ]
+  
+  }

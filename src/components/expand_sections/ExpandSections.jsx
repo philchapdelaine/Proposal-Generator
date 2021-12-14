@@ -28,7 +28,7 @@ const ExpandSections = (props) => {
         >
           <ListItemText
             primary={`${sector.name} for ${sector.linkedEmail}`}
-            secondary={`Division : ${sector.division}`}
+            secondary={`Division: ${sector.division}`}
           />
           {openItemIDs.includes(sector.sectorID) ? (
             <ExpandLess />

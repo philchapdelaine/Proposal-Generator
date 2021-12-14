@@ -24,6 +24,10 @@ function CreateSector() {
 
   let hasRequiredInfo = false;
 
+  let ConfigData = require('../../config/MenuItemsConfig.json');
+  const typeMenuOptions = ConfigData.SECTOR_TYPES;
+  const divisionMenuOptions = ConfigData.DIVISIONS;
+
   function openModal() {
     const hasType = type !== ""; // add other required fields here
     const hasDivision = division !== "";
@@ -46,7 +50,6 @@ function CreateSector() {
   }
 
   return (
-
     <div className="create-sector-page">
       <div id="app-modal"></div>
       <NavigatorBar />
@@ -65,12 +68,9 @@ function CreateSector() {
               value={type}
               onChange={(event) => setType(event.target.value)}
             >
-              <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
-              <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
-              <MenuItem className="cs-menuitem" value="Experience">Experience</MenuItem>
-              <MenuItem className="cs-menuitem" value="Summary">Summary</MenuItem>
-              <MenuItem className="cs-menuitem" value="Justification">Justification</MenuItem>
-              <MenuItem className="cs-menuitem" value="Publications">Publications</MenuItem>
+              {typeMenuOptions.map((value, index) => {
+                return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+              })}
             </Select>
           </FormControl>
           <TextField
@@ -83,24 +83,6 @@ function CreateSector() {
             onChange={(event) => setProposalNum(event.target.value)}
           />
           <br />
-          {/* <TextField
-            label="Employee Email"
-            className="cs-input"
-            fullWidth={true}
-            style={{ marginBottom: '15px' }}
-            variant="outlined"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          /> */}
-          {/* <TextField
-            label="Image Location"
-            className="cs-input"
-            fullWidth={true}
-            style={{ marginBottom: '15px' }}
-            variant="outlined"
-            value={imgLocation}
-            onChange={(event) => setImgLocation(event.target.value)}
-          /> */}
           <FormControl fullWidth>
             <InputLabel>Division</InputLabel>
             <Select
@@ -109,24 +91,11 @@ function CreateSector() {
               value={division}
               onChange={(event) => setDivision(event.target.value)}
             >
-              <MenuItem className="cs-menuitem" value="Water">Water</MenuItem>
-              <MenuItem className="cs-menuitem" value="Bridge">Bridge</MenuItem>
-              <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
-              <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
-              <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
-              <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
+              {divisionMenuOptions.map((value, index) => {
+                return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+              })}
             </Select>
           </FormControl>
-          {/* <TextField
-            label="Description"
-            className="cs-input"
-            fullWidth={true}
-            variant="outlined"
-            multiline={true}
-            minRows="8"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          /> */}
         </div>
         {!hasRequiredInfo && submitAttempted && (
           <div className="cs-warning"> Sector type and division are required fields. </div>

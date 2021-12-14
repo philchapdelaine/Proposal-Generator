@@ -74,6 +74,29 @@ function EditSectorModal(props = {}) {
     } else return false;
   };
 
+  function generateMenuItems(sectorField = "") {
+    let ConfigData = require('../../config/MenuItemsConfig.json');
+    var menuOptions = [];
+    switch (sectorField) {
+      case 'type':
+        menuOptions = ConfigData.SECTOR_TYPES;
+        break;
+      case 'division':
+        menuOptions = ConfigData.DIVISIONS;
+        break;
+      default:
+        break;
+    }
+    
+    return (
+      <div>
+        {menuOptions.map((value, index) => {
+          return <MenuItem key={index} className="cs-menuitem" value={value}>{value}</MenuItem>
+        })}
+      </div>
+    )
+  }
+
   return (
     <Modal
       open={props.open}
@@ -93,12 +116,7 @@ function EditSectorModal(props = {}) {
                 onChange={onTextChange}
                 sx={{ marginBottom: "10px" }}
               >
-                <MenuItem className="cs-menuitem" value="Role">Role</MenuItem>
-                <MenuItem className="cs-menuitem" value="Education">Education</MenuItem>
-                <MenuItem className="cs-menuitem" value="Experience">Experience</MenuItem>
-                <MenuItem className="cs-menuitem" value="Summary">Summary</MenuItem>
-                <MenuItem className="cs-menuitem" value="Justification">Justification</MenuItem>
-                <MenuItem className="cs-menuitem" value="Publications">Publications</MenuItem>
+                {generateMenuItems('type')}
               </Select>
             </FormControl>
             {/* <TextField label="Division" name="division" size="small" defaultValue={division} onChange={(e) => onTextChange(e)} style={{marginBottom: 10}}/> */}
@@ -111,12 +129,7 @@ function EditSectorModal(props = {}) {
                 onChange={onTextChange}
                 sx={{ marginBottom: "10px" }}
               >
-                <MenuItem className="cs-menuitem" value="Water">Water</MenuItem>
-                <MenuItem className="cs-menuitem" value="Bridge">Bridge</MenuItem>
-                <MenuItem className="cs-menuitem" value="Electrical">Electrical</MenuItem>
-                <MenuItem className="cs-menuitem" value="Environmental">Environmental</MenuItem>
-                <MenuItem className="cs-menuitem" value="Civil">Civil</MenuItem>
-                <MenuItem className="cs-menuitem" value="NONE">NONE</MenuItem>
+                {generateMenuItems('division')}
               </Select>
             </FormControl>
             <TextField

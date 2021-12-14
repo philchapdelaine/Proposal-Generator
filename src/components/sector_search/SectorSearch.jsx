@@ -65,6 +65,7 @@ class SectorSearch extends Component {
             onChange={this.updateSearchTerm}
             type="text"
             placeholder="Search..."
+            style={{ width: "75%", height: "30px" }}
           />
         </form>
       </div>
