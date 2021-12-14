@@ -18,11 +18,12 @@ export const clearProposals = () => {
   }
 };
 
-export const deleteSector = (sectorID, proposalId) => {
+export const deleteSector = (sectorID, proposalId, proposalName) => {
   return {
     type: "DELETE_SECTOR",
     proposalId : proposalId,
-    sectorID: sectorID
+    sectorID: sectorID,
+    proposalName: proposalName
   }
 };
 
@@ -52,5 +53,12 @@ export const setCurrentSector = (currentSector) => {
     return {
         type: "SET_CURRENT_SECTOR",
         currentSector: currentSector
+    }
+};
+
+export const updateName = (proposalName) => {
+    return {
+        type: "UPDATE_NAME",
+        proposalName: proposalName
     }
 };

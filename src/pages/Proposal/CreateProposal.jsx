@@ -90,43 +90,28 @@ function CreateProposal() {
   }, [isSearch]);
 
 
-  const getFeedback = () => {
-    if (searchWord === null || searchWord === "") {
-      const url = `/api/search/resume/all/userid/${uid}`
-      axios.get(url)
-      .then((res) => {
-        console.log(res.data);
-        setSearchedResumes(res.data);
-        setSearch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    } else {
-      const url = `/api/search/resume/${searchWord}/userid/${uid}`
-      axios.get(url)
-      .then((res) => {
-        console.log(res.data);
-        setSearchedResumes(res.data);
-        setSearch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+    const getFeedback = () => {
+        const url = `/api/search/resume/${searchWord}`
+        axios.get(url)
+            .then((res) => {
+                console.log(res.data);
+                setSearchedResumes(res.data);
+                setSearch(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
-    
-  }
-
-  const getFeedback2 = () => {
-    const url = `/api/search/resume/all/userid/${uid}`
-    axios.get(url)
-      .then((res) => {
-        setSearchedResumes(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
+    const getFeedback2 = () => {
+        const url = `/api/search/resume/${"all"}`
+        axios.get(url)
+            .then((res) => {
+                setSearchedResumes(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 
 
   function addToRecentlyViewed(resume) {

@@ -28,9 +28,9 @@ class CustomListItem extends React.Component {
       openItemIDs: [],
       currentProposal: this.props.proposals[this.props.currentProposalIndex],
       proposals: this.props.proposals,
-      proposalName: this.props.proposals[this.props.currentProposalIndex] === undefined ? "Untitled New Proposal" : this.props.proposals[this.props.currentProposalIndex].proposalName,
       redirect: null,
       success: false,
+      nameUpdated: false,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
@@ -42,10 +42,9 @@ class CustomListItem extends React.Component {
   }
 
   componentWillUnmount() {
-      // fix Warning: Can't perform a React state update on an unmounted component
-      this.setState = (state, callback) => {
-          return;
-      };
+    this.setState = (state, callback) => {
+        return;
+    };
   }
 
   handleClick(id) {
@@ -64,7 +63,7 @@ class CustomListItem extends React.Component {
           .delete(url)
           .then((response) => {
               console.log(response);
-              this.props.deleteSector(sectorID, this.state.currentProposal.proposalId);
+              this.props.deleteSector(sectorID, this.state.currentProposal.proposalId, this.props.currentProposalName);
               this.setState({ loading: false });
           })
           .catch((error) => {
@@ -73,6 +72,7 @@ class CustomListItem extends React.Component {
   }
 
     async handleSubmit() {
+        console.log(this.props.currentProposalName);
         if (this.state.currentProposal !== undefined) {
             await this.axiosPut();
             this.setState({ success: true });
@@ -83,7 +83,7 @@ class CustomListItem extends React.Component {
         this.setState({ success: true });
         this.setState({ loading: true });
         const config = { headers: { "Content-Type": "application/json" } };
-        this.state.currentProposal.proposalName = this.state.proposalName;
+        this.state.currentProposal.proposalName = this.props.currentProposalName;
         let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
         const res = await axios
             .put(url, this.state.currentProposal, config)
@@ -101,9 +101,9 @@ class CustomListItem extends React.Component {
     }
 
     handleTextChange(event) {
-        this.setState({
-            proposalName: event.target.value
-        })
+        if (this.props.proposals[this.props.currentProposalIndex] !== undefined) {
+            this.props.updateName(event.target.value);
+        }
     }
 
     handleClose(event, reason) {
@@ -130,8 +130,8 @@ class CustomListItem extends React.Component {
     return (
       <div>
         <div className="proposal-name-form">
-            <form>
-                Proposal Name: <input type="text" onChange={this.handleTextChange.bind(this)} value={this.state.proposalName}></input>
+           <form>
+                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName}></input>
            </form>
         </div>
         <List>
@@ -206,19 +206,27 @@ function mapStateToProps(state) {
   return {
     proposals: state.proposalReducer.proposals,
     currentProposalIndex: state.proposalReducer.currentProposalIndex,
+    currentProposalName: state.proposalReducer.currentProposalName,
     userID: state.loginReducer.uid,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteSector: (sectorID, proposalId) => {
+    deleteSector: (sectorID, proposalId, proposalName) => {
       dispatch({
         type: "DELETE_SECTOR",
         sectorID: sectorID,
         proposalId: proposalId,
+        proposalName: proposalName
       });
-    }
+      },
+    updateName: (proposalName) => {
+      dispatch({
+        type: "UPDATE_NAME",
+        proposalName: proposalName
+      });
+      }
   };
 }
 
