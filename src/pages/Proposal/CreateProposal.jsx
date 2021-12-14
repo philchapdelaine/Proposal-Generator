@@ -23,8 +23,9 @@ function CreateProposal() {
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
-  const [searchedResumes, setSearchedResumes] = useState([]);
-  const [searchedProposals, setsearchedProposals] = useState([]);
+  const [searchedResumes, setResumes] = useState([]);
+  const [searchedModfiedSectors, setModfiedSectors] = useState([]);
+  const [searchedTemplateSectors, setTemplateSectors] = useState([]);
   const uid = useSelector((state) => state.loginReducer.uid);
 
   const HtmlTooltip = styled(({ className, ...props }) => (
@@ -65,8 +66,9 @@ function CreateProposal() {
       const url = `/api/search/resume/all/userid/${uid}`
       axios.get(url)
       .then((res) => {
-        console.log(res.data);
-        setSearchedResumes(res.data);
+        setResumes(res.data.resumes);
+        setModfiedSectors(res.data.modifiedSectors)
+        setTemplateSectors(res.data.templateSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -76,8 +78,9 @@ function CreateProposal() {
       const url = `/api/search/resume/${searchWord}/userid/${uid}`
       axios.get(url)
       .then((res) => {
-        console.log(res.data);
-        setSearchedResumes(res.data);
+        setResumes(res.data.resumes);
+        setModfiedSectors(res.data.modifiedSectors)
+        setTemplateSectors(res.data.templateSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -91,7 +94,9 @@ function CreateProposal() {
     const url = `/api/search/resume/all/userid/${uid}`
     axios.get(url)
       .then((res) => {
-        setSearchedResumes(res.data);
+        setResumes(res.data.resumes);
+        setModfiedSectors(res.data.modifiedSectors)
+        setTemplateSectors(res.data.templateSectors);
       })
       .catch((err) => {
         console.log(err);
@@ -194,7 +199,8 @@ function CreateProposal() {
           ? <ResumeSectorDisplay
             onSectorClick={updateDisplayedSector}
             searchedResumes={searchedResumes}
-            searchedProposals={searchedProposals}
+            searchedModifiedSectors={searchedModfiedSectors}
+            searchedTemplateSectors={searchedTemplateSectors}
           ></ResumeSectorDisplay>
           : <div className="no-search-results"> No search results </div>}
       </div>

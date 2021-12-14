@@ -95,11 +95,99 @@ export default function ResumeSectorDisplay(props) {
     );
   }
 
+  function generateModifiedSectorsAccordian(sectors) {
+    if (sectors.length == 0) {
+      return
+    }
+    return (
+      <Accordion
+        expanded={expanded === "panel-modifiedSector-accordian"}
+        onChange={handleChange("panel-modifiedSector-accordian")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
+          aria-controls={"panel-modifiedSector-accordian-bh-content"}
+          id={"panel-modifiedSector-accordian-bh-header"}
+          sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
+        >
+          <ResumeOwnerDisplay ownerID={-2}></ResumeOwnerDisplay>
+        </AccordionSummary>
+        <AccordionDetails>
+          {/* {resume.sectors.map((sector) => generateRows(sector, resume))} */
+          
+          <Table aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
+        <TableHead>
+          <TableRow fontWeight="fontWeightBold">
+            <TableCell fontWeight="fontWeightBold">Type</TableCell>
+            <TableCell>Proposal Number</TableCell>
+            <TableCell>Division</TableCell>
+            <TableCell>Image Location</TableCell>
+            <TableCell>Description </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody >
+          {sectors.map((sector) => generateRows(sector, null))}
+        </TableBody>
+      </Table>
+          }
+        </AccordionDetails>
+      </Accordion>
+    );
+  }
+
+  function generateTemplateSectorsAccordian(sectors) {
+    if (sectors.length == 0) {
+      return
+    }
+    return (
+      <Accordion
+        expanded={expanded === "panel-templateSector-accordian"}
+        onChange={handleChange("panel-templateSector-accordian")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
+          aria-controls={"panel-templateSector-accordian-bh-content"}
+          id={"panel-templateSector-accordian-bh-header"}
+          sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
+        >
+          <ResumeOwnerDisplay ownerID={-1}></ResumeOwnerDisplay>
+        </AccordionSummary>
+        <AccordionDetails>
+          {/* {resume.sectors.map((sector) => generateRows(sector, resume))} */
+          
+          <Table aria-label="simple table" style={{'height': '300px', 'overflow':'scroll', 'display': 'block'}}>
+        <TableHead>
+          <TableRow fontWeight="fontWeightBold">
+            <TableCell fontWeight="fontWeightBold">Type</TableCell>
+            <TableCell>Proposal Number</TableCell>
+            <TableCell>Division</TableCell>
+            <TableCell>Image Location</TableCell>
+            <TableCell>Description </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody >
+          {sectors.map((sector) => generateRows(sector, null))}
+        </TableBody>
+      </Table>
+          }
+        </AccordionDetails>
+      </Accordion>
+    );
+  }
+
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  return props.searchedResumes.filter(resume => resume.sectors.length > 0).map(generateAccordian);
+  // return props.searchedResumes.filter(resume => resume.sectors.length > 0).map(generateAccordian);
+  return (
+    <>
+      {generateModifiedSectorsAccordian(props.searchedModifiedSectors)}
+      {generateTemplateSectorsAccordian(props.searchedTemplateSectors)}
+      {props.searchedResumes.filter(resume => resume.sectors.length > 0).map(generateAccordian)}
+    </>
+  )
 }
 
 export function ResumeOwnerDisplay(props) {
