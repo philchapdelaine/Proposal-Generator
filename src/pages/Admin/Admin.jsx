@@ -21,6 +21,7 @@ import {
   setProposalIndex,
   setProposals as setProposalsRedux,
 } from "../../redux/actions/proposal-actions";
+import { setTab } from "../../redux/actions/tab-actions";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/confirmModal/confirmModal";
 import ExpandSections from "../../components/expand_sections/ExpandSections";
@@ -169,11 +170,31 @@ function formatSectorInfo(sector) {
   };
 
   function searchProposals() {
+    if (searchTerm === null || searchTerm === "") {
+    axios.get(`/api/search/proposal/all/userid/${uid}`)
+      .then((res) => {
+        console.log(res.data);
+        setProposals(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    } else {
+      axios.get(`/api/search/proposal/${searchTerm}/userid/${uid}`)
+      .then((res) => {
+        console.log(res.data);
+        setProposals(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
     console.log("proposal search api call goes here, you can use the" + searchTerm);
   }
 
   const createNewProposal = () => {
       dispatch(setProposalIndex(-1));
+      dispatch(setTab(0));
   }
 
   useEffect(() => {
