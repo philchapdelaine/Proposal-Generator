@@ -23,7 +23,7 @@ function CreateProposal() {
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
-  const [searchedResumes, setSearchedResumes] = useState([]);
+  const [searchedResumes, setResumes] = useState([]);
   const [searchedModfiedSectors, setModfiedSectors] = useState([]);
   const [searchedTemplateSectors, setTemplateSectors] = useState([]);
   const [searchedResumeSectors, setResumeSectors] = useState([]);
@@ -67,10 +67,10 @@ function CreateProposal() {
       const url = `/api/search/resume/all/userid/${uid}`
       axios.get(url)
       .then((res) => {
+        setResumeSectors(res.data.resumeSectors);
         setResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
-        setResumeSectors(res.data.resumeSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -80,10 +80,10 @@ function CreateProposal() {
       const url = `/api/search/resume/${searchWord}/userid/${uid}`
       axios.get(url)
       .then((res) => {
+        setResumeSectors(res.data.resumeSectors);
         setResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
-        setResumeSectors(res.data.resumeSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -97,10 +97,11 @@ function CreateProposal() {
     const url = `/api/search/resume/all/userid/${uid}`
     axios.get(url)
       .then((res) => {
+        setResumeSectors(res.data.resumeSectors);
         setResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
-        setResumeSectors(res.data.resumeSectors);
+        console.log(res.data.resumeSectors);
       })
       .catch((err) => {
         console.log(err);

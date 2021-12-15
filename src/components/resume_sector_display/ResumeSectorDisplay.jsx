@@ -27,7 +27,8 @@ const useStyles = makeStyles(() => ({
 export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
   const dispatch = useDispatch();
-
+  const resumeSector = props.searchedResumeSectors;
+  console.log(resumeSector);
   function handleSectorClick(sector, currResume) {
     sector.edited = false;
     dispatch({ type: 'SET_CURRENT_SECTOR', currentSector: sector });
@@ -37,11 +38,23 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function sectorMatchesSearch(currSector) {
-    for (const sector in props.searchedResumeSectors) {
+    // console.log(resumeSector);
+    // console.log(resumeSector[0].sectorID);
+    // console.log(currSector.sectorID);
+    for(var i = 0; i < resumeSector.length; i++ ) {
+      var sector = resumeSector[i];
       if (currSector.sectorID === sector.sectorID) {
+        // console.log("CAME IN HERE");
         return true;
       }
     }
+    // for (var sector in resumeSector) {
+    //   console.log("Inside For loop: " + sector.sectorID);
+    //   if (currSector.sectorID === sector.sectorID) {
+    //     console.log("CAME IN HERE");
+    //     return true;
+    //   }
+    // }
     return false;
   }
 
@@ -192,7 +205,6 @@ export default function ResumeSectorDisplay(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // return props.searchedResumes.filter(resume => resume.sectors.length > 0).map(generateAccordian);
   return (
     <>
       {generateModifiedSectorsAccordian(props.searchedModifiedSectors)}
@@ -228,20 +240,6 @@ export function ResumeOwnerDisplay(props) {
             });
         break;
     }
-
-      // if (props.ownerID != -1) {
-      //     axios
-      //       .get("/api/user/" + props.ownerID + "/")
-      //       .then((res) => {
-      //         setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
-      //         setResumeOwnerEmail(res.data.emailAddress);
-      //       })
-      //       .catch((err) => {
-      //         console.log(err);
-      //       });
-      // } else {
-      //   setResumeOwnerName("Template Sectors");
-      // }
   })
   return (
     <>
