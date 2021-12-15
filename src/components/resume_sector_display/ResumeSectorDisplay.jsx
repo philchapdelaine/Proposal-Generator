@@ -38,23 +38,12 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function sectorMatchesSearch(currSector) {
-    // console.log(resumeSector);
-    // console.log(resumeSector[0].sectorID);
-    // console.log(currSector.sectorID);
     for(var i = 0; i < resumeSector.length; i++ ) {
       var sector = resumeSector[i];
       if (currSector.sectorID === sector.sectorID) {
-        // console.log("CAME IN HERE");
         return true;
       }
     }
-    // for (var sector in resumeSector) {
-    //   console.log("Inside For loop: " + sector.sectorID);
-    //   if (currSector.sectorID === sector.sectorID) {
-    //     console.log("CAME IN HERE");
-    //     return true;
-    //   }
-    // }
     return false;
   }
 
@@ -93,7 +82,7 @@ export default function ResumeSectorDisplay(props) {
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
-          sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
+          sx={{ width: '100%', display: 'flex', justifyContent: 'space-between'}}
         >
           <ResumeOwnerDisplay ownerID={resume.resumeID}></ResumeOwnerDisplay>
         </AccordionSummary>
@@ -124,12 +113,19 @@ export default function ResumeSectorDisplay(props) {
     if (sectors.length == 0) {
       return
     }
+    const useStyles = makeStyles(() => ({
+      accordionColour: {
+        backgroundColor: "#94b6d1"
+      }}));
+    const classes = useStyles();
+
     return (
       <Accordion
         expanded={expanded === "panel-modifiedSector-accordian"}
         onChange={handleChange("panel-modifiedSector-accordian")}
       >
         <AccordionSummary
+          className={classes.accordionColour}
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel-modifiedSector-accordian-bh-content"}
           id={"panel-modifiedSector-accordian-bh-header"}
@@ -164,12 +160,20 @@ export default function ResumeSectorDisplay(props) {
     if (sectors.length == 0) {
       return
     }
+
+    const useStyles = makeStyles(() => ({
+      accordionColour: {
+        backgroundColor: "#bad3e8"
+      }}));
+    const classes = useStyles();
+
     return (
       <Accordion
         expanded={expanded === "panel-templateSector-accordian"}
         onChange={handleChange("panel-templateSector-accordian")}
       >
         <AccordionSummary
+          className={classes.accordionColour}
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel-templateSector-accordian-bh-content"}
           id={"panel-templateSector-accordian-bh-header"}
