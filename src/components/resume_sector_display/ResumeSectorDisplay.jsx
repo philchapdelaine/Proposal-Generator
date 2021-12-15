@@ -21,6 +21,12 @@ const useStyles = makeStyles(() => ({
     marginLeft: "15px",
     marginRight: "10px"
   },
+  templateAccordionColour: {
+    backgroundColor: "#bad3e8"
+  },
+  modifiedAccordionColour: {
+    backgroundColor: "#94b6d1"
+  }
 }));
 
 
@@ -113,10 +119,6 @@ export default function ResumeSectorDisplay(props) {
     if (sectors.length == 0) {
       return
     }
-    const useStyles = makeStyles(() => ({
-      accordionColour: {
-        backgroundColor: "#94b6d1"
-      }}));
     const classes = useStyles();
 
     return (
@@ -125,7 +127,7 @@ export default function ResumeSectorDisplay(props) {
         onChange={handleChange("panel-modifiedSector-accordian")}
       >
         <AccordionSummary
-          className={classes.accordionColour}
+          className={classes.modifiedAccordionColour}
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel-modifiedSector-accordian-bh-content"}
           id={"panel-modifiedSector-accordian-bh-header"}
@@ -160,11 +162,6 @@ export default function ResumeSectorDisplay(props) {
     if (sectors.length == 0) {
       return
     }
-
-    const useStyles = makeStyles(() => ({
-      accordionColour: {
-        backgroundColor: "#bad3e8"
-      }}));
     const classes = useStyles();
 
     return (
@@ -173,7 +170,7 @@ export default function ResumeSectorDisplay(props) {
         onChange={handleChange("panel-templateSector-accordian")}
       >
         <AccordionSummary
-          className={classes.accordionColour}
+          className={classes.templateAccordionColour}
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel-templateSector-accordian-bh-content"}
           id={"panel-templateSector-accordian-bh-header"}
@@ -230,7 +227,7 @@ export function ResumeOwnerDisplay(props) {
         setResumeOwnerName("Template Sectors");
         break;
       case -2:
-        setResumeOwnerName("Previous Modified Sectors");
+        setResumeOwnerName("Admin Modified Sectors");
         break;
       default:
         axios
