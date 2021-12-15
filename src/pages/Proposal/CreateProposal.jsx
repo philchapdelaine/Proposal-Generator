@@ -24,7 +24,9 @@ function CreateProposal() {
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
   const [searchedResumes, setSearchedResumes] = useState([]);
-  const [searchedProposals, setsearchedProposals] = useState([]);
+  const [searchedModfiedSectors, setModfiedSectors] = useState([]);
+  const [searchedTemplateSectors, setTemplateSectors] = useState([]);
+  const [searchedResumeSectors, setResumeSectors] = useState([]);
   const uid = useSelector((state) => state.loginReducer.uid);
 
   const HtmlTooltip = styled(({ className, ...props }) => (
@@ -65,8 +67,10 @@ function CreateProposal() {
       const url = `/api/search/resume/all/userid/${uid}`
       axios.get(url)
       .then((res) => {
-        console.log(res.data);
-        setSearchedResumes(res.data);
+        setResumeSectors(res.data.resumeSectors);
+        setSearchedResumes(res.data.resumes);
+        setModfiedSectors(res.data.modifiedSectors)
+        setTemplateSectors(res.data.templateSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -76,8 +80,10 @@ function CreateProposal() {
       const url = `/api/search/resume/${searchWord}/userid/${uid}`
       axios.get(url)
       .then((res) => {
-        console.log(res.data);
-        setSearchedResumes(res.data);
+        setResumeSectors(res.data.resumeSectors);
+        setSearchedResumes(res.data.resumes);
+        setModfiedSectors(res.data.modifiedSectors)
+        setTemplateSectors(res.data.templateSectors);
         setSearch(false);
       })
       .catch((err) => {
@@ -91,7 +97,11 @@ function CreateProposal() {
     const url = `/api/search/resume/all/userid/${uid}`
     axios.get(url)
       .then((res) => {
-        setSearchedResumes(res.data);
+        setResumeSectors(res.data.resumeSectors);
+        setSearchedResumes(res.data.resumes);
+        setModfiedSectors(res.data.modifiedSectors)
+        setTemplateSectors(res.data.templateSectors);
+        console.log(res.data.resumeSectors);
       })
       .catch((err) => {
         console.log(err);
@@ -194,7 +204,9 @@ function CreateProposal() {
           ? <ResumeSectorDisplay
             onSectorClick={updateDisplayedSector}
             searchedResumes={searchedResumes}
-            searchedProposals={searchedProposals}
+            searchedModifiedSectors={searchedModfiedSectors}
+            searchedTemplateSectors={searchedTemplateSectors}
+            searchedResumeSectors={searchedResumeSectors}
           ></ResumeSectorDisplay>
           : <div className="no-search-results"> No search results </div>}
       </div>
