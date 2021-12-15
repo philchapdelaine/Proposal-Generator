@@ -116,10 +116,11 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function generateModifiedSectorsAccordian(sectors) {
+    const classes = useStyles();
+
     if (sectors.length == 0) {
       return
     }
-    const classes = useStyles();
 
     return (
       <Accordion
@@ -159,10 +160,11 @@ export default function ResumeSectorDisplay(props) {
   }
 
   function generateTemplateSectorsAccordian(sectors) {
+    const classes = useStyles();
+
     if (sectors.length == 0) {
       return
     }
-    const classes = useStyles();
 
     return (
       <Accordion
