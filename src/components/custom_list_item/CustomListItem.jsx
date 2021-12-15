@@ -31,6 +31,7 @@ class CustomListItem extends React.Component {
       redirect: null,
       success: false,
       nameUpdated: false,
+      nameDisabled: false,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
@@ -45,6 +46,12 @@ class CustomListItem extends React.Component {
     this.setState = (state, callback) => {
         return;
     };
+  }
+
+  componentDidMount() {
+    if (this.props.proposals[this.props.currentProposalIndex] === undefined) {
+        this.setState({ nameDisabled: true });
+    }
   }
 
   handleClick(id) {
@@ -131,7 +138,7 @@ class CustomListItem extends React.Component {
       <div>
         <div className="proposal-name-form">
            <form>
-                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName}></input>
+                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
            </form>
         </div>
         <List>
