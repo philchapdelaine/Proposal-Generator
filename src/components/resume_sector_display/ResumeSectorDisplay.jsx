@@ -16,16 +16,17 @@ import { useDispatch } from "react-redux";
 import CheckIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+const useStyles = makeStyles(() => ({
+  resumeOwnerInfo: {
+    marginLeft: "15px",
+    marginRight: "10px"
+  },
+}));
+
+
 export default function ResumeSectorDisplay(props) {
   const [expanded, setExpanded] = useState(false);
   const dispatch = useDispatch();
-  const [displayColour, setDisplayColour] = useState("blue");
-  const useStyles = makeStyles(() => ({
-    accordionColour: {
-      backgroundColor: displayColour
-    }
-  }));
-  const classes = useStyles();
 
   function handleSectorClick(sector, currResume) {
     sector.edited = false;
@@ -64,13 +65,12 @@ export default function ResumeSectorDisplay(props) {
         onChange={handleChange("panel" + resume.resumeID)}
       >
         <AccordionSummary
-          className={classes.accordionColour}
           expandIcon={<ExpandMoreIcon className="rsd-expand-icon" />}
           aria-controls={"panel" + resume.resumeID + " bh-content"}
           id={"panel" + resume.resumeID + "bh-header"}
-          sx={{ width: '100%', display: 'flex', justifyContent: 'space-between'}}
+          sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}
         >
-          <ResumeOwnerDisplay setColour={setDisplayColour} ownerID={resume.resumeID}></ResumeOwnerDisplay>
+          <ResumeOwnerDisplay ownerID={resume.resumeID}></ResumeOwnerDisplay>
         </AccordionSummary>
         <AccordionDetails>
           {/* {resume.sectors.map((sector) => generateRows(sector, resume))} */
@@ -105,12 +105,6 @@ export default function ResumeSectorDisplay(props) {
 export function ResumeOwnerDisplay(props) {
   const [resumeOwnerName, setResumeOwnerName] = useState("");
   const [resumeOwnerEmail, setResumeOwnerEmail] = useState("");
-  const useStyles = makeStyles(() => ({
-    resumeOwnerInfo: {
-      marginLeft: "15px",
-      marginRight: "10px"
-    }
-  }));
   const classes = useStyles();
 
   useEffect(() => {
@@ -118,11 +112,9 @@ export function ResumeOwnerDisplay(props) {
     {
       case -1:
         setResumeOwnerName("Template Sectors");
-        props.setColour("#bad3e8");
         break;
       case -2:
         setResumeOwnerName("Admin Modified Sectors");
-        props.setColour("#94b6d1");
         break;
       default:
         axios
@@ -130,7 +122,6 @@ export function ResumeOwnerDisplay(props) {
             .then((res) => {
               setResumeOwnerName(res.data.firstName + " " + res.data.lastName);
               setResumeOwnerEmail(res.data.emailAddress);
-              props.setColour("white");
             })
             .catch((err) => {
               console.log(err);
