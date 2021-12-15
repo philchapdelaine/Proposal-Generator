@@ -147,10 +147,15 @@ function ReadingPane(props) {
 
   function sectorFieldDisplay(title, content) {
     if (!content) return null;
+
+    var showImgPreview = false;
+    const isValidImgURL = content.match(/\.(jpg|jpeg|gif|png)$/) != null;
+    if (isValidImgURL) showImgPreview = true;
+    
     return (
       <div className="reading-pane-title">
         <h3>{title}</h3>
-        <div>{content}</div>
+        { showImgPreview ? (<img className="image-preview" src={content} alt={content} />) : <div>{content}</div> } 
       </div>
     );
   }
