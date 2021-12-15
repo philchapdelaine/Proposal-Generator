@@ -68,7 +68,7 @@ function CreateProposal() {
       axios.get(url)
       .then((res) => {
         setResumeSectors(res.data.resumeSectors);
-        setResumes(res.data.resumes);
+        setSearchedResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
         setSearch(false);
@@ -81,7 +81,7 @@ function CreateProposal() {
       axios.get(url)
       .then((res) => {
         setResumeSectors(res.data.resumeSectors);
-        setResumes(res.data.resumes);
+        setSearchedResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
         setSearch(false);
@@ -98,7 +98,7 @@ function CreateProposal() {
     axios.get(url)
       .then((res) => {
         setResumeSectors(res.data.resumeSectors);
-        setResumes(res.data.resumes);
+        setSearchedResumes(res.data.resumes);
         setModfiedSectors(res.data.modifiedSectors)
         setTemplateSectors(res.data.templateSectors);
         console.log(res.data.resumeSectors);
