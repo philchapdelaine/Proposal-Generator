@@ -36,9 +36,21 @@ export default function ResumeSectorDisplay(props) {
     props.onSectorClick(sector, currResume);
   }
 
+  function sectorMatchesSearch(currSector) {
+    for (const sector in props.searchedResumeSectors) {
+      if (currSector.sectorID === sector.sectorID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function generateRows(sector, currResume) {
+    var rowColour = "white";
+    if (sectorMatchesSearch(sector)) rowColour = "yellow";
+
     return (
-      <TableRow hover onClick={() => handleSectorClick(sector, currResume)}>
+      <TableRow hover sx={{ backgroundColor: rowColour }} onClick={() => handleSectorClick(sector, currResume)}>
         <TableCell sx={{ width: "13%" }} align="left">
                 {sector.name || "Name not available"}
         </TableCell>

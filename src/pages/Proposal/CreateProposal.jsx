@@ -23,7 +23,7 @@ function CreateProposal() {
   const [searchWord, setSearchWord] = useState("");
   const [clickedSector, setClickedSector] = useState("");
   const [recentlyViewedResumes, setRecentlyViewedResumes] = useState([]);
-  const [searchedResumes, setResumes] = useState([]);
+  const [searchedResumes, setSearchedResumes] = useState([]);
   const [searchedModfiedSectors, setModfiedSectors] = useState([]);
   const [searchedTemplateSectors, setTemplateSectors] = useState([]);
   const [searchedResumeSectors, setResumeSectors] = useState([]);
