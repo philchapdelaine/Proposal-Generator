@@ -141,7 +141,7 @@ class CustomListItem extends React.Component {
       <div>
         <div className="proposal-name-form">
            <form>
-                <b>Proposal Name:</b> <input type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
+                <b>Proposal Name:</b> <input type="text" autoFocus onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
                 <div className="proposal-name-hint">Add a sector to your proposal to enable Proposal Name editing.</div>
            </form>
         </div>
