@@ -155,7 +155,7 @@ function ReadingPane(props) {
     return (
       <div className="reading-pane-title">
         <h3>{title}</h3>
-        { showImgPreview ? (<div><img className="image-preview" src={content} alt="image preview" onerror="this.onerror=null; this.remove();"/><br/>{content}</div>) : <div>{content}</div> } 
+        { showImgPreview ? (<img className="image-preview" src={content} alt={content} />) : <div>{content}</div> } 
       </div>
     );
   }
