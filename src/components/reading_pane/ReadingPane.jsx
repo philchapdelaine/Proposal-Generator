@@ -148,6 +148,7 @@ function ReadingPane(props) {
     );
 
   function sectorFieldDisplay(title, content) {
+    const [hideImage, setHideImage] = useState(false);
     if (!content) return null;
 
     var showImgPreview = false;
@@ -157,7 +158,7 @@ function ReadingPane(props) {
     return (
       <div className="reading-pane-title">
         <h3>{title}</h3>
-        { showImgPreview ? (<div><img className="image-preview" src={content} alt="image preview" onError={(e) => {e.target.onerror=null; e.target.src=notFoundImage; }} /><br/>{content}</div>) : <div>{content}</div> } 
+        { showImgPreview ? (<div><img className={"image-preview " + (hideImage ? 'hide-image-el' : '')} src={content} alt="image preview" onError={(e) => {e.target.onerror=null; setHideImage(true); }} /><br/>{content}</div>) : <div>{content}</div> } 
       </div>
     );
   }
