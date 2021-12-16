@@ -42,12 +42,8 @@ function CreateProposal() {
   }));
 
 
-  const handleSubmit = (buttonPressEvt = null) => {
-    if (!buttonPressEvt) {
-      setSearch(true);
-    } else if ( buttonPressEvt.key === "Enter") {
-      setSearch(true);
-    }
+  const handleSubmit = () => {
+    setSearch(true);
   };
 
 
@@ -166,15 +162,17 @@ function CreateProposal() {
             </HtmlTooltip>
           </div>
           <div className="cp-search-bar">
-            <TextField
-              variant="outlined"
-              size="small"
-              margin="dense"
-              label="Search resumes"
-              helperText="Search by name, email, proposal #, sector type, or division"
-              onChange={(event) => setSearchWord(event.target.value)}
-              onKeyDown={(e) => handleSubmit(e)}
-            />
+            <form onSubmit={(e) => {e.preventDefault()
+                handleSubmit()}}>
+              <TextField
+                variant="outlined"
+                size="small"
+                margin="dense"
+                label="Search resumes"
+                helperText="Search by name, email, proposal #, sector type, or division"
+                onChange={(event) => setSearchWord(event.target.value)}
+              />
+            </form>
             <Button
               variant="contained"
               style={{ 
