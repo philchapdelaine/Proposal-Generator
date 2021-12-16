@@ -78,3 +78,7 @@ button:hover {
 .image-preview {
     width: 50%;
 }
+
+.hide-image-el {
+    display: none;
+}

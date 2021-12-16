@@ -15,6 +15,8 @@ import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import notFoundImage from "../../assets/image-not-found.jpg";
+
 
 function ReadingPane(props) {
   const [open, setOpen] = useState(false);
@@ -146,6 +148,7 @@ function ReadingPane(props) {
     );
 
   function sectorFieldDisplay(title, content) {
+    const [hideImage, setHideImage] = useState(false);
     if (!content) return null;
 
     var showImgPreview = false;
@@ -155,7 +158,7 @@ function ReadingPane(props) {
     return (
       <div className="reading-pane-title">
         <h3>{title}</h3>
-        { showImgPreview ? (<img className="image-preview" src={content} alt={content} />) : <div>{content}</div> } 
+        { showImgPreview ? (<div><img className={"image-preview " + (hideImage ? 'hide-image-el' : '')} src={content} alt="image preview" onError={(e) => {e.target.onerror=null; setHideImage(true); }} /><br/>{content}</div>) : <div>{content}</div> } 
       </div>
     );
   }
