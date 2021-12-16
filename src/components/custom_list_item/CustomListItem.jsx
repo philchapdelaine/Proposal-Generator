@@ -138,7 +138,7 @@ class CustomListItem extends React.Component {
       <div>
         <div className="proposal-name-form">
            <form>
-                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
+                Proposal Name: <input type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
            </form>
         </div>
         <List>
