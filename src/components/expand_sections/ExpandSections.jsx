@@ -56,7 +56,7 @@ const ExpandSections = (props) => {
               </ListItem>
               <ListItem>
                 <ListItemText primary={ showImgPreview ? 
-                  (<div><img className="image-preview" src={sector.imageLoc}/> <br/> {sector.imageLoc}</div> )
+                  (<div><img className="image-preview" src={sector.imageLoc} onerror="this.onerror=null; this.remove();"/> <br/> {sector.imageLoc}</div> )
                   : sector.imageLoc} />
               </ListItem>
             </List>
