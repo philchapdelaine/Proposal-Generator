@@ -31,6 +31,7 @@ class CustomListItem extends React.Component {
       redirect: null,
       success: false,
       nameUpdated: false,
+      nameDisabled: false,
       loading: false, // will be true when axios request is running
     };
     this.handleClick = this.handleClick.bind(this);
@@ -45,6 +46,12 @@ class CustomListItem extends React.Component {
     this.setState = (state, callback) => {
         return;
     };
+  }
+
+  componentDidMount() {
+    if (this.props.proposals[this.props.currentProposalIndex] === undefined) {
+        this.setState({ nameDisabled: true });
+    }
   }
 
   handleClick(id) {
@@ -84,6 +91,9 @@ class CustomListItem extends React.Component {
         this.setState({ loading: true });
         const config = { headers: { "Content-Type": "application/json" } };
         this.state.currentProposal.proposalName = this.props.currentProposalName;
+        const date = new Date();
+        this.state.currentProposal.proposalModifiedDate = (date.getMonth() + 1)+ "/" + date.getDate() + "/" + date.getFullYear();
+
         let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
         const res = await axios
             .put(url, this.state.currentProposal, config)
@@ -131,7 +141,8 @@ class CustomListItem extends React.Component {
       <div>
         <div className="proposal-name-form">
            <form>
-                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName}></input>
+                <b>Proposal Name:</b> <input type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
+                <div className="proposal-name-hint">Add a sector to your proposal to enable Proposal Name editing.</div>
            </form>
         </div>
         <List>
