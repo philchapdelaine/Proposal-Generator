@@ -69,7 +69,7 @@ function ReadingPane(props) {
         let newProposal = {
           proposalName: "Untitled New Proposal",
           resumes: [],
-          proposalModifiedDate: date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()
+          proposalModifiedDate: (date.getMonth() + 1)+ "/" + date.getDate() + "/" + date.getFullYear()
           };
         // build a new sector with no sectorID
         let newSector = (({ description, division, empty, edited, imageLoc, linkedEmail, name, proposalNumber }) => (
@@ -147,10 +147,15 @@ function ReadingPane(props) {
 
   function sectorFieldDisplay(title, content) {
     if (!content) return null;
+
+    var showImgPreview = false;
+    const isValidImgURL = content.match(/\.(jpg|jpeg|gif|png)$/) != null;
+    if (isValidImgURL) showImgPreview = true;
+    
     return (
       <div className="reading-pane-title">
         <h3>{title}</h3>
-        <div>{content}</div>
+        { showImgPreview ? (<img className="image-preview" src={content} alt={content} />) : <div>{content}</div> } 
       </div>
     );
   }
@@ -165,7 +170,7 @@ function ReadingPane(props) {
               <Typography><b>Sector Preview:</b></Typography>
               Preview and edit sectors, then add to the current proposal. <br/>
               <Typography><b>Current Proposal: </b> </Typography>
-              View and rename the current proposal draft. Click “SAVE PROPOSAL” to save your changes, then click “EXIT” to return to Your Proposals.
+              View and rename the current proposal draft. Click “SAVE” to save your changes, then click “EXIT” to return to Your Proposals.
             </div>
           }
           followCursor>
