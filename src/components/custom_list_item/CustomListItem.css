@@ -1,10 +1,12 @@
 .proposal-name-form {
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
 .button-container {
     display: flex;
+    justify-content: center;
     margin: auto;
     width: 50%;
     border: none;
@@ -17,3 +19,7 @@
     text-decoration: none;
 }
 
+.proposal-name-hint {
+    font-size: .75em;
+    color: gray;
+}

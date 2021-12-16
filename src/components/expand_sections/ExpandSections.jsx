@@ -19,6 +19,13 @@ const ExpandSections = (props) => {
   };
 
   result = props.resumes.map((sector, i) => {
+
+    var showImgPreview = false;
+    if (sector.imageLoc) {
+      const isValidImgURL = sector.imageLoc.match(/\.(jpg|jpeg|gif|png)$/) != null;
+      if (isValidImgURL) showImgPreview = true;
+    }
+  
     return (
       <div>
         <ListItem
@@ -48,7 +55,9 @@ const ExpandSections = (props) => {
                 <ListItemText primary={sector.description} />
               </ListItem>
               <ListItem>
-                <ListItemText primary={sector.imageLoc} />
+                <ListItemText primary={ showImgPreview ? 
+                  (<div><img className="image-preview" src={sector.imageLoc}/> <br/> {sector.imageLoc}</div> )
+                  : sector.imageLoc} />
               </ListItem>
             </List>
           </div>
