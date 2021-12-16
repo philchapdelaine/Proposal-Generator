@@ -3,6 +3,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Collapse, Divider, ListItem, ListItemText } from "@mui/material";
 import React, { useState } from "react";
+import notFoundImage from "../../assets/image-not-found.jpg";
 
 const ExpandSections = (props) => {
   const [openItemIDs, setOpenItemIDs] = useState([]);
@@ -56,7 +57,7 @@ const ExpandSections = (props) => {
               </ListItem>
               <ListItem>
                 <ListItemText primary={ showImgPreview ? 
-                  (<div><img className="image-preview" src={sector.imageLoc} onerror="this.onerror=null; this.remove();"/> <br/> {sector.imageLoc}</div> )
+                  (<div><img className="image-preview" src={sector.imageLoc} onError={(e) => {e.target.onerror=null; e.target.src=notFoundImage; }}/> <br/> {sector.imageLoc}</div> )
                   : sector.imageLoc} />
               </ListItem>
             </List>
