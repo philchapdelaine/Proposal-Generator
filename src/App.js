@@ -47,7 +47,7 @@ function App() {
       <Router>
         <header className="app-header">
           <Logo />
-          <span className="resume-generator">Proposal Generator</span>
+          {/*<span className="resume-generator">Proposal Generator</span>*/}
           {isLoggedIn ? <UserDropdown /> : <Redirect to="/login" />}
           {/* {isLoggedIn ? <UserDropdown /> : null} */}
         </header>

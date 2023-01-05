@@ -201,7 +201,7 @@ function ReadingPane(props) {
 
           {currentSector.name ? 
           <div className="button-group-container">
-            <ButtonGroup className="button-group" variant="contained" size="large" sx={{backgroundColor: 'white'}}>
+            <ButtonGroup className="button-group" variant="contained" size="large">
               <Button onClick={openModal}>Edit Sector</Button>
               <Button onClick={() => handleAddSector()}>Add Sector</Button>
             </ButtonGroup>
@@ -223,8 +223,8 @@ function ReadingPane(props) {
         </Snackbar>
 
         <TabPanel value={currentTab} index={1}>
-          <div>
-            <h1 className="reading-pane-title">Proposal Draft</h1>
+          <div className="reading-pane-title">
+           Your Proposal
           </div>
           <div>
             <CustomListItem />

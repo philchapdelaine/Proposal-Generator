@@ -138,7 +138,7 @@ class CustomListItem extends React.Component {
       <div>
         <div className="proposal-name-form">
            <form>
-                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
+                Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
            </form>
         </div>
         <List>
@@ -191,7 +191,7 @@ class CustomListItem extends React.Component {
           )}
         </List>
             <div className="button-container">
-                <ButtonGroup variant="contained" size="large" sx={{backgroundColor: "white"}}>
+                <ButtonGroup variant="contained" size="large">
                     <Button className="save-button" onClick={() => this.handleBack()}>Exit</Button>
                     <Button className="save-button" onClick={() => this.handleSubmit()}>Save</Button>
                 </ButtonGroup>
