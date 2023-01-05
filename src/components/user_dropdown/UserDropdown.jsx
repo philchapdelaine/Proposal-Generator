@@ -39,7 +39,7 @@ function UserDropdown() {
     <div className="user-dropdown">
       <React.Fragment>
         <Box className="logout-box">
-          <IconButton onClick={handleClick} size="large" >
+          <IconButton onClick={handleClick} size="large" sx={{ padding: 0 }} >
             <PersonIcon className="logout-icon" fontSize="large" />
             <span>
               {username}

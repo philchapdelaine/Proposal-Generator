@@ -84,11 +84,7 @@ class ViewedItem extends React.Component {
     return (
       <div>
       <Paper elevation={6} >
-        <Box p={1}
-        sx={{
-            padding: "0px"
-          }}
-          >
+        <Box p={1} sx={{ padding: "0px"}}>
         <ListItem button key={resume.resumeID} onClick={this.handleClick}>
           <ListItemText primary={this.state.resumeOwnerName} />
           {this.state.open ? <ExpandLess /> : <ExpandMore />}
