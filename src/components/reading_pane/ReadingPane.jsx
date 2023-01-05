@@ -180,7 +180,7 @@ function ReadingPane(props) {
       </div>
       <div className="preview">
         <Tabs
-          TabIndicatorProps={{ style: { background: "#5F9EA0" } }}
+          TabIndicatorProps={{ style: { background: "#00569c" } }}
           value={currentTab}
           onChange={handleChange}
           variant="fullWidth"
