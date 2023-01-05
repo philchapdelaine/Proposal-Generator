@@ -1,7 +1,8 @@
 .user-dropdown {
     display: inline-flex;
     float: right;
-    margin-right: 20px;
+    margin-top: 1rem;
+    margin-right: 1rem;
 }
 .logout-box {
     display: flex;

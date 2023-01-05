@@ -10,6 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HelpIcon from '@mui/icons-material/Help';
 import { Tooltip, tooltipClasses, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import icon from "../../assets/download.png";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -42,8 +43,12 @@ function CreateProposal() {
   }));
 
 
-  const handleSubmit = () => {
-    setSearch(true);
+  const handleSubmit = (buttonPressEvt = null) => {
+    if (!buttonPressEvt) {
+      setSearch(true);
+    } else if ( buttonPressEvt.key === "Enter") {
+      setSearch(true);
+    }
   };
 
 
@@ -57,53 +62,28 @@ function CreateProposal() {
     }
   }, [isSearch]);
 
-
   const getFeedback = () => {
-    if (searchWord === null || searchWord === "") {
-      const url = `/api/search/resume/all/userid/${uid}`
-      axios.get(url)
-      .then((res) => {
-        setResumeSectors(res.data.resumeSectors);
-        setSearchedResumes(res.data.resumes);
-        setModfiedSectors(res.data.modifiedSectors)
-        setTemplateSectors(res.data.templateSectors);
-        setSearch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    } else {
-      const url = `/api/search/resume/${searchWord}/userid/${uid}`
-      axios.get(url)
-      .then((res) => {
-        setResumeSectors(res.data.resumeSectors);
-        setSearchedResumes(res.data.resumes);
-        setModfiedSectors(res.data.modifiedSectors)
-        setTemplateSectors(res.data.templateSectors);
-        setSearch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
-    
-  }
-
-  const getFeedback2 = () => {
-    const url = `/api/search/resume/all/userid/${uid}`
+    const url = `/api/search/resume/${searchWord}`
     axios.get(url)
       .then((res) => {
-        setResumeSectors(res.data.resumeSectors);
-        setSearchedResumes(res.data.resumes);
-        setModfiedSectors(res.data.modifiedSectors)
-        setTemplateSectors(res.data.templateSectors);
-        console.log(res.data.resumeSectors);
+        console.log(res.data);
+        setSearchedResumes(res.data);
+        setSearch(false);
       })
       .catch((err) => {
         console.log(err);
       })
   }
-
+  const getFeedback2 = () => {
+    const url = `/api/search/resume/${"all"}`
+    axios.get(url)
+      .then((res) => {
+        setSearchedResumes(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
   function addToRecentlyViewed(resume) {
     const isMaxLengthReached = recentlyViewedResumes.length > maxLengthRecentlyViewed;
@@ -140,39 +120,22 @@ function CreateProposal() {
               float: "left", 
               justifyContent: "flex-start", 
               marginLeft: "15px",
-              marginTop: "15px"
+              marginTop: "10px"
               }}> 
           </ArrowBackIcon>
         </Link>
         <div className="cp-center-header">
-          <div className="title">
-            Proposal Editor
-            <HtmlTooltip 
-              title={
-                <div>
-                  Search employee resumes below to find and add sectors to your proposal.
-                  <Typography><b>Admin Modified Sectors</b></Typography>
-                  Easily find and reuse edited sectors that were previously modified by a Project Admin.
-                  <Typography><b>Template Sectors</b></Typography>
-                  Existing template sectors to customize.
-                </div>
-                }
-              followCursor>
-              <HelpIcon fontSize="medium" sx= {{ marginLeft: "10px" }}></HelpIcon>
-            </HtmlTooltip>
-          </div>
           <div className="cp-search-bar">
-            <form onSubmit={(e) => {e.preventDefault()
-                handleSubmit()}}>
-              <TextField
-                variant="outlined"
-                size="small"
-                margin="dense"
-                label="Search resumes"
-                helperText="Search by name, email, proposal #, sector type, or division"
-                onChange={(event) => setSearchWord(event.target.value)}
-              />
-            </form>
+            <TextField
+              variant="outlined"
+              size="small"
+              margin="dense"
+              fullWidth 
+              label="Search resumes"
+              helperText="Search by name, email, proposal #, sector type, or division"
+              onChange={(event) => setSearchWord(event.target.value)}
+              onKeyDown={(e) => handleSubmit(e)}
+            />
             <Button
               variant="contained"
               style={{ 
@@ -197,7 +160,21 @@ function CreateProposal() {
             </HtmlTooltip>
           </div>
         </div>
-        <div className="search-results"> Search results: </div> <br />
+        <div 
+          className="search-results"> Search results:
+          {/*<HtmlTooltip 
+              title={
+                <div>
+                  <Typography><b>Admin Modified Sectors</b></Typography>
+                  Easily find and reuse edited sectors that were previously modified by a Project Admin.
+                  <Typography><b>Template Sectors</b></Typography>
+                  Existing template sectors to customize.
+                </div>
+                }
+              followCursor>
+              <HelpIcon fontSize="medium" sx= {{ marginLeft: "10px", paddingTop:"20px" }}></HelpIcon>
+              </HtmlTooltip>*/}
+        </div> <br />
         {searchedResumes.length !== 0
           ? <ResumeSectorDisplay
             onSectorClick={updateDisplayedSector}
@@ -206,7 +183,10 @@ function CreateProposal() {
             searchedTemplateSectors={searchedTemplateSectors}
             searchedResumeSectors={searchedResumeSectors}
           ></ResumeSectorDisplay>
-          : <div className="no-search-results"> No search results </div>}
+          : <div className="no-search-results">
+            <img id="no-res" src={icon} /> <br />
+            No resumes found
+          </div>}
       </div>
       <ReadingPane displayedSector={clickedSector}></ReadingPane>
     </div>

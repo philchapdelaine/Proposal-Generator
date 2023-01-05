@@ -6,6 +6,8 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Divider from "@material-ui/core/Divider";
+import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import "./RecentlyViewed.css";
 import axios from "axios";
@@ -25,8 +27,8 @@ class RecentlyViewed extends React.Component {
     const recentlyViewed = this.props.resumes;
     return (
       <div className="recently-viewed">
-        <div className="recently_viewed_title">
-          <h2>Recently Viewed</h2>
+        <div className="recently-viewed-header">
+          Recently Viewed
         </div>
         <List component="nav">
           { recentlyViewed.length !== 0
@@ -39,7 +41,7 @@ class RecentlyViewed extends React.Component {
               />
               );
             }))
-          : <div className="no-recently-viewed"> No sectors viewed yet! </div>
+          : <div className="no-recently-viewed"> No sectors viewed</div>
         }
         </List>
       </div>
@@ -81,6 +83,12 @@ class ViewedItem extends React.Component {
     const resume = this.props.doc;
     return (
       <div>
+      <Paper elevation={6} >
+        <Box p={1}
+        sx={{
+            padding: "0px"
+          }}
+          >
         <ListItem button key={resume.resumeID} onClick={this.handleClick}>
           <ListItemText primary={this.state.resumeOwnerName} />
           {this.state.open ? <ExpandLess /> : <ExpandMore />}
@@ -107,6 +115,8 @@ class ViewedItem extends React.Component {
           </List>
         </Collapse>
         <Divider />
+        </Box>
+        </Paper>
       </div>
     );
   }

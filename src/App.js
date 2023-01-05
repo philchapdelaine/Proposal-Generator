@@ -24,7 +24,7 @@ import Admin from "./pages/Admin/Admin";
 
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn);
+  const isLoggedIn = true;
   const imadmin = useSelector((state) => state.loginReducer["admin"]);
 
 
@@ -47,7 +47,7 @@ function App() {
       <Router>
         <header className="app-header">
           <Logo />
-          <span className="resume-generator">Resume Generator</span>
+          <span className="resume-generator">Proposal Generator</span>
           {isLoggedIn ? <UserDropdown /> : <Redirect to="/login" />}
           {/* {isLoggedIn ? <UserDropdown /> : null} */}
         </header>

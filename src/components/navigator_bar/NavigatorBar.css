@@ -1,6 +1,7 @@
 .nav-bar {
-  width: 15%;
+  width: 20%;
   min-width: 200px;
+  padding: 0rem;
 }
 .nav-button {
   display: flex;
@@ -22,7 +23,24 @@
   display: none;
 }
 .recently-viewed {
-  height: 400px;
-  background-color: #ffffff;
+  height: 83vh;
   margin-top: 0rem;
+}
+
+.recently-viewed-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem;
+  font-size: 22px;
+  font-weight: 400;
+  color: white;
+  background-color: #00569c;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+h2 {
+  margin-top: 0;
 }

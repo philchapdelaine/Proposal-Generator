@@ -39,8 +39,8 @@ function UserDropdown() {
     <div className="user-dropdown">
       <React.Fragment>
         <Box className="logout-box">
-          <IconButton onClick={handleClick} size="small" >
-            <PersonIcon className="logout-icon" fontSize="medium" />
+          <IconButton onClick={handleClick} size="large" >
+            <PersonIcon className="logout-icon" fontSize="large" />
             <span>
               {username}
               {isAdmin ? <div className="admin-tag"> Admin </div> : null}

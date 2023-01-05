@@ -6,15 +6,6 @@ const INITIAL_STATE = {
 }
 
 const proposalReducer = (state = INITIAL_STATE, action) => {
-	if (action.type === 'ADD_PROPOSAL') {
-		let newState = {
-			currentProposalIndex: 0,
-			currentProposalName: state.currentProposalName,
-			currentSector: state.currentSector,
-			proposals: [...state.proposals, { proposal: action.proposal }]
-		};
-		return newState;
-	}
 	if (action.type === 'SET_PROPOSALS') {
 		let newState = {
 			currentProposalIndex: 0,

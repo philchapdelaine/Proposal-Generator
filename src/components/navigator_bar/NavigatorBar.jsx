@@ -1,4 +1,6 @@
 import React from "react";
+import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import RecentlyViewed from "../../components/recently_viewed/RecentlyViewed";
 import "./NavigatorBar.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,15 +27,24 @@ function NavigatorBar(props) {
 
   return (
     <div className="nav-bar">
+    <Paper elevation={6} >
+        <Box p={1}
+        sx={{
+            padding: "0px"
+          }}
+          >
       <nav className= {props.isCreateProposal ? "nav-buttons-hide-container" : "" }>
-        <Link to="/resume" style={{ textDecoration: "none" }}>
+      <Link to="/admin" style={{ textDecoration: "none" }}>
+        <button className="nav-button"> Home </button>
+      </Link>  
+      <Link to="/resume" style={{ textDecoration: "none" }}>
           <button className="nav-button"> Resume </button>
         </Link>
-        {isAdmin ? (
+        {/*isAdmin ? (
           <Link to="/admin" style={{ textDecoration: "none" }}>
             <button className="nav-button"> Admin </button>
           </Link>
-        ) : null}
+        ) : null*/}
       </nav>
       <div>
         {" "}
@@ -47,6 +58,8 @@ function NavigatorBar(props) {
           </RecentlyViewed>
         ) : null}
       </div>
+      </Box>
+      </Paper>
     </div>
   );
 }

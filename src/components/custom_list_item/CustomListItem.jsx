@@ -91,9 +91,6 @@ class CustomListItem extends React.Component {
         this.setState({ loading: true });
         const config = { headers: { "Content-Type": "application/json" } };
         this.state.currentProposal.proposalName = this.props.currentProposalName;
-        const date = new Date();
-        this.state.currentProposal.proposalModifiedDate = (date.getMonth() + 1)+ "/" + date.getDate() + "/" + date.getFullYear();
-
         let url = `/api/user/${this.props.userID}/proposal/${this.state.currentProposal.proposalID}`;
         const res = await axios
             .put(url, this.state.currentProposal, config)
@@ -141,8 +138,7 @@ class CustomListItem extends React.Component {
       <div>
         <div className="proposal-name-form">
            <form>
-                <b>Proposal Name:</b> <input type="text" autoFocus onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
-                <div className="proposal-name-hint">Add a sector to your proposal to enable Proposal Name editing.</div>
+                Proposal Name: <input autoFocus type="text" onChange={this.handleTextChange.bind(this)} value={this.props.currentProposalName} disabled={this.state.nameDisabled}></input>
            </form>
         </div>
         <List>
@@ -195,7 +191,7 @@ class CustomListItem extends React.Component {
           )}
         </List>
             <div className="button-container">
-                <ButtonGroup variant="contained" size="large" >
+                <ButtonGroup variant="contained" size="large" sx={{backgroundColor: "white"}}>
                     <Button className="save-button" onClick={() => this.handleBack()}>Exit</Button>
                     <Button className="save-button" onClick={() => this.handleSubmit()}>Save</Button>
                 </ButtonGroup>

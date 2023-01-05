@@ -87,6 +87,7 @@ function formatSectorInfo(sector) {
   sectorInfo += "Type: " + sector.name;
   sectorInfo += "\nProposal Number: " + sector.proposalNumber;
   sectorInfo += "\nDivision: " + sector.division;
+  sectorInfo += "\nLast Modified: " + sector.modifiedDate;
   sectorInfo += "\nLinked Email: " + sector.linkedEmail;
   sectorInfo += "\nImage Location: " + sector.imageLoc;
   sectorInfo += "\nDescription: " + sector.description + "\n";
@@ -188,6 +189,7 @@ function formatSectorInfo(sector) {
         console.log(err);
       })
     }
+    console.log("proposal search api call goes here, you can use the" + searchTerm);
   }
 
   const createNewProposal = () => {
@@ -225,7 +227,7 @@ function formatSectorInfo(sector) {
         </div>
         <Box>
           <Box display="flex" flexDirection="row">
-            <div className = "admin-header">Your Proposals</div>
+            <div className = "admin-header">Proposals</div>
             <Box width={15} />
             <div className = "admin-hint">Expand to delete, edit, and export proposals</div> 
           </Box>
@@ -294,7 +296,6 @@ function formatSectorInfo(sector) {
                 <Button
                   color="primary"
                   variant="outlined"
-                  color="error"
                   onClick={handleDelete}
                 >
                   Delete

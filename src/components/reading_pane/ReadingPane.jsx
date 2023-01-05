@@ -8,6 +8,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import HelpIcon from '@mui/icons-material/Help';
+import Paper from "@material-ui/core/Paper";
 import { Tooltip, tooltipClasses, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import CustomListItem from "../custom_list_item/CustomListItem";
@@ -15,8 +16,6 @@ import EditSectorModal from "../editSectorModal/EditSectorModal";
 import "./ReadingPane.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import notFoundImage from "../../assets/image-not-found.jpg";
-
 
 function ReadingPane(props) {
   const [open, setOpen] = useState(false);
@@ -32,7 +31,6 @@ function ReadingPane(props) {
   let currentTab = useSelector((state) => state.tabReducer);
   let currentProposalIndex = useSelector((state) => state.proposalReducer.currentProposalIndex);
   let reduxProposals = useSelector((state) => state.proposalReducer.proposals);
-
 
   const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -71,7 +69,7 @@ function ReadingPane(props) {
         let newProposal = {
           proposalName: "Untitled New Proposal",
           resumes: [],
-          proposalModifiedDate: (date.getMonth() + 1)+ "/" + date.getDate() + "/" + date.getFullYear()
+          proposalModifiedDate: date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()
           };
         // build a new sector with no sectorID
         let newSector = (({ description, division, empty, edited, imageLoc, linkedEmail, name, proposalNumber }) => (
@@ -148,23 +146,23 @@ function ReadingPane(props) {
     );
 
   function sectorFieldDisplay(title, content) {
-    const [hideImage, setHideImage] = useState(false);
     if (!content) return null;
-
-    var showImgPreview = false;
-    const isValidImgURL = content.match(/\.(jpg|jpeg|gif|png)$/) != null;
-    if (isValidImgURL) showImgPreview = true;
-    
     return (
       <div className="reading-pane-title">
         <h3>{title}</h3>
-        { showImgPreview ? (<div><img className={"image-preview " + (hideImage ? 'hide-image-el' : '')} src={content} alt="image preview" onError={(e) => {e.target.onerror=null; setHideImage(true); }} /><br/>{content}</div>) : <div>{content}</div> } 
+        <div>{content}</div>
       </div>
     );
   }
 
   return (
     <div className="reading-pane">
+    <Paper elevation={6} >
+        <Box p={1}
+        sx={{
+            padding: "0px"
+          }}
+          >
       <div className="reading-pane-header">
         Reading Pane 
         <HtmlTooltip 
@@ -173,7 +171,7 @@ function ReadingPane(props) {
               <Typography><b>Sector Preview:</b></Typography>
               Preview and edit sectors, then add to the current proposal. <br/>
               <Typography><b>Current Proposal: </b> </Typography>
-              View and rename the current proposal draft. Click “SAVE” to save your changes, then click “EXIT” to return to Your Proposals.
+              View and rename the current proposal draft. Click “SAVE PROPOSAL” to save your changes, then click “EXIT” to return to Your Proposals.
             </div>
           }
           followCursor>
@@ -192,8 +190,8 @@ function ReadingPane(props) {
         </Tabs>
         <TabPanel value={currentTab} index={0}>
           <div>
-            <h1 className="reading-pane-title">
-              {currentSector.name || "Click a sector to preview..."}
+            <h1 className="reading-pane-tip">
+              {currentSector.name || "Click a sector to preview"}
             </h1>
             {sectorFieldDisplay("Email", currentSector.linkedEmail)}
             {sectorFieldDisplay("Image Location", currentSector.imageLoc)}
@@ -203,7 +201,7 @@ function ReadingPane(props) {
 
           {currentSector.name ? 
           <div className="button-group-container">
-            <ButtonGroup className="button-group" variant="contained" size="large">
+            <ButtonGroup className="button-group" variant="contained" size="large" sx={{backgroundColor: 'white'}}>
               <Button onClick={openModal}>Edit Sector</Button>
               <Button onClick={() => handleAddSector()}>Add Sector</Button>
             </ButtonGroup>
@@ -233,6 +231,8 @@ function ReadingPane(props) {
           </div>
         </TabPanel>
       </div>
+      </Box>
+      </Paper>
     </div>
   );
 }

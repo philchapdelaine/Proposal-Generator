@@ -193,7 +193,7 @@ class Resume extends Component {
         <div className = "resume-page">
           <div className = "resume-builder">
           <Box display="flex" flexDirection="row">
-            <div className = "resume-header">Your Resume</div> 
+            <div className = "resume-header">Resume</div> 
             <Box width={15} />
             <div className = "admin-hint">This is your personal resume page, <br/> 
             where you can add or edit template sectors</div> 
